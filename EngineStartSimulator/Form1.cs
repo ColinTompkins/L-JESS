@@ -8,13 +8,29 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
+
 namespace EngineStartSimulator
 {
     public partial class mainWindow : Form
     {
+
+        public Gauge[] gauges = new Gauge[7]; // an array of the gauge objects
+        Boolean[] onState = new Boolean[7]; // idicates if gauges are on or off, an array of 7 states
+        public int direction = 1; // a direction clarifie to tell direction of the gauge movement; 1 is moving upward, -1 is decreasing
+        public int memDump = 0; // A counter to keep memory usage maxed around 500 mb.
+
+        // Set up the window! Call the initializer functions and set the N2 gauge ready for movement
         public mainWindow()
         {
+            // Initializes window components
             InitializeComponent();
+
+            // Initializes the gauges to their starting locations
+            initializeGauges();
+
+            // Makes N2 gauge ready for action
+            onState[0] = true;
         }
 
         // Form will load, start the timer that allows the splash and then loads the main screen.
@@ -22,23 +38,43 @@ namespace EngineStartSimulator
         // And call the center toggle method to put the fuel toggle in the right screen location.
         private void Form1_Load(object sender, EventArgs e)
         {
+            // get the splash screen up
+            splashImage.BringToFront();
+            
+            // center the splash image, render the main screen (splitContainer1), start with the mennu out
+            centerSplashImage();
+            splitContainer1.Show();
+            menuOut();
+            
+            // Timer handles splash screen display time. While window loads up hold the splash image.
             timer1.Start();
             helpPanel.Hide();
-            centerSplashImage();
             centerToggle(0);
             relocateInfoButton();
 
+            // sets all gauges ready to action in starting position
+            for (int i = 0; i < gauges.Length; i++)
+            {
+                gauges[i].move();
+            }
+
         }
 
-        // Declare some necessary variables
-        int tutorMode = -1;
-        int playPause = 1;
+        // Declare some necessary variables and State indicators
+        int tutorMode = -1; //indicates tutor mode; -1 is off
+        int playPause = 1; // indicates play or pause state; play is 1, pause is -1
         Boolean offBox = false;
-        int splitterLoc = 0;
-        int fuelOn = -1;
+        int splitterLoc = 0; // Indicates current location of the menu splitter
+        int fuelOn = -1; // indicates if the fuel is off or on; -1 is off, 1 is on
         private EventArgs e;
-        int startButtonOn = -1;
+        int startButtonOn = -1; // indicates the start button is depressed; -1 is not depressed, 1 is depressed.
+        int goTime = 0; // How many times the start button has been pressed
+        String mode = "No Error Conditions"; // stores the current selected mode. Default is No Error Condition
+        int flood = 0; // indicates if engine has fuel flood. 0 is now flood, 1 is flooded, 2 is flooded early on
+        Boolean errorOccured = false; // Notifies if there was a user error
+        
 
+        
 
         // Set the various affects for mouse actions on in screen buttons
         // first the hamburger menu
@@ -119,6 +155,9 @@ namespace EngineStartSimulator
 
         }
 
+        // provide the different menui box optons and what happens if selected.
+        // When a mode is selected, print the description text in the help panel
+        // Also set the mode variable equal to that mode
         private void menuBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             dTitle.ForeColor = Color.White;
@@ -126,40 +165,71 @@ namespace EngineStartSimulator
             {
                 case "Random Error Conditions":
                     dTitle.Text = menuBox.SelectedItem.ToString();
+                    mode = "Random Error Conditions";
                     description.Text = "Various error conditions will be chosen randomly to "
                         + "better simulate a real starting experience with unknown problems.";
                     break;
                 case "No Oil Pressure":
+                    mode = "No Oil Pressure";
                     dTitle.Text = menuBox.SelectedItem.ToString();
-                    description.Text = "This simulates an engine start in the case of no oil pressure.";
+                    description.Text = "No Oil Pressure Recovery: \n" +
+                        "At any time after N2 reaches 20%, if the oil pressure indicator is not beginning to " +
+                        "move, then there is a problem with the oil pump. To avoid damaging the engine, do " +
+                        "not engage the fuel and discontinue start sequence.";
                     break;
                 case "Starter Valve Sticks Open":
+                    mode = "Starter Valve Sticks Open";
                     dTitle.Text = menuBox.SelectedItem.ToString();
-                    description.Text = "This simulates a start up in the case of a sticking starter valve.";
+                    description.Text = "Starter Valve Stuck Open Procedure: \n" +
+                        "At any time during normal start-up of the engine, if the starter valve sticks open " +
+                        "(starter valve light on even though starter valve is supposedly closed), disengage engine " +
+                        "and isolate bleed flow to the engine (i.e. close pneumatic cross feed valve.)";
                     break;
                 case "No Light Off- without Fuel Flow":
+                    mode = "No Light Off- without Fuel Flow";
                     dTitle.Text = menuBox.SelectedItem.ToString();
-                    description.Text = "This simulates an engine start if there is no fuel flowing and No light off.";
+                    description.Text = "Handling No Light Off (without fuel flow): \n" +
+                        "Once the fuel has been engaged to the engine, if light off does not occur " +
+                        "(indicated by no fuel flow and/or no EGT rise), discontinue the start sequence and check the fuel.";
                     break;
                 case "No Light Off- with Fuel Flow":
+                    mode = "No Light Off- with Fuel Flow";
                     dTitle.Text = menuBox.SelectedItem.ToString();
-                    description.Text = "This simulates an engine start if there is fuel flowing and No light off.";
+                    description.Text = "Handling No Light Off (with fuel flow): \n" +
+                        "Once the fuel has been engaged to the engine, if light off does not occur " +
+                        "(indicated by no EGT rise), discontinue the start sequence and check the fuel.";
                     break;
                 case "No N1 Rotation":
+                    mode = "No N1 Rotation";
                     dTitle.Text = menuBox.SelectedItem.ToString();
-                    description.Text = "This simulates an engine start where the N1 is not rotating.";
+                    description.Text = "No N1 Rotation Recovery: \n" +
+                        "At any time after N2 reaches 20%, if N1 is not beginning to move, then there is a problem with " +
+                        "the N1 turbine. To avoid damaging the engine, do not engage fuel flow and discontinue start sequence.";
                     break;
                 case "Hung Start":
+                    mode = "Hung Start";
                     dTitle.Text = menuBox.SelectedItem.ToString();
-                    description.Text = "This simulates a start where the engine is hung.";
+                    description.Text = "Hung Start Prevention: \n" +
+                        "At any time during normal start-up of the engine, if the engine stops " +
+                        "increasing speed before normal RPM is reached, then a hung start has occurred. " +
+                        "To counteract, disengage fuel flow and discontinue start sequence.";
                     break;
-                case "Hot Start ":
+                case "Hot Start":
+                    mode = "Hot Start";
                     dTitle.Text = menuBox.SelectedItem.ToString();
-                    description.Text = "This simulates an engine start where the engine is still hot from a previous use.";
+                    description.Text = "Hot Start Prevention: \n" +
+                        "At any time after you notice N2 rotation, if the EGT begins rising too quickly" +
+                        " or it exceeds the top of the white range on the meter, disengage the fuel flow " +
+                        "as quickly as possible to avoid damaging the engine. Continue spooling the engine " + 
+                        "(starter pressed) until the engine reaches a safe temperature.";
                     break;
                 case "No Error Conditions":
+                    mode = "No Error Conditions";
                     dTitle.Text = menuBox.SelectedItem.ToString();
-                    description.Text = "This simulates an engine start with no issues. A normal start procedure.";
+                    description.Text = "This simulates an engine start with no issues.\n" +
+                        " A normal start of the engine consists of the following steps:\n\n" +
+                        " 1. Depress starter.\n\n 2. Once N2 is over 20%, toggle fuel valve.\n\n 3. Release starter between 33 – 48% N2.\n\n" +
+                        " 4. Once engine reaches idle, toggle fuel valve again to power engine down.";
                     break;
 
             }
@@ -204,6 +274,12 @@ namespace EngineStartSimulator
         // Also update the icon.
         private void pictureBox1_Click_3(object sender, EventArgs e)
         {
+            tutorHandler();
+        }
+
+        // A method to handle the tutor mode actions
+        void tutorHandler()
+        {
             tutorMode = tutorMode * -1;
             tutorButton.BackColor = Color.Transparent;
             tutorHighlight.BackColor = description.BackColor;
@@ -221,7 +297,6 @@ namespace EngineStartSimulator
                 tutorialMode.ForeColor = Color.White;
                 tutorialMode.Text = "Tutorial Mode: OFF";
             }
-
         }
 
         // While hovering highlight in grey
@@ -262,11 +337,13 @@ namespace EngineStartSimulator
             {
                 pauseButton.Image = EngineStartSimulator.Properties.Resources.play101;
                 pauseLabel.Text = "Resume";
+                guagePause();
             }
             else
             {
                 pauseButton.Image = EngineStartSimulator.Properties.Resources.pause10;
                 pauseLabel.Text = "Pause";
+                guagePlay();
             }
         }
 
@@ -300,8 +377,10 @@ namespace EngineStartSimulator
             stopButton.BackColor = Color.Transparent;
             stopHighlight.BackColor = description.BackColor;
             stopLabel.BackColor = Color.Transparent;
+            guageStop();
         }
 
+        // Hovering over stop button, highlight dark grey
         private void stopButton_MouseHover(object sender, EventArgs e)
         {
             stopButton.BackColor = Color.DarkGray;
@@ -309,6 +388,7 @@ namespace EngineStartSimulator
             stopLabel.BackColor = Color.DarkGray;
         }
 
+        // leaviing the stop button, unhighlight
         private void stopButton_MouseLeave(object sender, EventArgs e)
         {
             stopButton.BackColor = Color.Transparent;
@@ -316,6 +396,7 @@ namespace EngineStartSimulator
             stopLabel.BackColor = Color.Transparent;
         }
 
+        // When mouse clicks down highlight in black
         private void stopButton_MouseDown(object sender, MouseEventArgs e)
         {
             stopButton.BackColor = Color.Black;
@@ -329,9 +410,11 @@ namespace EngineStartSimulator
             restartButton.BackColor = Color.Transparent;
             restartLabel.BackColor = Color.Transparent;
             restartHighlight.BackColor = description.BackColor;
-
+            initializeGauges();
+            timer2.Stop();
         }
 
+        // restart hover...
         private void restartButton_MouseHover(object sender, EventArgs e)
         {
             restartButton.BackColor = Color.DarkGray;
@@ -339,6 +422,7 @@ namespace EngineStartSimulator
             restartHighlight.BackColor = Color.DarkGray;
         }
 
+        // Restart button if mouse leaves
         private void restartButton_MouseLeave(object sender, EventArgs e)
         {
             restartButton.BackColor = Color.Transparent;
@@ -346,6 +430,7 @@ namespace EngineStartSimulator
             restartHighlight.BackColor = description.BackColor;
         }
 
+        // when mouse is clicked down on restart button
         private void restartButton_MouseDown(object sender, MouseEventArgs e)
         {
             restartButton.BackColor = Color.Black;
@@ -353,11 +438,13 @@ namespace EngineStartSimulator
             restartHighlight.BackColor = Color.Black;
         }
 
+        // NO!
         private void tutorHighlight_TextChanged(object sender, EventArgs e)
         {
 
         }
 
+        // Redundant?
         private void tutorial(object sender, MouseEventArgs e)
         {
             tutorMode = tutorMode * -1;
@@ -380,6 +467,7 @@ namespace EngineStartSimulator
 
         }
 
+        // NO!!
         private void splitContainer1_Panel2_Paint(object sender, PaintEventArgs e)
         {
 
@@ -412,7 +500,14 @@ namespace EngineStartSimulator
         // A method to handle putting the menu bar in 
         private void menuIn()
         {
-            splitContainer1.SplitterDistance = 45;
+            try
+            {
+                splitContainer1.SplitterDistance = 45;
+            }
+            catch(System.InvalidOperationException)
+            {
+
+            }
             //line1.Width = 45;
             splitterLoc = 45;
             description.Hide();
@@ -428,7 +523,7 @@ namespace EngineStartSimulator
             menuIn();
         }
 
-        // Double clicking the mouse will put the mune panel out
+        // Double clicking the mouse will put the menu panel out
         private void splitContainer1_Panel1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             menuOut();
@@ -507,11 +602,6 @@ namespace EngineStartSimulator
             }
         }
 
-       
-
-       
-
-
         // If the window size changes, make the menu bar shrink so there is no awkward auto resizing issues.
         private void mainWindow_SizeChanged(object sender, EventArgs e)
         {
@@ -526,6 +616,7 @@ namespace EngineStartSimulator
         }
 
         // not needed now
+        
         private void instructBox_MouseEnter(object sender, EventArgs e)
         {
             //if (instructBox.BackgroundImage.Equals(EngineStartSimulator.Properties.Resources.screenR))
@@ -533,8 +624,6 @@ namespace EngineStartSimulator
                 //instructBox.BackgroundImage = EngineStartSimulator.Properties.Resources.screen;
             
         }
-
-        
         
         // If the mouse is over the panel, then flash the instruction box to red.
         private void splitContainer1_Panel2_MouseEnter(object sender, EventArgs e)
@@ -547,18 +636,20 @@ namespace EngineStartSimulator
         {
             //instructBox.BackgroundImage = EngineStartSimulator.Properties.Resources.screen;
         }
+         
 
+        // Put the menu in if user double clicks the gauge panels
         private void backgroundBox_DoubleClick(object sender, EventArgs e)
         {
             menuIn();
         }
 
-        // Handle the splash screen time with a timer.
+        // Handle the splash screen time with a timer. After the timer finishes, hide the splash screen
         private void timer1_Tick(object sender, EventArgs e)
         {
             timer1.Stop();
-            splitContainer1.Show();
-            menuOut();
+            splashImage.Hide();
+
         }
 
         // A back button to go back to the main menu after looking at instructions or info tabs.
@@ -599,14 +690,14 @@ namespace EngineStartSimulator
             backHighlight.BackColor = Color.DarkGray;
         }
 
-        // When ,ouse leaves, unhighlight
+        // When mouse leaves, unhighlight
         private void backButton_MouseLeave(object sender, EventArgs e)
         {
             backButton.BackColor = Color.Transparent;
             backHighlight.BackColor = Color.Transparent;
         }
 
-        // Don't need to do anything here
+        // Don't need to do anything here :(
         private void guagePanel_Paint(object sender, PaintEventArgs e)
         {
 
@@ -631,7 +722,8 @@ namespace EngineStartSimulator
 
         }
 
-        // Using the centering method, this mathod handles moving the toggle switch to its new locations.
+        // Using the centering method, this method handles moving the toggle switch to its new locations.
+        // Also handles some initial gauge movements
         private void changeFuelButton()
         {
             if (fuelOn == -1)
@@ -643,6 +735,49 @@ namespace EngineStartSimulator
                 centerToggle(0);
             }
             fuelOn = fuelOn * -1;
+
+            // When fuel is toggled on some gauge changes take place
+            if(fuelOn == 1)
+            {
+                gauges[6].setSpeed(5);
+                onState[6] = true;
+                gauges[5].setSpeed(8);
+                onState[5] = true;
+
+                if (startButtonOn == 1 & gauges[0].getPosition() > 70 && flood == 0)
+                {
+                    
+
+                    gauges[1].setSpeed(5);
+                    onState[1] = true;
+
+                    gauges[4].setSpeed(1.2f);
+                    onState[4] = true;
+
+                    gauges[2].setSpeed(0.75f);
+                }
+            }
+            //When toggled off make changes as well
+            else if(fuelOn == -1 && gauges[0].getPosition() > 1)
+            {
+
+                gauges[1].setSpeed(.7f);
+                onState[1] = true;
+
+                gauges[0].setSpeed(1.5f);
+                onState[0] = true;
+                gauges[2].setSpeed(.5f);
+                onState[2] = true;
+                gauges[3].setSpeed(1.4f);
+                onState[3] = true;
+
+                gauges[6].setSpeed(5);
+                onState[6] = true;
+                gauges[5].setSpeed(8);
+                onState[5] = true;
+                gauges[4].setSpeed(.6f);
+                onState[4] = true;
+            }
         }
 
         // When the start valve is clicked, register that in the startButtonOn variable
@@ -650,8 +785,30 @@ namespace EngineStartSimulator
         // This turns off the valve
         private void startValve_Click(object sender, EventArgs e)
         {
-            startValve.Image = EngineStartSimulator.Properties.Resources.start_valveN;
+            changeStartValve();
+        }
+
+        private void changeStartValve()
+        {
             startButtonOn = startButtonOn * -1;
+
+            if (startButtonOn == -1)
+            {
+                startValve.Image = EngineStartSimulator.Properties.Resources.start_valveN;
+                engineStart.Image = EngineStartSimulator.Properties.Resources.LightOff2;
+            }
+            else
+            {
+                startValve.Image = EngineStartSimulator.Properties.Resources.start_valve_down2;
+                engineStart.Image = EngineStartSimulator.Properties.Resources.LightOn;
+                if (goTime == 0)
+                {
+                    timer2.Start();
+                }
+                goTime++;
+            }
+            
+            guageReverser();
         }
 
         // Nope...
@@ -671,15 +828,7 @@ namespace EngineStartSimulator
         // And take care of the animation, keeping it down this time.
         private void startValve_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            if (startButtonOn == -1)
-            {
-                startValve.Image = EngineStartSimulator.Properties.Resources.start_valve_down2;
-            }
-            else
-            {
-                startValve.Image = EngineStartSimulator.Properties.Resources.start_valveN;
-            }
-            startButtonOn = startButtonOn * -1;
+            changeStartValve();
         }
 
         // This turns on the valve
@@ -687,8 +836,8 @@ namespace EngineStartSimulator
         // register that in the startButtonOn variable.
         private void startValve_MouseDown(object sender, MouseEventArgs e)
         {
-            startValve.Image = EngineStartSimulator.Properties.Resources.start_valve_down2;
-            startButtonOn = startButtonOn * -1;
+            changeStartValve();
+            
             //lines();
         }
 
@@ -753,17 +902,30 @@ namespace EngineStartSimulator
             switch (e.KeyCode)
             {
                 case Keys.ControlKey:
-                    startValve.Image = EngineStartSimulator.Properties.Resources.start_valve_down1;
-                    startButtonOn = startButtonOn * -1;
+                    changeStartValve();
                     break;
                 case Keys.Space:
                     changeFuelButton();
                     break;
                 case Keys.P:
+                    playPause = playPause * -1;
+                    if (playPause < 0)
+                    {
+                        pauseButton.Image = EngineStartSimulator.Properties.Resources.play101;
+                        pauseLabel.Text = "Resume";
+                        guagePause();
+                    }
+                    else
+                    {
+                        pauseButton.Image = EngineStartSimulator.Properties.Resources.pause10;
+                        pauseLabel.Text = "Pause";
+                        guagePlay();
+                    }                    
                     break;
                 case Keys.R:
                     break;
                 case Keys.S:
+                    guageStop();
                     break;
                 case Keys.M:
                     if (splitContainer1.SplitterDistance == 385)
@@ -776,8 +938,23 @@ namespace EngineStartSimulator
                     }
                     break;
                 case Keys.I:
+                    HowToText.Hide();
+                    infoTextBox.Show();
+                    menuOut();
+                    helpPanel.BringToFront();
+                    infoTextBox.Width = 380;
+                    helpTitle.Text = "Information";
+                    helpPanel.Show(); 
                     break;
                 case Keys.Q:
+                    helpPanel.Show();
+                    menuOut();
+                    helpPanel.BringToFront();
+                    HowToText.Width = 380;
+                    infoTextBox.Hide();
+                    HowToText.Show();
+                    helpTitle.Text = "Help: How to use L-JESS";
+
                     break;
                 case Keys.T:
                     break;
@@ -791,7 +968,9 @@ namespace EngineStartSimulator
             if (e.KeyCode == Keys.ControlKey)
             {
                 startValve.Image = EngineStartSimulator.Properties.Resources.start_valveN;
+                engineStart.Image = EngineStartSimulator.Properties.Resources.LightOff2;
                 startButtonOn = startButtonOn * -1;
+                guageReverser();
             }
             else
             {
@@ -799,6 +978,624 @@ namespace EngineStartSimulator
             }
 
         }
+
+        private void timer2_Tick(object sender, EventArgs e)
+        {
+            //Timer controled Guage movement
+            // this is one thing that needs to appear in timerTick
+            memDump++;
+            if(memDump > 40)
+            {
+                System.GC.Collect();
+                memDump = 0;
+            }
+
+            switch( mode)
+            {
+                case "No Error Conditions":
+                    noError();
+                    break;
+            }
+            
+            if (startButtonOn == 1 && !errorOccured)
+            {
+                for (int i = 0; i < gauges.Length; i++)
+                {
+                    if (onState[i] == true)
+                        gauges[i].move();
+                }
+            }
+            else if((startButtonOn == -1 && fuelOn == -1) || errorOccured || (startButtonOn == -1 && fuelOn == 1 && gauges[0].getPosition() <= 72) || (startButtonOn == -1 && flood > 0))
+            {
+                for (int i = 0; i < gauges.Length; i++)
+                {
+                    if (onState[i] == true)
+                        gauges[i].moveBack();
+                }
+            }
+            else if (startButtonOn == -1 && fuelOn == 1 && goTime > 0 && gauges[0].getPosition() > 72 && !errorOccured)
+            {
+                for (int i = 0; i < gauges.Length; i++)
+                {
+                    if (onState[i] == true)
+                        gauges[i].move();
+                }
+            }
+
+        }
+
+        void guageReverser()
+        {
+            direction = direction * -1;
+        }
+
+        // Method for pausing the simulation without losing current place
+        public void guagePause()
+        {
+            timer2.Stop();
+        }
+
+        // Method for resuming the simulation right where it left off
+        public void guagePlay()
+        {
+            timer2.Start();
+        }
+
+        // Method for restarting the simulation in the same mode
+        public void guageRestart()
+        {
+
+        }
+
+        // Method for stopping simulation and reseting to default mode
+        public void guageStop()
+        {
+            fuelOn = -1;
+            startButtonOn = -1;
+            goTime = 1;
+            mode = "No Error Conditions";
+
+            timer2.Stop();
+                        
+            for (int i = 0; i < 7; i++)
+            {
+                onState[i] = false;
+                gauges[i].setPosition(0);
+                gauges[i].move();
+            }
+            
+        }
+        public void tenPercentMove()
+        {
+            // Start the other gauges when N2 reaches 10%
+            if (gauges[0].getPosition() > 32)
+            {
+                onState[3] = true;
+                onState[2] = true;
+            }
+        }
+
+        public void fueltoggledOff()
+        {
+            if (fuelOn == 1 )
+            {
+                // Control the stopping of the guages during fuel switch toggle
+                if (gauges[6].getPosition() > 20 && fuelOn == 1)
+                    onState[6] = false;
+
+                if (gauges[5].getPosition() > 42 && fuelOn == 1)
+                    onState[5] = false;
+
+                if (gauges[4].getPosition() > 21 && fuelOn == 1)
+                    onState[4] = false;
+            }
+        }
+
+        public void egtMotion()
+        {
+            // Jump up, slow and steady the EGT gauge
+            if (gauges[1].getPosition() > 160 && onState[1] == true)
+            {
+                gauges[1].setSpeed(1.4f);
+                onState[1] = false;
+
+            }
+            else if (gauges[1].getPosition() > 155 && onState[1] == true)
+            {
+                gauges[1].setSpeed(1);
+            }
+            else if (gauges[1].getPosition() > 145 && onState[1] == true)
+            {
+                gauges[1].setSpeed(2);
+            }
+            else if (gauges[1].getPosition() > 135 && onState[1] == true)
+            {
+                gauges[1].setSpeed(3);
+            }
+            else if (gauges[1].getPosition() > 120 && onState[1] == true)
+            {
+                gauges[1].setSpeed(4);
+            }
+            else if (gauges[1].getPosition() > 90 && onState[1] == false)
+            {
+                gauges[1].moveBack();
+            }
+        }
+
+        public void oilPressureMotion()
+        {
+            // Slow and Stop Oil Pressure gauge
+            if (gauges[2].getPosition() > 78 && fuelOn == 1)
+            {
+                onState[2] = false;
+            }
+            else if (gauges[2].getPosition() > 72 && fuelOn == 1)
+            {
+                gauges[2].setSpeed(.2f);
+            }
+            else if (gauges[2].getPosition() > 65 && fuelOn == 1)
+            {
+                gauges[2].setSpeed(.5f);
+            }
+            else if (gauges[2].getPosition() > 55 && fuelOn == 1)
+            {
+                gauges[2].setSpeed(1f);
+            }
+        }
+
+        public void steadyToIdle()
+        {
+            // Slow to steady running condition
+            if (gauges[0].getPosition() > 212 && fuelOn == 1 && startButtonOn == -1)
+            {
+                for (int i = 0; i < 7; i++)
+                {
+                    onState[i] = false;
+                }
+            }
+            else if (gauges[0].getPosition() > 205 && fuelOn == 1 && startButtonOn == -1)
+            {
+                gauges[0].setSpeed(.2f);
+                gauges[3].setSpeed(.2f);
+            }
+            else if (gauges[0].getPosition() > 195 && fuelOn == 1 && startButtonOn == -1)
+            {
+                gauges[0].setSpeed(.5f);
+                gauges[3].setSpeed(.5f);
+            }
+            else if (gauges[0].getPosition() > 180 && fuelOn == 1 && startButtonOn == -1)
+            {
+                gauges[0].setSpeed(1);
+                gauges[3].setSpeed(1);
+            }
+        }
+
+        public void starterPast()
+        {
+            if(startButtonOn == 1 && gauges[0].getPosition() > 125 && tutorMode == 1)
+            {
+                timer2.Stop();
+                MessageBox.Show("Running the Starter past 40% of N2 can be very harmful to the starter and " +
+                    "may result in the need for a timely and costly repair. Release the start valve and let the engine come to a stop.", "Tutorial Warning");
+                changeStartValve();
+                if (fuelOn == 1)
+                {
+                    changeFuelButton();
+                }
+                timer2.Start();
+                errorOccured = true;
+            }
+            else if (startButtonOn == 1 && gauges[0].getPosition() > 150 && tutorMode == -1)
+            {
+                timer2.Stop();
+                MessageBox.Show("You have run the starter up to 50% of N2 which resulted in the destruction " +
+                    "of the starter. Release the start valve and let the engine stop, this plane is now out of commission.", "STARTER FAILURE!");
+                changeStartValve();
+                if (fuelOn == 1)
+                {
+                    changeFuelButton();
+                }
+                timer2.Start();
+                errorOccured = true;
+            }
+        }
+
+        public void starterRepress()
+        {
+            if (startButtonOn == 1 && direction == -1 && gauges[0].getPosition() > 1 && tutorMode == 1 && goTime > 1)
+            {
+                timer2.Stop();
+                MessageBox.Show("Attempting to re-engage the starter after it has been released is very harmful to the starter " +
+                    " and may result in the need for a timely and costly repair. Release the start valve and let the engine come " +
+                    "to a stop before re-engaging the starter.", "Tutorial Warning");
+                changeStartValve();
+                if (fuelOn == 1)
+                {
+                    changeFuelButton();
+                }
+                timer2.Start();
+                errorOccured = true;
+
+            }
+            else if (startButtonOn == 1 && direction == -1 && gauges[0].getPosition() > 8 && tutorMode == -1 && goTime > 1)
+            {
+                timer2.Stop();
+                MessageBox.Show("You have destroyed the starter by trying to engage it while the engine was still moving! " +
+                    "Release the start valve and let the engine stop, this plane is now out of commission.", "STARTER FAILURE!");
+                changeStartValve();
+                if (fuelOn == 1)
+                {
+                    changeFuelButton();
+                }
+                timer2.Start();
+                errorOccured = true;
+
+            }
+            else if (startButtonOn == 1 && direction == -1 && gauges[0].getPosition() > 1 && tutorMode == -1 && goTime > 1)
+            {
+                timer2.Stop();
+                MessageBox.Show("You caused starter grinding by trying to engage it while the engine was still moving! " +
+                    "That was a close call to damaging the starter", "STARTER GRIND!");
+                changeStartValve();
+                if (fuelOn == 1)
+                {
+                    changeFuelButton();
+                }
+                timer2.Start();
+                errorOccured = true;
+            }
+        }
+
+        public void stopped()
+        {
+            if(gauges[0].getPosition() <= 1)
+            {
+                if(flood > 0)
+                {
+                    timer2.Stop();
+                    MessageBox.Show("Due to early fuel flow the engine flooded and could not start. " +
+                    "Let the engine drain and try again.", "ENGINE FLOODED!");
+                    
+                    if (fuelOn == 1)
+                    {
+                        changeFuelButton();
+                    }
+                    flood = 0;
+                    timer2.Start();
+                }
+                goTime = 1;
+                gauges[0].setSpeed(1.5f);
+                onState[0] = true;
+                gauges[2].setSpeed(1f);
+                onState[2] = false;
+                gauges[3].setSpeed(1.5f);
+                onState[3] = false;
+
+                gauges[6].setSpeed(1);
+                onState[6] = false;
+                gauges[5].setSpeed(1);
+                onState[5] = false;
+                gauges[4].setSpeed(1);
+                onState[4] = false;
+
+                errorOccured = false;
+            }
+        }
+
+        public void earlyFuel()
+        {
+            if (gauges[0].getPosition() < 70 && fuelOn == 1 && tutorMode == 1)
+            {
+                timer2.Stop();
+                MessageBox.Show("You started fuel flow too early. preliminary fuel flow can " +
+                    "cause the engine to enter a hot start which may result in failure of costly engine components.", "Tutorial Warning");
+                changeFuelButton();
+                if (startButtonOn == 1)
+                {
+                    changeStartValve();
+                }
+                timer2.Start();
+            }
+            else if (gauges[0].getPosition() < 10 && fuelOn == 1)
+            {
+                flood = 2;
+            }
+            else if (gauges[0].getPosition() < 70 && fuelOn == 1)
+            {
+                flood = 1;
+            }
+        }
+
+        public void earlyFuelFail()
+        {
+            if(gauges[0].getPosition() > 141 && flood == 1)
+            {
+                timer2.Stop();
+                MessageBox.Show("You flooded the engine with fuel by beginning fuel flow too early. " +
+                    "Let the engine come to a stop, drain and then try again.", "ENGINE FLOODED!");
+                if (fuelOn == 1)
+                {
+                    changeFuelButton();
+                }
+                if (startButtonOn == 1)
+                {
+                    changeStartValve();
+                }
+                gauges[0].setSpeed(1.5f);
+                gauges[3].setSpeed(1.5f);
+                gauges[2].setSpeed(.5f);
+                flood = 0;
+                errorOccured = true;
+                timer2.Start();
+            }
+            else if(gauges[0].getPosition() > 140 && flood == 1)
+            {
+                gauges[0].setSpeed(.2f);
+                gauges[3].setSpeed(.2f);
+                gauges[2].setSpeed(.1f);
+                gauges[1].setSpeed(.5f);
+                onState[1] = false;
+                gauges[1].moveBack();
+
+            }
+            else if (gauges[0].getPosition() > 138 && flood == 1)
+            {
+                gauges[0].setSpeed(.7f);
+                gauges[3].setSpeed(.7f);
+                gauges[2].setSpeed(.1f);
+                gauges[1].setSpeed(.2f);
+                onState[1] = false;
+                gauges[1].moveBack();
+
+            }
+            else if (gauges[0].getPosition() > 128 && flood == 1)
+            {
+                gauges[0].setSpeed(1f);
+                gauges[3].setSpeed(1f);
+                gauges[2].setSpeed(.1f);
+                gauges[1].setSpeed(0);
+                
+            }
+
+            if (gauges[0].getPosition() > 142 && flood == 2)
+            {
+                timer2.Stop();
+                MessageBox.Show("You flooded the engine with fuel by beginning fuel flow much too early. " +
+                    "Let the engine come to a stop, drain and then try again.", "ENGINE FLOODED!");
+                if (fuelOn == 1)
+                {
+                    changeFuelButton();
+                }
+                if (startButtonOn == 1)
+                {
+                    changeStartValve();
+                }
+                
+                errorOccured = true;
+                flood = 0;
+                gauges[0].setSpeed(1.5f);
+                gauges[3].setSpeed(1.5f);
+                gauges[2].setSpeed(.5f);
+                timer2.Start();
+
+
+            }
+            else if (gauges[0].getPosition() > 138 && flood == 1)
+            {
+                gauges[0].setSpeed(.2f);
+                gauges[3].setSpeed(.2f);
+                gauges[2].setSpeed(.1f);
+                gauges[1].setSpeed(.5f);
+                onState[1] = false;
+                gauges[1].moveBack();
+
+            }
+            else if (gauges[0].getPosition() > 130 && flood == 1)
+            {
+                gauges[0].setSpeed(.7f);
+                gauges[3].setSpeed(.7f);
+                gauges[2].setSpeed(.1f);
+                gauges[1].setSpeed(.2f);
+                onState[1] = false;
+                gauges[1].moveBack();
+
+            }
+            else if (gauges[0].getPosition() > 120 && flood == 1)
+            {
+                gauges[0].setSpeed(1f);
+                gauges[3].setSpeed(1f);
+                gauges[2].setSpeed(.1f);
+                gauges[1].setSpeed(0);
+
+            }
+
+        }
+
+
+        public void noError()
+        {
+            //check possible errors
+            starterPast();
+            starterRepress();
+            earlyFuel();
+            earlyFuelFail();
+
+            // if the scenario has ended, reset things.
+            stopped();
+
+            // move the gauges
+            tenPercentMove();
+
+            fueltoggledOff();
+
+            egtMotion();
+
+            oilPressureMotion();
+
+            steadyToIdle();
+
+        }
+
+        public void initializeGauges()
+        {
+            // Initialize all the guage parameters
+            //float position, float speed, float minVal, float maxVal, float minAngle, float maxAngle, PictureBox needle
+            gauges[0] = new Gauge(0, 1.5f, 0, 360, 407, 47, n2);    // N2
+            gauges[1] = new Gauge(0, 1f, 0, 360, 310, -50, egt);    // EGT
+            gauges[2] = new Gauge(0, .5f, 0, 360, 285, -75, oilPressure);    // Oil Pressure
+            gauges[3] = new Gauge(0, 1.5f, 0, 360, 403, 43, N1);    // N1
+            gauges[4] = new Gauge(0, 1f, 0, 360, 200, -160, oilTemp);    //Oil Temp
+            gauges[5] = new Gauge(0, 1f, 0, 360, 464, 104, fuelFlow);    //Fuel Flow
+            gauges[6] = new Gauge(1.02f, 1f, 0, 360, 286, -74, pressureRatio); // pressure ratio
+
+            for (int i = 0; i < 7; i++)
+            {
+                onState[i] = false;
+            }
+        }
+
+
+    }
+
+
+
+    public class Gauge
+    {
+        // NOTE: This class does NOT contain all functions. Check the specs for details.
+
+        private float position = 5;        // position (see specs for inititial vals)
+        private float speed = 0.5f;         // speed (initially should be 0)
+        private float minVal = 0;          // min numerical value on dial
+        private float maxVal = 10;         // max numerical value
+        private float minAngle = 90;      // angle at which min numerical val appears (must be > maxAngle, so add 360 if not > )
+        private float maxAngle = 0;       // angle at which max numerical val appears
+        private Image masterImg = null;     // the master image that will be copied and rotated each time
+        private PictureBox needle;          // object that holds needle image
+
+        public Gauge(float position, float speed, float minVal, float maxVal, float minAngle, float maxAngle, PictureBox needle)
+        {
+            // create gauge based on reference to needle picture
+            // and value parameters
+            this.position = position;
+            this.speed = speed;
+            this.minVal = minVal;
+            this.maxVal = maxVal;
+            this.minAngle = minAngle;
+            this.maxAngle = maxAngle;
+            this.needle = needle;
+        }
+
+        public float getMaxAngle()
+        {
+            return maxAngle;
+        }
+
+        public float getMinAngle()
+        {
+            return minAngle;
+        }
+
+        public float getPosition()
+        {
+            return position;
+        }
+
+        public void setPosition(float position)
+        {
+            this.position = position;
+        }
+
+        public void setSpeed(float speed)
+        {
+            this.speed = speed;
+        }
+
+        public void setMinVal(float minVal)
+        {
+            this.minVal = minVal;
+        }
+
+        public void setMaxVal(float maxVal)
+        {
+            this.maxVal = maxVal;
+        }
+        public void setMinAngle(float min)
+        {
+            this.minAngle = min;
+        }
+
+        public void setMaxAngle(float max)
+        {
+            this.maxAngle = max;
+        }
+
+
+
+        public void move()
+        {
+            if (masterImg == null)
+            {
+                masterImg = needle.Image;
+            }
+
+            // this really doesn't need the if statement, but the demo version has it
+            if (position <= maxVal)
+            {
+                position += speed;
+                
+                needle.Image = RotateImage(masterImg, new PointF(367, 352), -minAngle + (position - minVal) / (maxVal - minVal) * (minAngle - maxAngle));
+                // PointF(100, 100) is rotation point of needle in image
+            }
+
+        }
+
+        public void moveBack()
+        {
+            if (masterImg == null)
+            {
+                masterImg = needle.Image;
+            }
+            
+            // this really doesn't need the if statement, but the demo version has it
+            if (position >= minVal )
+            {
+                position -= speed;
+                
+                needle.Image = RotateImage(masterImg, new PointF(367, 352), -minAngle + (position - minVal) / (maxVal - minVal) * (minAngle - maxAngle));
+                // PointF(100, 100) is rotation point of needle in image
+            }
+
+        }
+
+        // THIS METHOD IS FROM http://www.codeproject.com/Articles/58815/C-Image-PictureBox-Rotations
+        public static Bitmap RotateImage(Image image, PointF offset, float angle)
+        {
+            if (image == null)
+                throw new ArgumentNullException("image");
+
+            //create a new empty bitmap to hold rotated image
+            Bitmap rotatedBmp = new Bitmap(image.Width, image.Height);
+            rotatedBmp.SetResolution(image.HorizontalResolution, image.VerticalResolution);
+
+            //make a graphics object from the empty bitmap
+            Graphics g = Graphics.FromImage(rotatedBmp);
+
+            //Put the rotation point in the center of the image
+            g.TranslateTransform(offset.X, offset.Y);
+
+            //rotate the image
+            g.RotateTransform(angle);
+
+            //move the image back
+            g.TranslateTransform(-offset.X, -offset.Y);
+
+            //draw passed in image onto graphics object
+            g.DrawImage(image, new PointF(0, 0));
+
+            return rotatedBmp;
+        }
+
+
 
     }
 }

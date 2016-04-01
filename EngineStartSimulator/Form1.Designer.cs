@@ -77,6 +77,7 @@
             this.splashImage = new System.Windows.Forms.PictureBox();
             this.splashMessage = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.timer2 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -116,7 +117,7 @@
             this.splitContainer1.BackColor = System.Drawing.SystemColors.WindowFrame;
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer1.Margin = new System.Windows.Forms.Padding(2);
+            this.splitContainer1.Margin = new System.Windows.Forms.Padding(4);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -163,10 +164,10 @@
             this.splitContainer1.Panel2.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.splitContainer1_Panel2_MouseDoubleClick);
             this.splitContainer1.Panel2.MouseEnter += new System.EventHandler(this.splitContainer1_Panel2_MouseEnter);
             this.splitContainer1.Panel2MinSize = 100;
-            this.splitContainer1.Size = new System.Drawing.Size(625, 337);
-            this.splitContainer1.SplitterDistance = 174;
+            this.splitContainer1.Size = new System.Drawing.Size(1094, 590);
+            this.splitContainer1.SplitterDistance = 304;
             this.splitContainer1.SplitterIncrement = 5;
-            this.splitContainer1.SplitterWidth = 3;
+            this.splitContainer1.SplitterWidth = 5;
             this.splitContainer1.TabIndex = 0;
             this.splitContainer1.TabStop = false;
             this.qMarkTip.SetToolTip(this.splitContainer1, "Drag right or left to expand or shrink the Menu Bar");
@@ -185,9 +186,9 @@
             this.helpPanel.Controls.Add(this.HowToText);
             this.helpPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.helpPanel.Location = new System.Drawing.Point(0, 0);
-            this.helpPanel.Margin = new System.Windows.Forms.Padding(2);
+            this.helpPanel.Margin = new System.Windows.Forms.Padding(4);
             this.helpPanel.Name = "helpPanel";
-            this.helpPanel.Size = new System.Drawing.Size(174, 337);
+            this.helpPanel.Size = new System.Drawing.Size(304, 590);
             this.helpPanel.TabIndex = 23;
             // 
             // infoTextBox
@@ -198,11 +199,12 @@
             this.infoTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.infoTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.infoTextBox.ForeColor = System.Drawing.Color.White;
-            this.infoTextBox.Location = new System.Drawing.Point(2, 105);
+            this.infoTextBox.Location = new System.Drawing.Point(4, 184);
+            this.infoTextBox.Margin = new System.Windows.Forms.Padding(5);
             this.infoTextBox.Multiline = true;
             this.infoTextBox.Name = "infoTextBox";
             this.infoTextBox.ReadOnly = true;
-            this.infoTextBox.Size = new System.Drawing.Size(217, 224);
+            this.infoTextBox.Size = new System.Drawing.Size(380, 392);
             this.infoTextBox.TabIndex = 4;
             this.infoTextBox.Text = resources.GetString("infoTextBox.Text");
             // 
@@ -210,10 +212,10 @@
             // 
             this.backButton.BackColor = System.Drawing.Color.Transparent;
             this.backButton.Image = global::EngineStartSimulator.Properties.Resources.Back_10;
-            this.backButton.Location = new System.Drawing.Point(12, 11);
-            this.backButton.Margin = new System.Windows.Forms.Padding(2);
+            this.backButton.Location = new System.Drawing.Point(21, 19);
+            this.backButton.Margin = new System.Windows.Forms.Padding(4);
             this.backButton.Name = "backButton";
-            this.backButton.Size = new System.Drawing.Size(22, 22);
+            this.backButton.Size = new System.Drawing.Size(38, 38);
             this.backButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.backButton.TabIndex = 2;
             this.backButton.TabStop = false;
@@ -226,10 +228,10 @@
             // backHighlight
             // 
             this.backHighlight.BackColor = System.Drawing.Color.Transparent;
-            this.backHighlight.Location = new System.Drawing.Point(2, 2);
-            this.backHighlight.Margin = new System.Windows.Forms.Padding(2);
+            this.backHighlight.Location = new System.Drawing.Point(4, 4);
+            this.backHighlight.Margin = new System.Windows.Forms.Padding(4);
             this.backHighlight.Name = "backHighlight";
-            this.backHighlight.Size = new System.Drawing.Size(43, 42);
+            this.backHighlight.Size = new System.Drawing.Size(75, 74);
             this.backHighlight.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.backHighlight.TabIndex = 3;
             this.backHighlight.TabStop = false;
@@ -243,10 +245,10 @@
             // 
             this.helpTitle.BackColor = System.Drawing.Color.Transparent;
             this.helpTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.helpTitle.Location = new System.Drawing.Point(3, 47);
-            this.helpTitle.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.helpTitle.Location = new System.Drawing.Point(5, 82);
+            this.helpTitle.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.helpTitle.Name = "helpTitle";
-            this.helpTitle.Size = new System.Drawing.Size(216, 20);
+            this.helpTitle.Size = new System.Drawing.Size(378, 35);
             this.helpTitle.TabIndex = 1;
             this.helpTitle.Text = "Help: How to use L-JESS";
             this.helpTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -259,12 +261,13 @@
             this.HowToText.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.HowToText.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.HowToText.ForeColor = System.Drawing.Color.White;
-            this.HowToText.Location = new System.Drawing.Point(6, 105);
+            this.HowToText.Location = new System.Drawing.Point(10, 184);
+            this.HowToText.Margin = new System.Windows.Forms.Padding(5);
             this.HowToText.Multiline = true;
             this.HowToText.Name = "HowToText";
             this.HowToText.ReadOnly = true;
             this.HowToText.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.HowToText.Size = new System.Drawing.Size(217, 224);
+            this.HowToText.Size = new System.Drawing.Size(380, 392);
             this.HowToText.TabIndex = 0;
             this.HowToText.Text = resources.GetString("HowToText.Text");
             this.HowToText.MouseHover += new System.EventHandler(this.instructBox_MouseHover);
@@ -273,10 +276,10 @@
             // 
             this.infoButton.BackColor = System.Drawing.Color.Transparent;
             this.infoButton.Image = global::EngineStartSimulator.Properties.Resources.Info;
-            this.infoButton.Location = new System.Drawing.Point(2, 383);
-            this.infoButton.Margin = new System.Windows.Forms.Padding(2);
+            this.infoButton.Location = new System.Drawing.Point(4, 670);
+            this.infoButton.Margin = new System.Windows.Forms.Padding(4);
             this.infoButton.Name = "infoButton";
-            this.infoButton.Size = new System.Drawing.Size(41, 38);
+            this.infoButton.Size = new System.Drawing.Size(72, 66);
             this.infoButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.infoButton.TabIndex = 22;
             this.infoButton.TabStop = false;
@@ -290,10 +293,10 @@
             // 
             this.dTitle.BackColor = System.Drawing.Color.Transparent;
             this.dTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dTitle.Location = new System.Drawing.Point(3, 359);
-            this.dTitle.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.dTitle.Location = new System.Drawing.Point(5, 628);
+            this.dTitle.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.dTitle.Name = "dTitle";
-            this.dTitle.Size = new System.Drawing.Size(290, 32);
+            this.dTitle.Size = new System.Drawing.Size(508, 56);
             this.dTitle.TabIndex = 15;
             this.dTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -303,22 +306,22 @@
             this.description.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.description.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.description.ForeColor = System.Drawing.Color.White;
-            this.description.Location = new System.Drawing.Point(30, 417);
-            this.description.Margin = new System.Windows.Forms.Padding(2);
+            this.description.Location = new System.Drawing.Point(52, 730);
+            this.description.Margin = new System.Windows.Forms.Padding(4);
             this.description.Multiline = true;
             this.description.Name = "description";
             this.description.ReadOnly = true;
-            this.description.Size = new System.Drawing.Size(246, 162);
+            this.description.Size = new System.Drawing.Size(430, 284);
             this.description.TabIndex = 16;
             this.description.TabStop = false;
             // 
             // line3
             // 
             this.line3.Image = global::EngineStartSimulator.Properties.Resources.line;
-            this.line3.Location = new System.Drawing.Point(0, 343);
-            this.line3.Margin = new System.Windows.Forms.Padding(2);
+            this.line3.Location = new System.Drawing.Point(0, 600);
+            this.line3.Margin = new System.Windows.Forms.Padding(4);
             this.line3.Name = "line3";
-            this.line3.Size = new System.Drawing.Size(306, 14);
+            this.line3.Size = new System.Drawing.Size(536, 24);
             this.line3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.line3.TabIndex = 14;
             this.line3.TabStop = false;
@@ -328,10 +331,10 @@
             this.restartLabel.AutoSize = true;
             this.restartLabel.BackColor = System.Drawing.Color.Transparent;
             this.restartLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.restartLabel.Location = new System.Drawing.Point(50, 308);
-            this.restartLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.restartLabel.Location = new System.Drawing.Point(88, 539);
+            this.restartLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.restartLabel.Name = "restartLabel";
-            this.restartLabel.Size = new System.Drawing.Size(62, 20);
+            this.restartLabel.Size = new System.Drawing.Size(106, 32);
             this.restartLabel.TabIndex = 13;
             this.restartLabel.Text = "Restart";
             this.restartLabel.Click += new System.EventHandler(this.restartButton_Click);
@@ -345,10 +348,10 @@
             this.stopLabel.AutoSize = true;
             this.stopLabel.BackColor = System.Drawing.Color.Transparent;
             this.stopLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.stopLabel.Location = new System.Drawing.Point(50, 263);
-            this.stopLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.stopLabel.Location = new System.Drawing.Point(88, 460);
+            this.stopLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.stopLabel.Name = "stopLabel";
-            this.stopLabel.Size = new System.Drawing.Size(43, 20);
+            this.stopLabel.Size = new System.Drawing.Size(74, 32);
             this.stopLabel.TabIndex = 12;
             this.stopLabel.Text = "Stop";
             this.stopLabel.Click += new System.EventHandler(this.stopButton_Click);
@@ -362,10 +365,10 @@
             this.pauseLabel.AutoSize = true;
             this.pauseLabel.BackColor = System.Drawing.Color.Transparent;
             this.pauseLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.pauseLabel.Location = new System.Drawing.Point(50, 217);
-            this.pauseLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.pauseLabel.Location = new System.Drawing.Point(88, 380);
+            this.pauseLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.pauseLabel.Name = "pauseLabel";
-            this.pauseLabel.Size = new System.Drawing.Size(54, 20);
+            this.pauseLabel.Size = new System.Drawing.Size(96, 32);
             this.pauseLabel.TabIndex = 11;
             this.pauseLabel.Text = "Pause";
             this.pauseLabel.Click += new System.EventHandler(this.pictureBox1_Click_4);
@@ -378,10 +381,10 @@
             // 
             this.restartButton.BackColor = System.Drawing.Color.Transparent;
             this.restartButton.Image = global::EngineStartSimulator.Properties.Resources.Refresh;
-            this.restartButton.Location = new System.Drawing.Point(6, 304);
-            this.restartButton.Margin = new System.Windows.Forms.Padding(2);
+            this.restartButton.Location = new System.Drawing.Point(10, 532);
+            this.restartButton.Margin = new System.Windows.Forms.Padding(4);
             this.restartButton.Name = "restartButton";
-            this.restartButton.Size = new System.Drawing.Size(40, 30);
+            this.restartButton.Size = new System.Drawing.Size(70, 52);
             this.restartButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.restartButton.TabIndex = 10;
             this.restartButton.TabStop = false;
@@ -395,10 +398,10 @@
             // 
             this.stopButton.BackColor = System.Drawing.Color.Transparent;
             this.stopButton.Image = global::EngineStartSimulator.Properties.Resources.stop10;
-            this.stopButton.Location = new System.Drawing.Point(3, 254);
-            this.stopButton.Margin = new System.Windows.Forms.Padding(2);
+            this.stopButton.Location = new System.Drawing.Point(5, 444);
+            this.stopButton.Margin = new System.Windows.Forms.Padding(4);
             this.stopButton.Name = "stopButton";
-            this.stopButton.Size = new System.Drawing.Size(42, 40);
+            this.stopButton.Size = new System.Drawing.Size(74, 70);
             this.stopButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.stopButton.TabIndex = 9;
             this.stopButton.TabStop = false;
@@ -411,10 +414,10 @@
             // line2
             // 
             this.line2.Image = global::EngineStartSimulator.Properties.Resources.line;
-            this.line2.Location = new System.Drawing.Point(0, 192);
-            this.line2.Margin = new System.Windows.Forms.Padding(2);
+            this.line2.Location = new System.Drawing.Point(0, 336);
+            this.line2.Margin = new System.Windows.Forms.Padding(4);
             this.line2.Name = "line2";
-            this.line2.Size = new System.Drawing.Size(306, 12);
+            this.line2.Size = new System.Drawing.Size(536, 21);
             this.line2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.line2.TabIndex = 8;
             this.line2.TabStop = false;
@@ -423,10 +426,10 @@
             // 
             this.pauseButton.BackColor = System.Drawing.Color.Transparent;
             this.pauseButton.Image = global::EngineStartSimulator.Properties.Resources.pause10;
-            this.pauseButton.Location = new System.Drawing.Point(3, 214);
-            this.pauseButton.Margin = new System.Windows.Forms.Padding(2);
+            this.pauseButton.Location = new System.Drawing.Point(5, 374);
+            this.pauseButton.Margin = new System.Windows.Forms.Padding(4);
             this.pauseButton.Name = "pauseButton";
-            this.pauseButton.Size = new System.Drawing.Size(42, 28);
+            this.pauseButton.Size = new System.Drawing.Size(74, 49);
             this.pauseButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pauseButton.TabIndex = 7;
             this.pauseButton.TabStop = false;
@@ -441,10 +444,10 @@
             this.tutorialMode.AutoSize = true;
             this.tutorialMode.BackColor = System.Drawing.Color.Transparent;
             this.tutorialMode.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tutorialMode.Location = new System.Drawing.Point(50, 155);
-            this.tutorialMode.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.tutorialMode.Location = new System.Drawing.Point(88, 271);
+            this.tutorialMode.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.tutorialMode.Name = "tutorialMode";
-            this.tutorialMode.Size = new System.Drawing.Size(145, 20);
+            this.tutorialMode.Size = new System.Drawing.Size(260, 32);
             this.tutorialMode.TabIndex = 6;
             this.tutorialMode.Text = "Tutorial Mode: OFF";
             this.tutorialMode.MouseClick += new System.Windows.Forms.MouseEventHandler(this.tutorial);
@@ -457,10 +460,10 @@
             // 
             this.tutorButton.BackColor = System.Drawing.Color.Transparent;
             this.tutorButton.Image = global::EngineStartSimulator.Properties.Resources.tutorOff1;
-            this.tutorButton.Location = new System.Drawing.Point(3, 147);
-            this.tutorButton.Margin = new System.Windows.Forms.Padding(2);
+            this.tutorButton.Location = new System.Drawing.Point(5, 257);
+            this.tutorButton.Margin = new System.Windows.Forms.Padding(4);
             this.tutorButton.Name = "tutorButton";
-            this.tutorButton.Size = new System.Drawing.Size(42, 40);
+            this.tutorButton.Size = new System.Drawing.Size(74, 70);
             this.tutorButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.tutorButton.TabIndex = 5;
             this.tutorButton.TabStop = false;
@@ -474,10 +477,10 @@
             // 
             this.settingButton.BackColor = System.Drawing.Color.Transparent;
             this.settingButton.Image = global::EngineStartSimulator.Properties.Resources.Settings;
-            this.settingButton.Location = new System.Drawing.Point(6, 102);
-            this.settingButton.Margin = new System.Windows.Forms.Padding(2);
+            this.settingButton.Location = new System.Drawing.Point(10, 178);
+            this.settingButton.Margin = new System.Windows.Forms.Padding(4);
             this.settingButton.Name = "settingButton";
-            this.settingButton.Size = new System.Drawing.Size(37, 40);
+            this.settingButton.Size = new System.Drawing.Size(65, 70);
             this.settingButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.settingButton.TabIndex = 4;
             this.settingButton.TabStop = false;
@@ -496,7 +499,7 @@
             this.menuBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.menuBox.ForeColor = System.Drawing.Color.White;
             this.menuBox.FormattingEnabled = true;
-            this.menuBox.ItemHeight = 20;
+            this.menuBox.ItemHeight = 32;
             this.menuBox.Items.AddRange(new object[] {
             "No Error Conditions",
             "Random Error Conditions",
@@ -507,10 +510,10 @@
             "No Light Off- without Fuel Flow",
             "Starter Valve Sticks Open",
             "No Oil Pressure"});
-            this.menuBox.Location = new System.Drawing.Point(54, 106);
-            this.menuBox.Margin = new System.Windows.Forms.Padding(2);
+            this.menuBox.Location = new System.Drawing.Point(94, 186);
+            this.menuBox.Margin = new System.Windows.Forms.Padding(4);
             this.menuBox.Name = "menuBox";
-            this.menuBox.Size = new System.Drawing.Size(239, 28);
+            this.menuBox.Size = new System.Drawing.Size(415, 40);
             this.menuBox.TabIndex = 3;
             this.menuBox.SelectedIndexChanged += new System.EventHandler(this.menuBox_SelectedIndexChanged);
             this.menuBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.settingButton_MouseDown);
@@ -521,10 +524,10 @@
             // line1
             // 
             this.line1.Image = global::EngineStartSimulator.Properties.Resources.line;
-            this.line1.Location = new System.Drawing.Point(0, 86);
-            this.line1.Margin = new System.Windows.Forms.Padding(2);
+            this.line1.Location = new System.Drawing.Point(0, 150);
+            this.line1.Margin = new System.Windows.Forms.Padding(4);
             this.line1.Name = "line1";
-            this.line1.Size = new System.Drawing.Size(306, 12);
+            this.line1.Size = new System.Drawing.Size(536, 21);
             this.line1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.line1.TabIndex = 2;
             this.line1.TabStop = false;
@@ -533,10 +536,10 @@
             // 
             this.questionButton.BackColor = System.Drawing.Color.Transparent;
             this.questionButton.Image = global::EngineStartSimulator.Properties.Resources.question;
-            this.questionButton.Location = new System.Drawing.Point(2, 46);
-            this.questionButton.Margin = new System.Windows.Forms.Padding(2);
+            this.questionButton.Location = new System.Drawing.Point(4, 80);
+            this.questionButton.Margin = new System.Windows.Forms.Padding(4);
             this.questionButton.Name = "questionButton";
-            this.questionButton.Size = new System.Drawing.Size(43, 45);
+            this.questionButton.Size = new System.Drawing.Size(75, 79);
             this.questionButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.questionButton.TabIndex = 1;
             this.questionButton.TabStop = false;
@@ -550,10 +553,10 @@
             // 
             this.hamburgerBox.BackColor = System.Drawing.Color.Transparent;
             this.hamburgerBox.Image = global::EngineStartSimulator.Properties.Resources.hamburger1;
-            this.hamburgerBox.Location = new System.Drawing.Point(2, 2);
-            this.hamburgerBox.Margin = new System.Windows.Forms.Padding(2);
+            this.hamburgerBox.Location = new System.Drawing.Point(4, 4);
+            this.hamburgerBox.Margin = new System.Windows.Forms.Padding(4);
             this.hamburgerBox.Name = "hamburgerBox";
-            this.hamburgerBox.Size = new System.Drawing.Size(43, 42);
+            this.hamburgerBox.Size = new System.Drawing.Size(75, 74);
             this.hamburgerBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.hamburgerBox.TabIndex = 0;
             this.hamburgerBox.TabStop = false;
@@ -569,12 +572,12 @@
             this.restartHighlight.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.restartHighlight.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.restartHighlight.ForeColor = System.Drawing.SystemColors.WindowFrame;
-            this.restartHighlight.Location = new System.Drawing.Point(2, 298);
-            this.restartHighlight.Margin = new System.Windows.Forms.Padding(2);
+            this.restartHighlight.Location = new System.Drawing.Point(4, 522);
+            this.restartHighlight.Margin = new System.Windows.Forms.Padding(4);
             this.restartHighlight.Multiline = true;
             this.restartHighlight.Name = "restartHighlight";
             this.restartHighlight.ReadOnly = true;
-            this.restartHighlight.Size = new System.Drawing.Size(303, 40);
+            this.restartHighlight.Size = new System.Drawing.Size(530, 70);
             this.restartHighlight.TabIndex = 17;
             this.restartHighlight.Click += new System.EventHandler(this.restartButton_Click);
             this.restartHighlight.MouseDown += new System.Windows.Forms.MouseEventHandler(this.restartButton_MouseDown);
@@ -587,12 +590,12 @@
             this.stopHighlight.BackColor = System.Drawing.SystemColors.WindowFrame;
             this.stopHighlight.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.stopHighlight.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.stopHighlight.Location = new System.Drawing.Point(2, 254);
-            this.stopHighlight.Margin = new System.Windows.Forms.Padding(2);
+            this.stopHighlight.Location = new System.Drawing.Point(4, 444);
+            this.stopHighlight.Margin = new System.Windows.Forms.Padding(4);
             this.stopHighlight.Multiline = true;
             this.stopHighlight.Name = "stopHighlight";
             this.stopHighlight.ReadOnly = true;
-            this.stopHighlight.Size = new System.Drawing.Size(303, 40);
+            this.stopHighlight.Size = new System.Drawing.Size(530, 70);
             this.stopHighlight.TabIndex = 18;
             this.stopHighlight.Click += new System.EventHandler(this.stopButton_Click);
             this.stopHighlight.MouseDown += new System.Windows.Forms.MouseEventHandler(this.stopButton_MouseDown);
@@ -605,12 +608,12 @@
             this.pauseHighlight.BackColor = System.Drawing.SystemColors.WindowFrame;
             this.pauseHighlight.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.pauseHighlight.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.pauseHighlight.Location = new System.Drawing.Point(2, 209);
-            this.pauseHighlight.Margin = new System.Windows.Forms.Padding(2);
+            this.pauseHighlight.Location = new System.Drawing.Point(4, 366);
+            this.pauseHighlight.Margin = new System.Windows.Forms.Padding(4);
             this.pauseHighlight.Multiline = true;
             this.pauseHighlight.Name = "pauseHighlight";
             this.pauseHighlight.ReadOnly = true;
-            this.pauseHighlight.Size = new System.Drawing.Size(303, 40);
+            this.pauseHighlight.Size = new System.Drawing.Size(530, 70);
             this.pauseHighlight.TabIndex = 19;
             this.pauseHighlight.Click += new System.EventHandler(this.pictureBox1_Click_4);
             this.pauseHighlight.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pauseButton_MouseDown);
@@ -624,12 +627,12 @@
             this.tutorHighlight.BackColor = System.Drawing.SystemColors.WindowFrame;
             this.tutorHighlight.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.tutorHighlight.Cursor = System.Windows.Forms.Cursors.Default;
-            this.tutorHighlight.Location = new System.Drawing.Point(2, 145);
-            this.tutorHighlight.Margin = new System.Windows.Forms.Padding(2);
+            this.tutorHighlight.Location = new System.Drawing.Point(4, 254);
+            this.tutorHighlight.Margin = new System.Windows.Forms.Padding(4);
             this.tutorHighlight.Multiline = true;
             this.tutorHighlight.Name = "tutorHighlight";
             this.tutorHighlight.ReadOnly = true;
-            this.tutorHighlight.Size = new System.Drawing.Size(303, 50);
+            this.tutorHighlight.Size = new System.Drawing.Size(530, 88);
             this.tutorHighlight.TabIndex = 20;
             this.tutorHighlight.MouseClick += new System.Windows.Forms.MouseEventHandler(this.tutorial);
             this.tutorHighlight.TextChanged += new System.EventHandler(this.tutorHighlight_TextChanged);
@@ -643,12 +646,12 @@
             this.settingHighlight.BackColor = System.Drawing.SystemColors.WindowFrame;
             this.settingHighlight.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.settingHighlight.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.settingHighlight.Location = new System.Drawing.Point(2, 96);
-            this.settingHighlight.Margin = new System.Windows.Forms.Padding(2);
+            this.settingHighlight.Location = new System.Drawing.Point(4, 168);
+            this.settingHighlight.Margin = new System.Windows.Forms.Padding(4);
             this.settingHighlight.Multiline = true;
             this.settingHighlight.Name = "settingHighlight";
             this.settingHighlight.ReadOnly = true;
-            this.settingHighlight.Size = new System.Drawing.Size(303, 46);
+            this.settingHighlight.Size = new System.Drawing.Size(530, 80);
             this.settingHighlight.TabIndex = 21;
             this.settingHighlight.Click += new System.EventHandler(this.pictureBox1_Click_1);
             this.settingHighlight.MouseDown += new System.Windows.Forms.MouseEventHandler(this.settingButton_MouseDown);
@@ -673,14 +676,14 @@
             this.guagePanel.Controls.Add(this.pressureRatio, 2, 2);
             this.guagePanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.guagePanel.Location = new System.Drawing.Point(0, 0);
-            this.guagePanel.Margin = new System.Windows.Forms.Padding(2);
+            this.guagePanel.Margin = new System.Windows.Forms.Padding(4);
             this.guagePanel.Name = "guagePanel";
             this.guagePanel.RowCount = 3;
             this.guagePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.guagePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.guagePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.guagePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 11F));
-            this.guagePanel.Size = new System.Drawing.Size(448, 337);
+            this.guagePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 19F));
+            this.guagePanel.Size = new System.Drawing.Size(785, 590);
             this.guagePanel.TabIndex = 0;
             this.guagePanel.Paint += new System.Windows.Forms.PaintEventHandler(this.guagePanel_Paint);
             // 
@@ -693,14 +696,14 @@
             this.buttonsPanel.Controls.Add(this.engineStart, 0, 0);
             this.buttonsPanel.Controls.Add(this.startValve, 0, 1);
             this.buttonsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.buttonsPanel.Location = new System.Drawing.Point(151, 114);
-            this.buttonsPanel.Margin = new System.Windows.Forms.Padding(2);
+            this.buttonsPanel.Location = new System.Drawing.Point(265, 200);
+            this.buttonsPanel.Margin = new System.Windows.Forms.Padding(4);
             this.buttonsPanel.Name = "buttonsPanel";
             this.buttonsPanel.RowCount = 2;
             this.guagePanel.SetRowSpan(this.buttonsPanel, 2);
             this.buttonsPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 60F));
             this.buttonsPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40F));
-            this.buttonsPanel.Size = new System.Drawing.Size(145, 221);
+            this.buttonsPanel.Size = new System.Drawing.Size(253, 386);
             this.buttonsPanel.TabIndex = 8;
             // 
             // panel1
@@ -712,11 +715,11 @@
             this.panel1.BackgroundImage = global::EngineStartSimulator.Properties.Resources.slider2;
             this.panel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.panel1.Controls.Add(this.sliderButton);
-            this.panel1.Location = new System.Drawing.Point(67, 2);
-            this.panel1.Margin = new System.Windows.Forms.Padding(2);
+            this.panel1.Location = new System.Drawing.Point(117, 4);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.Name = "panel1";
             this.buttonsPanel.SetRowSpan(this.panel1, 2);
-            this.panel1.Size = new System.Drawing.Size(76, 217);
+            this.panel1.Size = new System.Drawing.Size(132, 378);
             this.panel1.TabIndex = 0;
             this.panel1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.n2_MouseDoubleClick);
             // 
@@ -726,10 +729,10 @@
             this.sliderButton.BackColor = System.Drawing.Color.Transparent;
             this.sliderButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.sliderButton.Image = global::EngineStartSimulator.Properties.Resources.toggleC;
-            this.sliderButton.Location = new System.Drawing.Point(1, 122);
-            this.sliderButton.Margin = new System.Windows.Forms.Padding(2);
+            this.sliderButton.Location = new System.Drawing.Point(2, 213);
+            this.sliderButton.Margin = new System.Windows.Forms.Padding(4);
             this.sliderButton.Name = "sliderButton";
-            this.sliderButton.Size = new System.Drawing.Size(73, 29);
+            this.sliderButton.Size = new System.Drawing.Size(128, 51);
             this.sliderButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.sliderButton.TabIndex = 1;
             this.sliderButton.TabStop = false;
@@ -741,14 +744,15 @@
             // engineStart
             // 
             this.engineStart.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.engineStart.Image = global::EngineStartSimulator.Properties.Resources.Start_itC;
-            this.engineStart.Location = new System.Drawing.Point(2, 2);
-            this.engineStart.Margin = new System.Windows.Forms.Padding(2);
+            this.engineStart.Image = global::EngineStartSimulator.Properties.Resources.LightOff2;
+            this.engineStart.Location = new System.Drawing.Point(4, 4);
+            this.engineStart.Margin = new System.Windows.Forms.Padding(4);
             this.engineStart.Name = "engineStart";
-            this.engineStart.Size = new System.Drawing.Size(61, 128);
+            this.engineStart.Size = new System.Drawing.Size(105, 223);
             this.engineStart.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.engineStart.TabIndex = 1;
             this.engineStart.TabStop = false;
+            this.qMarkTip.SetToolTip(this.engineStart, "The Engine Start Light Indicates when the Start Valve is open.");
             this.engineStart.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.n2_MouseDoubleClick);
             // 
             // startValve
@@ -756,27 +760,29 @@
             this.startValve.Cursor = System.Windows.Forms.Cursors.Hand;
             this.startValve.Dock = System.Windows.Forms.DockStyle.Fill;
             this.startValve.Image = global::EngineStartSimulator.Properties.Resources.start_valveN;
-            this.startValve.Location = new System.Drawing.Point(2, 134);
-            this.startValve.Margin = new System.Windows.Forms.Padding(2);
+            this.startValve.Location = new System.Drawing.Point(4, 235);
+            this.startValve.Margin = new System.Windows.Forms.Padding(4);
             this.startValve.Name = "startValve";
-            this.startValve.Size = new System.Drawing.Size(61, 85);
+            this.startValve.Size = new System.Drawing.Size(105, 147);
             this.startValve.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.startValve.TabIndex = 2;
             this.startValve.TabStop = false;
             this.qMarkTip.SetToolTip(this.startValve, "Click and hold the Start Valve to turn it on temporarily.\r\nDouble Click to hold i" +
-        "t down.\r\nOr use the ALT key.");
+        "t down.\r\nOr use the Control key.");
             this.startValve.Click += new System.EventHandler(this.startValve_Click);
             this.startValve.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.startValve_MouseDoubleClick);
             this.startValve.MouseDown += new System.Windows.Forms.MouseEventHandler(this.startValve_MouseDown);
             // 
             // fuelFlow
             // 
+            this.fuelFlow.BackgroundImage = global::EngineStartSimulator.Properties.Resources.Fuel_Flow;
+            this.fuelFlow.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.fuelFlow.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.fuelFlow.Image = global::EngineStartSimulator.Properties.Resources.Fuel_Flow;
-            this.fuelFlow.Location = new System.Drawing.Point(2, 226);
-            this.fuelFlow.Margin = new System.Windows.Forms.Padding(2);
+            this.fuelFlow.Image = global::EngineStartSimulator.Properties.Resources.Sneedle;
+            this.fuelFlow.Location = new System.Drawing.Point(4, 396);
+            this.fuelFlow.Margin = new System.Windows.Forms.Padding(4);
             this.fuelFlow.Name = "fuelFlow";
-            this.fuelFlow.Size = new System.Drawing.Size(145, 109);
+            this.fuelFlow.Size = new System.Drawing.Size(253, 190);
             this.fuelFlow.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.fuelFlow.TabIndex = 5;
             this.fuelFlow.TabStop = false;
@@ -784,12 +790,14 @@
             // 
             // n2
             // 
+            this.n2.BackgroundImage = global::EngineStartSimulator.Properties.Resources.n2;
+            this.n2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.n2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.n2.Image = global::EngineStartSimulator.Properties.Resources.n2;
-            this.n2.Location = new System.Drawing.Point(2, 2);
-            this.n2.Margin = new System.Windows.Forms.Padding(2);
+            this.n2.Image = global::EngineStartSimulator.Properties.Resources.Gneedle;
+            this.n2.Location = new System.Drawing.Point(4, 4);
+            this.n2.Margin = new System.Windows.Forms.Padding(4);
             this.n2.Name = "n2";
-            this.n2.Size = new System.Drawing.Size(145, 108);
+            this.n2.Size = new System.Drawing.Size(253, 188);
             this.n2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.n2.TabIndex = 0;
             this.n2.TabStop = false;
@@ -797,12 +805,14 @@
             // 
             // egt
             // 
+            this.egt.BackgroundImage = global::EngineStartSimulator.Properties.Resources.EGT1;
+            this.egt.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.egt.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.egt.Image = global::EngineStartSimulator.Properties.Resources.EGT1;
-            this.egt.Location = new System.Drawing.Point(151, 2);
-            this.egt.Margin = new System.Windows.Forms.Padding(2);
+            this.egt.Image = global::EngineStartSimulator.Properties.Resources.Gneedle;
+            this.egt.Location = new System.Drawing.Point(265, 4);
+            this.egt.Margin = new System.Windows.Forms.Padding(4);
             this.egt.Name = "egt";
-            this.egt.Size = new System.Drawing.Size(145, 108);
+            this.egt.Size = new System.Drawing.Size(253, 188);
             this.egt.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.egt.TabIndex = 1;
             this.egt.TabStop = false;
@@ -810,12 +820,14 @@
             // 
             // oilPressure
             // 
+            this.oilPressure.BackgroundImage = global::EngineStartSimulator.Properties.Resources.Oil_Pressure;
+            this.oilPressure.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.oilPressure.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.oilPressure.Image = global::EngineStartSimulator.Properties.Resources.Oil_Pressure;
-            this.oilPressure.Location = new System.Drawing.Point(300, 2);
-            this.oilPressure.Margin = new System.Windows.Forms.Padding(2);
+            this.oilPressure.Image = global::EngineStartSimulator.Properties.Resources.Gneedle;
+            this.oilPressure.Location = new System.Drawing.Point(526, 4);
+            this.oilPressure.Margin = new System.Windows.Forms.Padding(4);
             this.oilPressure.Name = "oilPressure";
-            this.oilPressure.Size = new System.Drawing.Size(146, 108);
+            this.oilPressure.Size = new System.Drawing.Size(255, 188);
             this.oilPressure.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.oilPressure.TabIndex = 4;
             this.oilPressure.TabStop = false;
@@ -823,12 +835,14 @@
             // 
             // oilTemp
             // 
+            this.oilTemp.BackgroundImage = global::EngineStartSimulator.Properties.Resources.Oil_Temp;
+            this.oilTemp.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.oilTemp.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.oilTemp.Image = global::EngineStartSimulator.Properties.Resources.Oil_Temp;
-            this.oilTemp.Location = new System.Drawing.Point(300, 114);
-            this.oilTemp.Margin = new System.Windows.Forms.Padding(2);
+            this.oilTemp.Image = global::EngineStartSimulator.Properties.Resources.Sneedle;
+            this.oilTemp.Location = new System.Drawing.Point(526, 200);
+            this.oilTemp.Margin = new System.Windows.Forms.Padding(4);
             this.oilTemp.Name = "oilTemp";
-            this.oilTemp.Size = new System.Drawing.Size(146, 108);
+            this.oilTemp.Size = new System.Drawing.Size(255, 188);
             this.oilTemp.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.oilTemp.TabIndex = 2;
             this.oilTemp.TabStop = false;
@@ -836,12 +850,14 @@
             // 
             // N1
             // 
+            this.N1.BackgroundImage = global::EngineStartSimulator.Properties.Resources.N1;
+            this.N1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.N1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.N1.Image = global::EngineStartSimulator.Properties.Resources.N1;
-            this.N1.Location = new System.Drawing.Point(2, 114);
-            this.N1.Margin = new System.Windows.Forms.Padding(2);
+            this.N1.Image = global::EngineStartSimulator.Properties.Resources.Sneedle;
+            this.N1.Location = new System.Drawing.Point(4, 200);
+            this.N1.Margin = new System.Windows.Forms.Padding(4);
             this.N1.Name = "N1";
-            this.N1.Size = new System.Drawing.Size(145, 108);
+            this.N1.Size = new System.Drawing.Size(253, 188);
             this.N1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.N1.TabIndex = 3;
             this.N1.TabStop = false;
@@ -849,12 +865,14 @@
             // 
             // pressureRatio
             // 
+            this.pressureRatio.BackgroundImage = global::EngineStartSimulator.Properties.Resources.pressure_ratio;
+            this.pressureRatio.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pressureRatio.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pressureRatio.Image = global::EngineStartSimulator.Properties.Resources.pressure_ratio;
-            this.pressureRatio.Location = new System.Drawing.Point(300, 226);
-            this.pressureRatio.Margin = new System.Windows.Forms.Padding(2);
+            this.pressureRatio.Image = global::EngineStartSimulator.Properties.Resources.Sneedle;
+            this.pressureRatio.Location = new System.Drawing.Point(526, 396);
+            this.pressureRatio.Margin = new System.Windows.Forms.Padding(4);
             this.pressureRatio.Name = "pressureRatio";
-            this.pressureRatio.Size = new System.Drawing.Size(146, 109);
+            this.pressureRatio.Size = new System.Drawing.Size(255, 190);
             this.pressureRatio.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pressureRatio.TabIndex = 6;
             this.pressureRatio.TabStop = false;
@@ -870,13 +888,13 @@
             // 
             // splashImage
             // 
-            this.splashImage.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.splashImage.BackColor = System.Drawing.Color.Transparent;
-            this.splashImage.Image = global::EngineStartSimulator.Properties.Resources.simIcon;
-            this.splashImage.Location = new System.Drawing.Point(224, 86);
-            this.splashImage.Margin = new System.Windows.Forms.Padding(2);
+            this.splashImage.BackColor = System.Drawing.SystemColors.WindowFrame;
+            this.splashImage.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splashImage.Image = global::EngineStartSimulator.Properties.Resources.Splash_Screen;
+            this.splashImage.Location = new System.Drawing.Point(0, 0);
+            this.splashImage.Margin = new System.Windows.Forms.Padding(4);
             this.splashImage.Name = "splashImage";
-            this.splashImage.Size = new System.Drawing.Size(214, 163);
+            this.splashImage.Size = new System.Drawing.Size(1094, 590);
             this.splashImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.splashImage.TabIndex = 1;
             this.splashImage.TabStop = false;
@@ -889,10 +907,10 @@
             this.splashMessage.BackColor = System.Drawing.Color.Transparent;
             this.splashMessage.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.splashMessage.ForeColor = System.Drawing.Color.White;
-            this.splashMessage.Location = new System.Drawing.Point(257, 206);
-            this.splashMessage.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.splashMessage.Location = new System.Drawing.Point(450, 360);
+            this.splashMessage.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.splashMessage.Name = "splashMessage";
-            this.splashMessage.Size = new System.Drawing.Size(202, 64);
+            this.splashMessage.Size = new System.Drawing.Size(354, 112);
             this.splashMessage.TabIndex = 2;
             this.splashMessage.Text = "L-JESS v1.0.0.0";
             this.splashMessage.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -901,17 +919,21 @@
             // 
             // timer1
             // 
-            this.timer1.Interval = 2000;
+            this.timer1.Interval = 4000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // timer2
+            // 
+            this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
             // 
             // mainWindow
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(168F, 168F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.BackgroundImage = global::EngineStartSimulator.Properties.Resources.splashScreen2;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(625, 337);
+            this.ClientSize = new System.Drawing.Size(1094, 590);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.splashImage);
             this.Controls.Add(this.splashMessage);
@@ -919,8 +941,8 @@
             this.ForeColor = System.Drawing.Color.Black;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
-            this.Margin = new System.Windows.Forms.Padding(2);
-            this.MinimumSize = new System.Drawing.Size(594, 334);
+            this.Margin = new System.Windows.Forms.Padding(4);
+            this.MinimumSize = new System.Drawing.Size(1022, 536);
             this.Name = "mainWindow";
             this.Text = "L-JESS";
             this.TransparencyKey = System.Drawing.Color.Maroon;
@@ -1020,6 +1042,7 @@
         private System.Windows.Forms.PictureBox startValve;
         private System.Windows.Forms.PictureBox sliderButton;
         private System.Windows.Forms.TextBox infoTextBox;
+        private System.Windows.Forms.Timer timer2;
     }
 }
 

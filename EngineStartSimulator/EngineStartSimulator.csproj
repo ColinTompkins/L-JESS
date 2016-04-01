@@ -264,6 +264,33 @@
   <ItemGroup>
     <None Include="Resources\start valveN.PNG" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LightOff.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LightOn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LightOff1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LightOffD.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LightOff2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LightOff3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Sneedle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Gneedle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Splash Screen.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
