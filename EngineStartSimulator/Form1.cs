@@ -10,6 +10,7 @@ using System.Windows.Forms;
 
 
 
+
 namespace EngineStartSimulator
 {
     public partial class mainWindow : Form
@@ -42,7 +43,7 @@ namespace EngineStartSimulator
             splashImage.BringToFront();
             
             // center the splash image, render the main screen (splitContainer1), start with the mennu out
-            centerSplashImage();
+            //centerSplashImage();
             splitContainer1.Show();
             menuOut();
             
@@ -72,9 +73,11 @@ namespace EngineStartSimulator
         String mode = "No Error Conditions"; // stores the current selected mode. Default is No Error Condition
         int flood = 0; // indicates if engine has fuel flood. 0 is now flood, 1 is flooded, 2 is flooded early on
         Boolean errorOccured = false; // Notifies if there was a user error
-        
+        int errorHandled = 0; // notifies if the user correctly solved the scenario or not. 0 indicates not yet handled, 1 is handled successfully, 0 is failure
+        int goFinished = 0; // Lets the program know if a scenario finished or started.
+        int firstStopped = 0; // counts the number of times the stopped function goes through
+        float lastPos = 0; // This keeps track of the last position of the EGT
 
-        
 
         // Set the various affects for mouse actions on in screen buttons
         // first the hamburger menu
@@ -744,11 +747,31 @@ namespace EngineStartSimulator
                 gauges[5].setSpeed(8);
                 onState[5] = true;
 
-                if (startButtonOn == 1 & gauges[0].getPosition() > 70 && flood == 0)
+                if (gauges[0].getPosition() <= 2)
                 {
+                    while (gauges[5].getPosition() < 42)
+                    {
+                        gauges[5].move();
+                        if (gauges[6].getPosition() < 20)
+                        {
+                            gauges[6].move();
+                        }
+                    }
                     
 
-                    gauges[1].setSpeed(5);
+                    gauges[4].setSpeed(1.2f);
+                    onState[4] = true;
+
+                    gauges[2].setSpeed(0.75f);
+
+                    gauges[1].setSpeed(2);
+                    onState[1] = true;
+                }
+
+                if (startButtonOn == 1 && gauges[0].getPosition() > 2 )
+                {
+
+                    gauges[1].setSpeed(4);
                     onState[1] = true;
 
                     gauges[4].setSpeed(1.2f);
@@ -758,7 +781,7 @@ namespace EngineStartSimulator
                 }
             }
             //When toggled off make changes as well
-            else if(fuelOn == -1 && gauges[0].getPosition() > 1)
+            else if(fuelOn == -1 && gauges[0].getPosition() > 2)
             {
 
                 gauges[1].setSpeed(.7f);
@@ -768,7 +791,7 @@ namespace EngineStartSimulator
                 onState[0] = true;
                 gauges[2].setSpeed(.5f);
                 onState[2] = true;
-                gauges[3].setSpeed(1.4f);
+                gauges[3].setSpeed(1.3f);
                 onState[3] = true;
 
                 gauges[6].setSpeed(5);
@@ -777,6 +800,34 @@ namespace EngineStartSimulator
                 onState[5] = true;
                 gauges[4].setSpeed(.6f);
                 onState[4] = true;
+            }
+            else if (gauges[0].getPosition() <= 2)
+            {
+                while (gauges[5].getPosition() > 0)
+                {
+                    gauges[5].moveBack();
+                    if (gauges[6].getPosition() > 0)
+                    {
+                        gauges[6].moveBack();
+                    }
+                }
+
+                if(gauges[5].getPosition() < 0)
+                {
+                    onState[5] = false;
+                }
+                if (gauges[6].getPosition() < 0)
+                {
+                    onState[6] = false;
+                }
+                
+                gauges[1].setSpeed(1);
+                onState[1] = false;
+
+                
+                onState[4] = false;
+
+                gauges[2].setSpeed(0.5f);
             }
         }
 
@@ -791,7 +842,7 @@ namespace EngineStartSimulator
         private void changeStartValve()
         {
             startButtonOn = startButtonOn * -1;
-
+            
             if (startButtonOn == -1)
             {
                 startValve.Image = EngineStartSimulator.Properties.Resources.start_valveN;
@@ -995,8 +1046,12 @@ namespace EngineStartSimulator
                 case "No Error Conditions":
                     noError();
                     break;
+                case "Hung Start":
+                    hungStart();
+                    break;
             }
             
+            // When the starter is pressed and no errors have occurred
             if (startButtonOn == 1 && !errorOccured)
             {
                 for (int i = 0; i < gauges.Length; i++)
@@ -1005,7 +1060,8 @@ namespace EngineStartSimulator
                         gauges[i].move();
                 }
             }
-            else if((startButtonOn == -1 && fuelOn == -1) || errorOccured || (startButtonOn == -1 && fuelOn == 1 && gauges[0].getPosition() <= 72) || (startButtonOn == -1 && flood > 0))
+            // If the start button and fuel button are released, or a user error occurred, or the engine is below 10, then move the guages backwards
+            else if((startButtonOn == -1 && fuelOn == -1) || errorOccured || (startButtonOn == -1 && fuelOn == 1 && gauges[0].getPosition() <= 10) )
             {
                 for (int i = 0; i < gauges.Length; i++)
                 {
@@ -1013,7 +1069,9 @@ namespace EngineStartSimulator
                         gauges[i].moveBack();
                 }
             }
-            else if (startButtonOn == -1 && fuelOn == 1 && goTime > 0 && gauges[0].getPosition() > 72 && !errorOccured)
+
+            // When fuel is on, starter is off and no error, then continue to increase the gauges.
+            else if (startButtonOn == -1 && fuelOn == 1 && goTime > 0 && gauges[0].getPosition() > 10 && !errorOccured)
             {
                 for (int i = 0; i < gauges.Length; i++)
                 {
@@ -1044,14 +1102,28 @@ namespace EngineStartSimulator
         // Method for restarting the simulation in the same mode
         public void guageRestart()
         {
+            goTime = 1;
+            timer2.Stop();
 
+            for (int i = 0; i < 7; i++)
+            {
+                onState[i] = false;
+                gauges[i].setPosition(-1);
+                gauges[i].move();
+            }
+
+            stopped();
+            firstStopped = 0;
+
+            timer2.Start();
+            
         }
 
         // Method for stopping simulation and reseting to default mode
         public void guageStop()
         {
-            fuelOn = -1;
-            startButtonOn = -1;
+            //fuelOn = -1;
+            //startButtonOn = -1;
             goTime = 1;
             mode = "No Error Conditions";
 
@@ -1060,11 +1132,18 @@ namespace EngineStartSimulator
             for (int i = 0; i < 7; i++)
             {
                 onState[i] = false;
-                gauges[i].setPosition(0);
+                gauges[i].setPosition(-1);
                 gauges[i].move();
             }
-            
+
+            stopped();
+            firstStopped = 0;
+
+            timer2.Start();
+            //onState[0] = true;
+
         }
+
         public void tenPercentMove()
         {
             // Start the other gauges when N2 reaches 10%
@@ -1146,30 +1225,32 @@ namespace EngineStartSimulator
         public void steadyToIdle()
         {
             // Slow to steady running condition
-            if (gauges[0].getPosition() > 212 && fuelOn == 1 && startButtonOn == -1)
+            if (gauges[0].getPosition() > 165 && fuelOn == 1 && startButtonOn == -1)
             {
                 for (int i = 0; i < 7; i++)
                 {
                     onState[i] = false;
                 }
             }
-            else if (gauges[0].getPosition() > 205 && fuelOn == 1 && startButtonOn == -1)
+            else if (gauges[0].getPosition() > 160 && fuelOn == 1 && startButtonOn == -1)
             {
                 gauges[0].setSpeed(.2f);
                 gauges[3].setSpeed(.2f);
             }
-            else if (gauges[0].getPosition() > 195 && fuelOn == 1 && startButtonOn == -1)
+            else if (gauges[0].getPosition() > 150 && fuelOn == 1 && startButtonOn == -1)
             {
                 gauges[0].setSpeed(.5f);
                 gauges[3].setSpeed(.5f);
             }
-            else if (gauges[0].getPosition() > 180 && fuelOn == 1 && startButtonOn == -1)
+            else if (gauges[0].getPosition() > 135 && fuelOn == 1 && startButtonOn == -1)
             {
                 gauges[0].setSpeed(1);
                 gauges[3].setSpeed(1);
             }
+            
         }
 
+        // If the starter is held on past 40%
         public void starterPast()
         {
             if(startButtonOn == 1 && gauges[0].getPosition() > 125 && tutorMode == 1)
@@ -1185,10 +1266,10 @@ namespace EngineStartSimulator
                 timer2.Start();
                 errorOccured = true;
             }
-            else if (startButtonOn == 1 && gauges[0].getPosition() > 150 && tutorMode == -1)
+            else if (startButtonOn == 1 && gauges[0].getPosition() > 130 && tutorMode == -1)
             {
                 timer2.Stop();
-                MessageBox.Show("You have run the starter up to 50% of N2 which resulted in the destruction " +
+                MessageBox.Show("You have run the starter past 40% of N2 which resulted in the destruction " +
                     "of the starter. Release the start valve and let the engine stop, this plane is now out of commission.", "STARTER FAILURE!");
                 changeStartValve();
                 if (fuelOn == 1)
@@ -1200,6 +1281,7 @@ namespace EngineStartSimulator
             }
         }
 
+        // If the starter gets pressed while the engine is in motion
         public void starterRepress()
         {
             if (startButtonOn == 1 && direction == -1 && gauges[0].getPosition() > 1 && tutorMode == 1 && goTime > 1)
@@ -1246,42 +1328,57 @@ namespace EngineStartSimulator
             }
         }
 
+        // Resets the gauges (speed and onState) once they have stopped
         public void stopped()
         {
+            if(firstStopped < 2)
+            {
+                firstStopped++;
+            }
+
             if(gauges[0].getPosition() <= 1)
             {
-                if(flood > 0)
-                {
-                    timer2.Stop();
-                    MessageBox.Show("Due to early fuel flow the engine flooded and could not start. " +
-                    "Let the engine drain and try again.", "ENGINE FLOODED!");
-                    
-                    if (fuelOn == 1)
+                
+                
+                
+                    errorHandled = 0;
+                    goFinished = 0;
+                    goTime = 1;
+                    gauges[0].setSpeed(1.5f);
+                    onState[0] = true;
+                    gauges[1].setSpeed(1f);
+                    onState[1] = false;
+                    gauges[2].setSpeed(1f);
+                    onState[2] = false;
+                    gauges[3].setSpeed(1.5f);
+                    onState[3] = false;
+
+                    gauges[6].setSpeed(1);
+                    onState[6] = false;
+                    gauges[5].setSpeed(1);
+                    onState[5] = false;
+                    gauges[4].setSpeed(1);
+                    onState[4] = false;
+                    flood = 0;
+
+
+
+
+                    if (fuelOn == 1 && firstStopped == 1)
                     {
                         changeFuelButton();
                     }
-                    flood = 0;
-                    timer2.Start();
-                }
-                goTime = 1;
-                gauges[0].setSpeed(1.5f);
-                onState[0] = true;
-                gauges[2].setSpeed(1f);
-                onState[2] = false;
-                gauges[3].setSpeed(1.5f);
-                onState[3] = false;
+                    if (startButtonOn == 1 && firstStopped == 1)
+                    {
+                        changeStartValve();
+                    }
 
-                gauges[6].setSpeed(1);
-                onState[6] = false;
-                gauges[5].setSpeed(1);
-                onState[5] = false;
-                gauges[4].setSpeed(1);
-                onState[4] = false;
-
-                errorOccured = false;
+                    errorOccured = false;
+                
             }
         }
 
+        // If the fuel is toggled on too early, this will go into a hot start mode.
         public void earlyFuel()
         {
             if (gauges[0].getPosition() < 70 && fuelOn == 1 && tutorMode == 1)
@@ -1306,112 +1403,181 @@ namespace EngineStartSimulator
             }
         }
 
+        // The hotStart that results from the early fuel introduction
         public void earlyFuelFail()
         {
-            if(gauges[0].getPosition() > 141 && flood == 1)
+            
+            if(flood > 0 && fuelOn == 1)
             {
-                timer2.Stop();
-                MessageBox.Show("You flooded the engine with fuel by beginning fuel flow too early. " +
-                    "Let the engine come to a stop, drain and then try again.", "ENGINE FLOODED!");
-                if (fuelOn == 1)
+                if (gauges[1].getPosition() > 201)
                 {
-                    changeFuelButton();
+                    gauges[1].setSpeed(2);
+                    timer2.Stop();
+                    MessageBox.Show("The engine has engaged in a hot start and has reached temperatures that have destroyed costly engine components. " +
+                        "Abort the start procedure as this plane will need major engine repair.", "HOT START!");
+                    if (fuelOn == 1)
+                    {
+                        changeFuelButton();
+                    }
+                    if (startButtonOn == 1)
+                    {
+                        changeStartValve();
+                    }
+                    errorOccured = true;
+                    timer2.Start();
                 }
-                if (startButtonOn == 1)
+                else if (gauges[1].getPosition() > 140 )
                 {
-                    changeStartValve();
+                    gauges[1].setSpeed(3);
                 }
-                gauges[0].setSpeed(1.5f);
-                gauges[3].setSpeed(1.5f);
-                gauges[2].setSpeed(.5f);
-                flood = 0;
-                errorOccured = true;
-                timer2.Start();
-            }
-            else if(gauges[0].getPosition() > 140 && flood == 1)
-            {
-                gauges[0].setSpeed(.2f);
-                gauges[3].setSpeed(.2f);
-                gauges[2].setSpeed(.1f);
-                gauges[1].setSpeed(.5f);
-                onState[1] = false;
-                gauges[1].moveBack();
-
-            }
-            else if (gauges[0].getPosition() > 138 && flood == 1)
-            {
-                gauges[0].setSpeed(.7f);
-                gauges[3].setSpeed(.7f);
-                gauges[2].setSpeed(.1f);
-                gauges[1].setSpeed(.2f);
-                onState[1] = false;
-                gauges[1].moveBack();
-
-            }
-            else if (gauges[0].getPosition() > 128 && flood == 1)
-            {
-                gauges[0].setSpeed(1f);
-                gauges[3].setSpeed(1f);
-                gauges[2].setSpeed(.1f);
-                gauges[1].setSpeed(0);
-                
-            }
-
-            if (gauges[0].getPosition() > 142 && flood == 2)
-            {
-                timer2.Stop();
-                MessageBox.Show("You flooded the engine with fuel by beginning fuel flow much too early. " +
-                    "Let the engine come to a stop, drain and then try again.", "ENGINE FLOODED!");
-                if (fuelOn == 1)
+                else if (gauges[1].getPosition() > 34)
                 {
-                    changeFuelButton();
+                    gauges[1].setSpeed(5);
                 }
-                if (startButtonOn == 1)
+                else if (gauges[1].getPosition() > 27 )
                 {
-                    changeStartValve();
+                    gauges[1].setSpeed(4);
                 }
-                
-                errorOccured = true;
-                flood = 0;
-                gauges[0].setSpeed(1.5f);
-                gauges[3].setSpeed(1.5f);
-                gauges[2].setSpeed(.5f);
-                timer2.Start();
-
-
+                else if (gauges[1].getPosition() > 20 )
+                {
+                    gauges[1].setSpeed(3);
+                }
+                else if (gauges[1].getPosition() > 13 )
+                {
+                    gauges[1].setSpeed(2);
+                }
+                else if (gauges[1].getPosition() > 7 )
+                {
+                    gauges[1].setSpeed(1.5f);
+                }
+                else if (gauges[1].getPosition() > 1 )
+                {
+                    gauges[1].setSpeed(1);
+                }
             }
-            else if (gauges[0].getPosition() > 138 && flood == 1)
+            else if(flood > 0 && fuelOn != 1 && startButtonOn == 1)
             {
-                gauges[0].setSpeed(.2f);
-                gauges[3].setSpeed(.2f);
-                gauges[2].setSpeed(.1f);
-                gauges[1].setSpeed(.5f);
-                onState[1] = false;
-                gauges[1].moveBack();
-
+                egtMotion();
             }
-            else if (gauges[0].getPosition() > 130 && flood == 1)
+            else if(flood > 0 && fuelOn != 1 && startButtonOn != 1)
             {
-                gauges[0].setSpeed(.7f);
-                gauges[3].setSpeed(.7f);
-                gauges[2].setSpeed(.1f);
-                gauges[1].setSpeed(.2f);
-                onState[1] = false;
-                gauges[1].moveBack();
-
+                gauges[1].setSpeed(3.15f);
+                onState[1] = true;
             }
-            else if (gauges[0].getPosition() > 120 && flood == 1)
+
+            if(gauges[1].getPosition() > lastPos )
             {
-                gauges[0].setSpeed(1f);
-                gauges[3].setSpeed(1f);
-                gauges[2].setSpeed(.1f);
-                gauges[1].setSpeed(0);
-
+                lastPos = gauges[1].getPosition();
             }
-
         }
 
+        public void avoidHS()
+        {
+            
+        }
 
+        // Method for the Hung Start Condition
+        public void hungStart()
+        {
+            //check possible errors
+            starterPast();
+            starterRepress();
+
+            // move the gauges
+            tenPercentMove();
+
+            fueltoggledOff();
+
+
+            stopped();
+            oilPressureMotion();
+
+            // Induce the hung start error
+            if (gauges[0].getPosition() > 120 && errorHandled == 0)
+            {
+                errorHandled = -1;
+                timer2.Stop();
+                MessageBox.Show("The engine has engaged in a hung start situation, but due to continued attempts to start " +
+                    "the engine, damage has been incurred. Abort the start procedure as this plane will need engine repair.", "ENGINE DAMAGE!");
+                if (fuelOn == 1)
+                {
+                    changeFuelButton();
+                }
+                if (startButtonOn == 1)
+                {
+                    changeStartValve();
+                }
+                gauges[0].setSpeed(1.5f);
+                gauges[3].setSpeed(1.3f);
+                gauges[2].setSpeed(.5f);
+                gauges[1].setSpeed(.85f);
+                flood = 0;
+                errorOccured = true;
+                timer2.Start();
+            }
+            else if(gauges[0].getPosition() > 100 && errorHandled == 0)
+            {
+                gauges[0].setSpeed(.2f);
+                gauges[3].setSpeed(.2f);
+                gauges[2].setSpeed(.1f);
+                gauges[1].setSpeed(.5f);
+                
+            }
+            else if (gauges[0].getPosition() > 91 && errorHandled == 0)
+            {
+                gauges[0].setSpeed(.5f);
+                gauges[3].setSpeed(.5f);
+                gauges[2].setSpeed(.1f);
+                gauges[1].setSpeed(1f);
+                
+
+            }
+            else if (gauges[0].getPosition() > 80 && errorHandled == 0)
+            {
+                gauges[0].setSpeed(1f);
+                gauges[3].setSpeed(1f);
+                gauges[2].setSpeed(.1f);
+                gauges[1].setSpeed(2);
+                goFinished = 1;
+                
+            }
+
+            // If the tutorial mode is on, give a warning earlier than failure
+            if (gauges[0].getPosition() > 100 && tutorMode == 1)
+            {
+                timer2.Stop();
+                MessageBox.Show("Notice that the engine is slowly increasing in speed in an unnatural manner. " +
+                    "This indicates a hung start. Release the starter valve, cut fuel flow and have the engine inspected or repaired by a technician.", "Tutorial Warning");
+                if (fuelOn == 1)
+                {
+                    changeFuelButton();
+                }
+                if (startButtonOn == 1)
+                {
+                    changeStartValve();
+                }
+                timer2.Start();
+            }
+
+            else if (gauges[0].getPosition() < 141 && startButtonOn == -1 && fuelOn == -1 && errorHandled == 0 && goFinished > 0)
+            {
+                errorHandled = 1;
+                gauges[0].setSpeed(1.5f);
+                gauges[3].setSpeed(1.3f);
+                gauges[2].setSpeed(.85f);
+            }
+
+            if(errorHandled == 1 && gauges[0].getPosition() < 2)
+            {
+                timer2.Stop();
+                errorHandled = 0;
+                MessageBox.Show("You successfully recovered from a hung start avoiding further damage to the engine. " +
+                    "Have the plane examined by FAA certified mechanics to find the cause of the hung start.", "WELL DONE!");
+                timer2.Start();
+            }
+        }
+
+        // The method to handle a no error condition
         public void noError()
         {
             //check possible errors
@@ -1428,7 +1594,7 @@ namespace EngineStartSimulator
 
             fueltoggledOff();
 
-            egtMotion();
+            //egtMotion();
 
             oilPressureMotion();
 
@@ -1443,7 +1609,7 @@ namespace EngineStartSimulator
             gauges[0] = new Gauge(0, 1.5f, 0, 360, 407, 47, n2);    // N2
             gauges[1] = new Gauge(0, 1f, 0, 360, 310, -50, egt);    // EGT
             gauges[2] = new Gauge(0, .5f, 0, 360, 285, -75, oilPressure);    // Oil Pressure
-            gauges[3] = new Gauge(0, 1.5f, 0, 360, 403, 43, N1);    // N1
+            gauges[3] = new Gauge(0, 1.3f, 0, 360, 403, 43, N1);    // N1
             gauges[4] = new Gauge(0, 1f, 0, 360, 200, -160, oilTemp);    //Oil Temp
             gauges[5] = new Gauge(0, 1f, 0, 360, 464, 104, fuelFlow);    //Fuel Flow
             gauges[6] = new Gauge(1.02f, 1f, 0, 360, 286, -74, pressureRatio); // pressure ratio
