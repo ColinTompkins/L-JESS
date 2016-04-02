@@ -783,6 +783,7 @@ namespace EngineStartSimulator
             //When toggled off make changes as well
             else if(fuelOn == -1 && gauges[0].getPosition() > 2)
             {
+                System.GC.Collect();
 
                 gauges[1].setSpeed(.7f);
                 onState[1] = true;
@@ -803,6 +804,8 @@ namespace EngineStartSimulator
             }
             else if (gauges[0].getPosition() <= 2)
             {
+                System.GC.Collect();
+
                 while (gauges[5].getPosition() > 0)
                 {
                     gauges[5].moveBack();
@@ -1049,6 +1052,9 @@ namespace EngineStartSimulator
                 case "Hung Start":
                     hungStart();
                     break;
+                case "Hot Start":
+                    hotStart();
+                    break;
             }
             
             // When the starter is pressed and no errors have occurred
@@ -1173,25 +1179,25 @@ namespace EngineStartSimulator
         public void egtMotion()
         {
             // Jump up, slow and steady the EGT gauge
-            if (gauges[1].getPosition() > 160 && onState[1] == true)
+            if (gauges[1].getPosition() > 143 && onState[1] == true)
             {
                 gauges[1].setSpeed(1.4f);
                 onState[1] = false;
 
             }
-            else if (gauges[1].getPosition() > 155 && onState[1] == true)
+            else if (gauges[1].getPosition() > 137 && onState[1] == true)
             {
                 gauges[1].setSpeed(1);
             }
-            else if (gauges[1].getPosition() > 145 && onState[1] == true)
+            else if (gauges[1].getPosition() > 127 && onState[1] == true)
             {
                 gauges[1].setSpeed(2);
             }
-            else if (gauges[1].getPosition() > 135 && onState[1] == true)
+            else if (gauges[1].getPosition() > 120 && onState[1] == true)
             {
                 gauges[1].setSpeed(3);
             }
-            else if (gauges[1].getPosition() > 120 && onState[1] == true)
+            else if (gauges[1].getPosition() > 110 && onState[1] == true)
             {
                 gauges[1].setSpeed(4);
             }
@@ -1360,8 +1366,9 @@ namespace EngineStartSimulator
                     gauges[4].setSpeed(1);
                     onState[4] = false;
                     flood = 0;
+                    lastPos = 0;
 
-
+                    gauges[1].setPosition(5);
 
 
                     if (fuelOn == 1 && firstStopped == 1)
@@ -1381,7 +1388,7 @@ namespace EngineStartSimulator
         // If the fuel is toggled on too early, this will go into a hot start mode.
         public void earlyFuel()
         {
-            if (gauges[0].getPosition() < 70 && fuelOn == 1 && tutorMode == 1)
+            if (gauges[0].getPosition() < 70 && fuelOn == 1 && tutorMode == 1 )
             {
                 timer2.Stop();
                 MessageBox.Show("You started fuel flow too early. preliminary fuel flow can " +
@@ -1393,13 +1400,28 @@ namespace EngineStartSimulator
                 }
                 timer2.Start();
             }
+            else if ( fuelOn == 1 && flood > 0 && tutorMode == 1 && gauges[1].getPosition() > 122)
+            {
+                timer2.Stop();
+                MessageBox.Show("Notice the rapid increase in the EGT with no sign of slowing down: Some error in the engine has caused a hot Start  " +
+                    " which may result in failure of costly engine components. Toggle the fuel off and abort the start procedure. This engine needs to" +  
+                    " be inspected and/or repaired by a technician.", "Tutorial Warning");
+                changeFuelButton();
+                if (startButtonOn == 1)
+                {
+                    changeStartValve();
+                }
+                timer2.Start();
+            }
             else if (gauges[0].getPosition() < 10 && fuelOn == 1)
             {
                 flood = 2;
+                onState[1] = true;
             }
             else if (gauges[0].getPosition() < 70 && fuelOn == 1)
             {
                 flood = 1;
+                onState[1] = true;
             }
         }
 
@@ -1412,6 +1434,7 @@ namespace EngineStartSimulator
                 if (gauges[1].getPosition() > 201)
                 {
                     gauges[1].setSpeed(2);
+                    errorHandled = -1;
                     timer2.Stop();
                     MessageBox.Show("The engine has engaged in a hot start and has reached temperatures that have destroyed costly engine components. " +
                         "Abort the start procedure as this plane will need major engine repair.", "HOT START!");
@@ -1455,7 +1478,7 @@ namespace EngineStartSimulator
                     gauges[1].setSpeed(1);
                 }
             }
-            else if(flood > 0 && fuelOn != 1 && startButtonOn == 1)
+            else if(flood == 0 && fuelOn == 1)
             {
                 egtMotion();
             }
@@ -1468,12 +1491,46 @@ namespace EngineStartSimulator
             if(gauges[1].getPosition() > lastPos )
             {
                 lastPos = gauges[1].getPosition();
+                if (lastPos > 165 && errorOccured == false)
+                {
+                    errorHandled = 2;
+                }
+                else if(lastPos > 40 && errorOccured == false)
+                {
+                    errorHandled = 1;
+                }
             }
         }
 
         public void avoidHS()
         {
-            
+
+            if (gauges[0].getPosition() < 2 && flood > 0 && errorHandled > 0 && errorOccured == false)
+            {
+                
+                timer2.Stop();
+                if (errorHandled == 1)
+                {
+                    MessageBox.Show("You successfully avoided a hot start situation saving the engine from damage and a costly repair. " +
+                        "", "WELL DONE!");
+                }
+                else if(errorHandled == 2)
+                {
+                    MessageBox.Show("You avoided a hot start situation, however the engine still reached a high temerature  and should " +
+                        "be inspected by a qualified technician.", "SO CLOSE!");
+                }
+                if (fuelOn == 1)
+                {
+                    changeFuelButton();
+                }
+                if (startButtonOn == 1)
+                {
+                    changeStartValve();
+                }
+                errorHandled = 0;
+                flood = 0;
+                timer2.Start();
+            }
         }
 
         // Method for the Hung Start Condition
@@ -1487,6 +1544,13 @@ namespace EngineStartSimulator
             tenPercentMove();
 
             fueltoggledOff();
+
+            earlyFuel();
+            if (flood > 0)
+            {
+                onState[1] = true;
+                gauges[1].setSpeed(1.6f);
+            }
 
 
             stopped();
@@ -1520,7 +1584,7 @@ namespace EngineStartSimulator
                 gauges[0].setSpeed(.2f);
                 gauges[3].setSpeed(.2f);
                 gauges[2].setSpeed(.1f);
-                gauges[1].setSpeed(.5f);
+                gauges[1].setSpeed(.3f);
                 
             }
             else if (gauges[0].getPosition() > 91 && errorHandled == 0)
@@ -1528,7 +1592,7 @@ namespace EngineStartSimulator
                 gauges[0].setSpeed(.5f);
                 gauges[3].setSpeed(.5f);
                 gauges[2].setSpeed(.1f);
-                gauges[1].setSpeed(1f);
+                gauges[1].setSpeed(.6f);
                 
 
             }
@@ -1537,7 +1601,7 @@ namespace EngineStartSimulator
                 gauges[0].setSpeed(1f);
                 gauges[3].setSpeed(1f);
                 gauges[2].setSpeed(.1f);
-                gauges[1].setSpeed(2);
+                gauges[1].setSpeed(1.2f);
                 goFinished = 1;
                 
             }
@@ -1577,6 +1641,16 @@ namespace EngineStartSimulator
             }
         }
 
+        // The Hot Start Method
+        public void hotStart()
+        {
+            
+            flood = 2;
+            
+            noError();
+            avoidHS();
+        }
+
         // The method to handle a no error condition
         public void noError()
         {
@@ -1588,6 +1662,7 @@ namespace EngineStartSimulator
 
             // if the scenario has ended, reset things.
             stopped();
+            avoidHS();
 
             // move the gauges
             tenPercentMove();

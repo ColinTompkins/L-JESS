@@ -492,18 +492,19 @@
             // 
             // menuBox
             // 
-            this.menuBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this.menuBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
             this.menuBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.menuBox.BackColor = System.Drawing.SystemColors.WindowFrame;
             this.menuBox.Cursor = System.Windows.Forms.Cursors.Default;
+            this.menuBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.menuBox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.menuBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.menuBox.ForeColor = System.Drawing.Color.White;
-            this.menuBox.FormattingEnabled = true;
             this.menuBox.ItemHeight = 32;
             this.menuBox.Items.AddRange(new object[] {
             "No Error Conditions",
             "Random Error Conditions",
-            "Hot Start ",
+            "Hot Start",
             "Hung Start",
             "No N1 Rotation",
             "No Light Off- with Fuel Flow",
@@ -514,7 +515,8 @@
             this.menuBox.Margin = new System.Windows.Forms.Padding(4);
             this.menuBox.Name = "menuBox";
             this.menuBox.Size = new System.Drawing.Size(415, 40);
-            this.menuBox.TabIndex = 3;
+            this.menuBox.TabIndex = 0;
+            this.menuBox.TabStop = false;
             this.menuBox.SelectedIndexChanged += new System.EventHandler(this.menuBox_SelectedIndexChanged);
             this.menuBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.settingButton_MouseDown);
             this.menuBox.MouseEnter += new System.EventHandler(this.pictureBox1_MouseHover);
@@ -1000,7 +1002,6 @@
         private System.Windows.Forms.PictureBox questionButton;
         private System.Windows.Forms.PictureBox line1;
         private System.Windows.Forms.ToolTip qMarkTip;
-        private System.Windows.Forms.ComboBox menuBox;
         private System.Windows.Forms.PictureBox settingButton;
         private System.Windows.Forms.PictureBox tutorButton;
         private System.Windows.Forms.Label tutorialMode;
@@ -1043,6 +1044,7 @@
         private System.Windows.Forms.PictureBox sliderButton;
         private System.Windows.Forms.TextBox infoTextBox;
         private System.Windows.Forms.Timer timer2;
+        protected internal System.Windows.Forms.ComboBox menuBox;
     }
 }
 
