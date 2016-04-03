@@ -1059,6 +1059,9 @@ namespace EngineStartSimulator
                 case "No N1 Rotation":
                     noN1();
                     break;
+                case "No Oil Pressure":
+                    noOP();
+                    break;
             }
             
             // When the starter is pressed and no errors have occurred
@@ -1694,11 +1697,81 @@ namespace EngineStartSimulator
                     MessageBox.Show("N1 did not start rotating even though N2 has passed 30%. " +
                         "Due to persisted attempts to start the engine further damage has occurred!" +
                         " Abort the start procedure, this plane is now out of commission and needs " +
-                        "to be repaired by an FAA certified technician, preferably Jared Norgran.", "ENGINE DAMAGED!");
+                        "to be repaired by a qualified technician.", "ENGINE DAMAGED!");
                 }
                 if (fuelOn == 1)
                 {
                     MessageBox.Show("N1 did not start rotating even though N2 has passed 30%. " +
+                        "Due to persisted attempts to start the engine and fuel flow introduced " +
+                        "the engine has undergone serious damage! " +
+                        "Abort the start procedure, this plane is now out of commission and needs " +
+                        "to be repaired by an FAA certified technician, preferably Jared Norgran.", "ENGINE DAMAGED!");
+                    changeFuelButton();
+                }
+                if (startButtonOn == 1)
+                {
+                    changeStartValve();
+                }
+                timer2.Start();
+            }
+
+            if (gauges[0].getPosition() > lastPos)
+            {
+                lastPos = gauges[0].getPosition();
+                if (lastPos > 62 && errorOccured == false)
+                {
+                    errorHandled = 1;
+                }
+            }
+
+            if (errorHandled == 1 && gauges[0].getPosition() < 2 && errorOccured == false)
+            {
+                timer2.Stop();
+                errorHandled = 0;
+                MessageBox.Show("You successfully recovered from a no N1 rotation situation avoiding further damage to the engine. " +
+                    "Have the plane examined by FAA certified mechanics to find the cause of no N1 rotation.", "WELL DONE!");
+                timer2.Start();
+            }
+        }
+
+        // The method to handle a no,oil pressure start simulation
+        public void noOP()
+        {
+            noError();
+
+            if (gauges[0].getPosition() > 65 && tutorMode == 1)
+            {
+                timer2.Stop();
+                MessageBox.Show("Notice that Oil Pressure has not started building even though N2 has" +
+                    "passed 20%. This indicates an engine issue which " +
+                    "needs to be adressed immediately by a technician. In a no oil pressure " +
+                    "situation do not start fuel flow, release the starter valve, and have the " +
+                    "engine inspected or repaired immediately.", "Tutorial Warning");
+                if (fuelOn == 1)
+                {
+                    changeFuelButton();
+                }
+                if (startButtonOn == 1)
+                {
+                    changeStartValve();
+                }
+                timer2.Start();
+            }
+
+            if (gauges[0].getPosition() > 95)
+            {
+                timer2.Stop();
+                errorOccured = true;
+                if (fuelOn == -1)
+                {
+                    MessageBox.Show("Oil pressure did not start building even though N2 has passed 30%. " +
+                        "Due to persisted attempts to start the engine further damage has occurred!" +
+                        " Abort the start procedure, this plane is now out of commission and needs " +
+                        "to be repaired by an FAA certified technician.", "ENGINE DAMAGED!");
+                }
+                if (fuelOn == 1)
+                {
+                    MessageBox.Show("Oil pressure did not start rotating even though N2 has passed 30%. " +
                         "Due to persisted attempts to start the engine and fuel flow introduced " +
                         "the engine has undergone serious damage! " +
                         "Abort the start procedure, this plane is now out of commission and needs " +
@@ -1725,8 +1798,8 @@ namespace EngineStartSimulator
             {
                 timer2.Stop();
                 errorHandled = 0;
-                MessageBox.Show("You successfully recovered from a no N1 rotation situation avoiding further damage to the engine. " +
-                    "Have the plane examined by FAA certified mechanics to find the cause of no N1 rotation.", "WELL DONE!");
+                MessageBox.Show("You successfully recovered from a no oil pressure situation avoiding further damage to the engine. " +
+                    "Have the plane examined by FAA certified mechanics to find the cause of no oil pressure.", "WELL DONE!");
                 timer2.Start();
             }
         }
