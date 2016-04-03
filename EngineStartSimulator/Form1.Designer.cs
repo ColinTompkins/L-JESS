@@ -496,8 +496,7 @@
             this.menuBox.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.menuBox.BackColor = System.Drawing.SystemColors.WindowFrame;
             this.menuBox.Cursor = System.Windows.Forms.Cursors.Default;
-            this.menuBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.menuBox.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.menuBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.menuBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.menuBox.ForeColor = System.Drawing.Color.White;
             this.menuBox.ItemHeight = 32;

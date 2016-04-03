@@ -26,12 +26,6 @@ namespace EngineStartSimulator
         {
             // Initializes window components
             InitializeComponent();
-
-            // Initializes the gauges to their starting locations
-            initializeGauges();
-
-            // Makes N2 gauge ready for action
-            onState[0] = true;
         }
 
         // Form will load, start the timer that allows the splash and then loads the main screen.
@@ -41,7 +35,13 @@ namespace EngineStartSimulator
         {
             // get the splash screen up
             splashImage.BringToFront();
-            
+
+            // Initializes the gauges to their starting locations
+            initializeGauges();
+
+            // Makes N2 gauge ready for action
+            onState[0] = true;
+
             // center the splash image, render the main screen (splitContainer1), start with the mennu out
             //centerSplashImage();
             splitContainer1.Show();
@@ -52,6 +52,7 @@ namespace EngineStartSimulator
             helpPanel.Hide();
             centerToggle(0);
             relocateInfoButton();
+            
 
             // sets all gauges ready to action in starting position
             for (int i = 0; i < gauges.Length; i++)
@@ -1055,6 +1056,9 @@ namespace EngineStartSimulator
                 case "Hot Start":
                     hotStart();
                     break;
+                case "No N1 Rotation":
+                    noN1();
+                    break;
             }
             
             // When the starter is pressed and no errors have occurred
@@ -1155,8 +1159,14 @@ namespace EngineStartSimulator
             // Start the other gauges when N2 reaches 10%
             if (gauges[0].getPosition() > 32)
             {
-                onState[3] = true;
-                onState[2] = true;
+                if (!mode.Equals("No N1 Rotation"))
+                {
+                    onState[3] = true;
+                }
+                if (!mode.Equals("No Oil Pressure"))
+                {
+                    onState[2] = true;
+                }
             }
         }
 
@@ -1644,11 +1654,81 @@ namespace EngineStartSimulator
         // The Hot Start Method
         public void hotStart()
         {
-            
-            flood = 2;
+            if (goTime < 2)
+            {
+                flood = 2;
+            }
             
             noError();
-            avoidHS();
+        }
+
+        public void noN1()
+        {
+            noError();
+
+            if (gauges[0].getPosition() > 65 && tutorMode == 1)
+            {
+                timer2.Stop();
+                MessageBox.Show("Notice that N1 has not started rotating even though N2 has" + 
+                    "passed 20%. This indicates an engine issue which " +
+                    "needs to be adressed immediately by a technician. In a no N1 rotation " + 
+                    "situation do not start fuel flow, release the starter valve, and have the " + 
+                    "engine inspected or repaired.", "Tutorial Warning");
+                if (fuelOn == 1)
+                {
+                    changeFuelButton();
+                }
+                if (startButtonOn == 1)
+                {
+                    changeStartValve();
+                }
+                timer2.Start();
+            }
+
+            if (gauges[0].getPosition() > 95)
+            {
+                timer2.Stop();
+                errorOccured = true;
+                if (fuelOn == -1)
+                {
+                    MessageBox.Show("N1 did not start rotating even though N2 has passed 30%. " +
+                        "Due to persisted attempts to start the engine further damage has occurred!" +
+                        " Abort the start procedure, this plane is now out of commission and needs " +
+                        "to be repaired by an FAA certified technician, preferably Jared Norgran.", "ENGINE DAMAGED!");
+                }
+                if (fuelOn == 1)
+                {
+                    MessageBox.Show("N1 did not start rotating even though N2 has passed 30%. " +
+                        "Due to persisted attempts to start the engine and fuel flow introduced " +
+                        "the engine has undergone serious damage! " +
+                        "Abort the start procedure, this plane is now out of commission and needs " +
+                        "to be repaired by a qualified technician.", "ENGINE DAMAGED!");
+                    changeFuelButton();
+                }
+                if (startButtonOn == 1)
+                {
+                    changeStartValve();
+                }
+                timer2.Start();
+            }
+
+            if (gauges[0].getPosition() > lastPos)
+            {
+                lastPos = gauges[0].getPosition();
+                if (lastPos > 62 && errorOccured == false)
+                {
+                    errorHandled = 1;
+                }
+            }
+
+            if (errorHandled == 1 && gauges[0].getPosition() < 2 && errorOccured == false)
+            {
+                timer2.Stop();
+                errorHandled = 0;
+                MessageBox.Show("You successfully recovered from a no N1 rotation situation avoiding further damage to the engine. " +
+                    "Have the plane examined by FAA certified mechanics to find the cause of no N1 rotation.", "WELL DONE!");
+                timer2.Start();
+            }
         }
 
         // The method to handle a no error condition
