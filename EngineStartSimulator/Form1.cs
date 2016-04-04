@@ -65,10 +65,8 @@ namespace EngineStartSimulator
         // Declare some necessary variables and State indicators
         int tutorMode = -1; //indicates tutor mode; -1 is off
         int playPause = 1; // indicates play or pause state; play is 1, pause is -1
-        Boolean offBox = false;
         int splitterLoc = 0; // Indicates current location of the menu splitter
         int fuelOn = -1; // indicates if the fuel is off or on; -1 is off, 1 is on
-        private EventArgs e;
         int startButtonOn = -1; // indicates the start button is depressed; -1 is not depressed, 1 is depressed.
         int goTime = 0; // How many times the start button has been pressed
         String mode = "No Error Conditions"; // stores the current selected mode. Default is No Error Condition
@@ -81,6 +79,7 @@ namespace EngineStartSimulator
         bool disengaged = false; // Makes known the state of engine starter engegement or not
         int attemptOff = 0; // Track the number of attempts to turn off the starter valve when stuck open
         int fuelOnBlocked = -1; // A fuel on tracker for blocked fuel
+        bool isRand = false; // ensures the random mode will continue even after changing mode type
 
         // Set the various affects for mouse actions on in screen buttons
         // first the hamburger menu
@@ -172,11 +171,13 @@ namespace EngineStartSimulator
                 case "Random Error Conditions":
                     dTitle.Text = menuBox.SelectedItem.ToString();
                     mode = "Random Error Conditions";
+                    isRand = true;
                     description.Text = "Various error conditions will be chosen randomly to "
                         + "better simulate a real starting experience with unknown problems.";
                     break;
                 case "No Oil Pressure":
                     mode = "No Oil Pressure";
+                    isRand = false;
                     dTitle.Text = menuBox.SelectedItem.ToString();
                     description.Text = "No Oil Pressure Recovery: \n" +
                         "At any time after N2 reaches 20%, if the oil pressure indicator is not beginning to " +
@@ -185,6 +186,7 @@ namespace EngineStartSimulator
                     break;
                 case "Starter Valve Sticks Open":
                     mode = "Starter Valve Sticks Open";
+                    isRand = false;
                     dTitle.Text = menuBox.SelectedItem.ToString();
                     description.Text = "Starter Valve Stuck Open Procedure: \n" +
                         "At any time during normal start-up of the engine, if the starter valve sticks open " +
@@ -194,6 +196,7 @@ namespace EngineStartSimulator
                     break;
                 case "No Light Off- without Fuel Flow":
                     mode = "No Light Off- without Fuel Flow";
+                    isRand = false;
                     dTitle.Text = menuBox.SelectedItem.ToString();
                     description.Text = "Handling No Light Off (without fuel flow): \n" +
                         "Once the fuel has been engaged to the engine, if light off does not occur " +
@@ -201,6 +204,7 @@ namespace EngineStartSimulator
                     break;
                 case "No Light Off- with Fuel Flow":
                     mode = "No Light Off- with Fuel Flow";
+                    isRand = false;
                     dTitle.Text = menuBox.SelectedItem.ToString();
                     description.Text = "Handling No Light Off (with fuel flow): \n" +
                         "Once the fuel has been engaged to the engine, if light off does not occur " +
@@ -208,6 +212,7 @@ namespace EngineStartSimulator
                     break;
                 case "No N1 Rotation":
                     mode = "No N1 Rotation";
+                    isRand = false;
                     dTitle.Text = menuBox.SelectedItem.ToString();
                     description.Text = "No N1 Rotation Recovery: \n" +
                         "At any time after N2 reaches 20%, if N1 is not beginning to move, then there is a problem with " +
@@ -215,6 +220,7 @@ namespace EngineStartSimulator
                     break;
                 case "Hung Start":
                     mode = "Hung Start";
+                    isRand = false;
                     dTitle.Text = menuBox.SelectedItem.ToString();
                     description.Text = "Hung Start Prevention: \n" +
                         "At any time during normal start-up of the engine, if the engine stops " +
@@ -223,6 +229,7 @@ namespace EngineStartSimulator
                     break;
                 case "Hot Start":
                     mode = "Hot Start";
+                    isRand = false;
                     dTitle.Text = menuBox.SelectedItem.ToString();
                     description.Text = "Hot Start Prevention: \n" +
                         "At any time after you notice N2 rotation, if the EGT begins rising too quickly" +
@@ -232,6 +239,7 @@ namespace EngineStartSimulator
                     break;
                 case "No Error Conditions":
                     mode = "No Error Conditions";
+                    isRand = false;
                     dTitle.Text = menuBox.SelectedItem.ToString();
                     description.Text = "This simulates an engine start with no issues.\n" +
                         " A normal start of the engine consists of the following steps:\n\n" +
@@ -1093,6 +1101,9 @@ namespace EngineStartSimulator
                 case "No Light Off- without Fuel Flow":
                     noLightNoFuel();
                     break;
+                case "Random Error Conditions":
+                    RandomMode();
+                    break;
             }
             
             // When the starter is pressed and no errors have occurred
@@ -1281,6 +1292,20 @@ namespace EngineStartSimulator
                 {
                     onState[i] = false;
                 }
+
+                if (tutorMode == 1 && errorHandled < 2)
+                {
+                    timer2.Stop();
+                    MessageBox.Show("You have successfully started the engine and brought it to an idle. " +
+                        "To power down, toggle the fuel off and let the engine spool down completely before attempting another start. " +
+                        "", "Tutorial Message");
+                    timer2.Start();
+                    errorHandled = 2;
+                }
+                else if (tutorMode == -1 && errorHandled < 2)
+                {
+                    errorHandled = 2;
+                }
             }
             else if (gauges[0].getPosition() > 160 && fuelOn == 1 && startButtonOn == -1)
             {
@@ -1390,6 +1415,15 @@ namespace EngineStartSimulator
             if(gauges[0].getPosition() <= 1)
             {
 
+                if(mode.Equals("No Error Conditions") && errorHandled == 2)
+                {
+                    timer2.Stop();
+                    MessageBox.Show("A perfect start -> idle -> power down with no errors! Great Job! " +
+                        "", "WELL DONE!");
+                    timer2.Start();
+                    errorHandled = 0;
+                }
+
                 disengaged = false;
                 attemptOff = 0;
                     errorHandled = 0;
@@ -1430,7 +1464,10 @@ namespace EngineStartSimulator
                     }
 
                     errorOccured = false;
-                
+                if (isRand)
+                {
+                    RandomMode();
+                }
             }
         }
 
@@ -1554,7 +1591,7 @@ namespace EngineStartSimulator
         public void avoidHS()
         {
 
-            if (gauges[0].getPosition() < 2 && flood > 0 && errorHandled > 0 && errorOccured == false)
+            if (gauges[0].getPosition() < 3 && flood > 0 && errorHandled > 0 && errorOccured == false)
             {
                 
                 timer2.Stop();
@@ -1680,7 +1717,7 @@ namespace EngineStartSimulator
                 gauges[2].setSpeed(.85f);
             }
 
-            if(errorHandled == 1 && gauges[0].getPosition() < 2)
+            if(errorHandled == 1 && gauges[0].getPosition() < 3)
             {
                 timer2.Stop();
                 errorHandled = 0;
@@ -1760,7 +1797,7 @@ namespace EngineStartSimulator
                 }
             }
 
-            if (errorHandled == 1 && gauges[0].getPosition() < 2 && errorOccured == false)
+            if (errorHandled == 1 && gauges[0].getPosition() < 3 && errorOccured == false)
             {
                 timer2.Stop();
                 errorHandled = 0;
@@ -1830,7 +1867,7 @@ namespace EngineStartSimulator
                 }
             }
 
-            if (errorHandled == 1 && gauges[0].getPosition() < 2 && errorOccured == false)
+            if (errorHandled == 1 && gauges[0].getPosition() < 3 && errorOccured == false)
             {
                 timer2.Stop();
                 errorHandled = 0;
@@ -1863,7 +1900,7 @@ namespace EngineStartSimulator
                 timer2.Start();
             }
 
-            if (errorHandled > 0  && gauges[0].getPosition() < 2 && errorOccured == false)
+            if (errorHandled > 0  && gauges[0].getPosition() < 3 && errorOccured == false)
             {
                 timer2.Stop();
                 errorHandled = 0;
@@ -1929,7 +1966,7 @@ namespace EngineStartSimulator
                 errorHandled = 1;
             }
 
-            if (gauges[0].getPosition() < 2 && errorOccured == false && errorHandled == 1)
+            if (gauges[0].getPosition() < 3 && errorOccured == false && errorHandled == 1)
             {
                 timer2.Stop();
                 errorHandled = 0;
@@ -2001,7 +2038,7 @@ namespace EngineStartSimulator
                 errorHandled = 1;
             }
 
-            if (gauges[0].getPosition() < 2 && errorOccured == false && errorHandled == 1)
+            if (gauges[0].getPosition() < 3 && errorOccured == false && errorHandled == 1)
             {
                 timer2.Stop();
                 errorHandled = 0;
@@ -2165,6 +2202,46 @@ namespace EngineStartSimulator
             }
         }
 
+        // The random mode
+        public void RandomMode()
+        {
+            int theNum = 10;
+            Random randNum = new Random();
+
+            while (theNum > 7)
+            {
+                theNum = randNum.Next() % 10;
+            }
+
+            switch( theNum )
+            {
+                case 0:
+                    mode = "No Oil Pressure";
+                    break;
+                case 1:
+                    mode = "Starter Valve Sticks Open";
+                    break;
+                case 2:
+                    mode = "No Light Off- without Fuel Flow";
+                    break;
+                case 3:
+                    mode = "No Light Off- with Fuel Flow";
+                    break;
+                case 4:
+                    mode = "No N1 Rotation";
+                    break;
+                case 5:
+                    mode = "Hung Start";
+                    break;
+                case 6:
+                    mode = "Hot Start";
+                    break;
+                case 7:
+                    mode = "No Error Conditions";
+                    break;
+            }
+        } 
+
         public void initializeGauges()
         {
             // Initialize all the guage parameters
@@ -2323,8 +2400,6 @@ namespace EngineStartSimulator
 
             return rotatedBmp;
         }
-
-
 
     }
 }
