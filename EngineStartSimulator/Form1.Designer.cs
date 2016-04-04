@@ -654,7 +654,7 @@
             this.settingHighlight.ReadOnly = true;
             this.settingHighlight.Size = new System.Drawing.Size(530, 80);
             this.settingHighlight.TabIndex = 21;
-            this.settingHighlight.Click += new System.EventHandler(this.pictureBox1_Click_1);
+            this.settingHighlight.Click += new System.EventHandler(this.settingButton_MouseLeave);
             this.settingHighlight.MouseDown += new System.Windows.Forms.MouseEventHandler(this.settingButton_MouseDown);
             this.settingHighlight.MouseEnter += new System.EventHandler(this.pictureBox1_MouseHover);
             this.settingHighlight.MouseLeave += new System.EventHandler(this.settingButton_MouseLeave);

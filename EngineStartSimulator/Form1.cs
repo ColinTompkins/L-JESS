@@ -78,7 +78,8 @@ namespace EngineStartSimulator
         int goFinished = 0; // Lets the program know if a scenario finished or started.
         int firstStopped = 0; // counts the number of times the stopped function goes through
         float lastPos = 0; // This keeps track of the last position of the EGT
-
+        bool disengaged = false; // Makes known the state of engine starter engegement or not
+        int attemptOff = 0;
 
         // Set the various affects for mouse actions on in screen buttons
         // first the hamburger menu
@@ -187,7 +188,8 @@ namespace EngineStartSimulator
                     description.Text = "Starter Valve Stuck Open Procedure: \n" +
                         "At any time during normal start-up of the engine, if the starter valve sticks open " +
                         "(starter valve light on even though starter valve is supposedly closed), disengage engine " +
-                        "and isolate bleed flow to the engine (i.e. close pneumatic cross feed valve.)";
+                        "and isolate bleed flow to the engine (i.e. close pneumatic cross feed valve.) In the simulation " +
+                        "use 'x' to simulate this procedure.";
                     break;
                 case "No Light Off- without Fuel Flow":
                     mode = "No Light Off- without Fuel Flow";
@@ -244,13 +246,9 @@ namespace EngineStartSimulator
         // If the user selects the setting icon, expand the menu and remove highlight
         private void pictureBox1_Click_2(object sender, EventArgs e)
         {
-            if (splitContainer1.SplitterDistance == 45)
-            {
-                menuOut();
-            }
-            menuBox.Text = "Select a Control Mode";
+            menuOut();
             settingButton.BackColor = Color.Transparent;
-            settingHighlight.BackColor = description.BackColor;   
+            settingHighlight.BackColor = description.BackColor;
         }
 
         // When hovering over the setting button highlight it in grey
@@ -841,29 +839,37 @@ namespace EngineStartSimulator
         private void startValve_Click(object sender, EventArgs e)
         {
             changeStartValve();
+            attemptOff++;
         }
 
         private void changeStartValve()
         {
-            startButtonOn = startButtonOn * -1;
-            
-            if (startButtonOn == -1)
+            attemptOff++;
+
+            if (mode != "Starter Valve Sticks Open" || gauges[0].getPosition() < 3 || disengaged)
             {
-                startValve.Image = EngineStartSimulator.Properties.Resources.start_valveN;
-                engineStart.Image = EngineStartSimulator.Properties.Resources.LightOff2;
-            }
-            else
-            {
-                startValve.Image = EngineStartSimulator.Properties.Resources.start_valve_down2;
-                engineStart.Image = EngineStartSimulator.Properties.Resources.LightOn;
-                if (goTime == 0)
+                startButtonOn = startButtonOn * -1;
+                guageReverser();
+
+
+                if (startButtonOn == -1)
                 {
-                    timer2.Start();
+                    startValve.Image = EngineStartSimulator.Properties.Resources.start_valveN;
+                    engineStart.Image = EngineStartSimulator.Properties.Resources.LightOff2;
                 }
-                goTime++;
+                else if (startButtonOn == 1)
+                {
+                    startValve.Image = EngineStartSimulator.Properties.Resources.start_valve_down2;
+                    engineStart.Image = EngineStartSimulator.Properties.Resources.LightOn;
+                    if (goTime == 0)
+                    {
+                        timer2.Start();
+                    }
+                    goTime++;
+                }
             }
             
-            guageReverser();
+            
         }
 
         // Nope...
@@ -961,6 +967,7 @@ namespace EngineStartSimulator
                     break;
                 case Keys.Space:
                     changeFuelButton();
+                    attemptOff++;
                     break;
                 case Keys.P:
                     playPause = playPause * -1;
@@ -1013,6 +1020,9 @@ namespace EngineStartSimulator
                     break;
                 case Keys.T:
                     break;
+                case Keys.X:
+                    disengage();
+                    break;
             }
      
 
@@ -1022,10 +1032,7 @@ namespace EngineStartSimulator
         {
             if (e.KeyCode == Keys.ControlKey)
             {
-                startValve.Image = EngineStartSimulator.Properties.Resources.start_valveN;
-                engineStart.Image = EngineStartSimulator.Properties.Resources.LightOff2;
-                startButtonOn = startButtonOn * -1;
-                guageReverser();
+                //changeStartValve();
             }
             else
             {
@@ -1061,6 +1068,9 @@ namespace EngineStartSimulator
                     break;
                 case "No Oil Pressure":
                     noOP();
+                    break;
+                case "Starter Valve Sticks Open":
+                    startValveStuck();
                     break;
             }
             
@@ -1278,6 +1288,7 @@ namespace EngineStartSimulator
                 MessageBox.Show("Running the Starter past 40% of N2 can be very harmful to the starter and " +
                     "may result in the need for a timely and costly repair. Release the start valve and let the engine come to a stop.", "Tutorial Warning");
                 changeStartValve();
+                disengage();
                 if (fuelOn == 1)
                 {
                     changeFuelButton();
@@ -1357,9 +1368,9 @@ namespace EngineStartSimulator
 
             if(gauges[0].getPosition() <= 1)
             {
-                
-                
-                
+
+                disengaged = false;
+                attemptOff = 0;
                     errorHandled = 0;
                     goFinished = 0;
                     goTime = 1;
@@ -1734,7 +1745,7 @@ namespace EngineStartSimulator
             }
         }
 
-        // The method to handle a no,oil pressure start simulation
+        // The method to handle a no oil pressure start simulation
         public void noOP()
         {
             noError();
@@ -1758,20 +1769,20 @@ namespace EngineStartSimulator
                 timer2.Start();
             }
 
-            if (gauges[0].getPosition() > 95)
+            if (gauges[0].getPosition() > 120)
             {
                 timer2.Stop();
                 errorOccured = true;
                 if (fuelOn == -1)
                 {
-                    MessageBox.Show("Oil pressure did not start building even though N2 has passed 30%. " +
+                    MessageBox.Show("Oil pressure did not start building even though N2 is well passed 30%. " +
                         "Due to persisted attempts to start the engine further damage has occurred!" +
                         " Abort the start procedure, this plane is now out of commission and needs " +
                         "to be repaired by an FAA certified technician.", "ENGINE DAMAGED!");
                 }
                 if (fuelOn == 1)
                 {
-                    MessageBox.Show("Oil pressure did not start rotating even though N2 has passed 30%. " +
+                    MessageBox.Show("Oil pressure did not start rotating even though N2 is well passed 30%. " +
                         "Due to persisted attempts to start the engine and fuel flow introduced " +
                         "the engine has undergone serious damage! " +
                         "Abort the start procedure, this plane is now out of commission and needs " +
@@ -1804,6 +1815,51 @@ namespace EngineStartSimulator
             }
         }
 
+        public void startValveStuck()
+        {
+            noError();
+
+            if(attemptOff > 0 && tutorMode == 1 && lastPos == 0)
+            {
+                lastPos = gauges[0].getPosition();
+            }
+
+            if(gauges[0].getPosition() > (lastPos+15) && attemptOff > 1 && tutorMode == 1)
+            {
+                timer2.Stop();
+                MessageBox.Show("Notice that the start indicator light has not turned off even though the start valve has" +
+                    "been released. This indicates the start valve is stuck open. " +
+                    "In this situation disengage the engine and isolate bleed flow to the engine " +
+                    "(i.e. close pneumatic cross feed valve.) In the simulation use 'x' to simulate this procedure. " +
+                    "Then have the " +
+                    "engine inspected or repaired immediately by qualified technicians.", "Tutorial Warning");
+
+                disengage();
+                timer2.Start();
+            }
+
+            if (errorHandled > 0  && gauges[0].getPosition() < 2 && errorOccured == false)
+            {
+                timer2.Stop();
+                errorHandled = 0;
+                MessageBox.Show("You successfully recovered from a starter Valve stuck open situation avoiding further damage to the engine. " +
+                    "Have the plane examined by FAA certified mechanics to find the cause of the sticking starter valve.", "WELL DONE!");
+                timer2.Start();
+            }
+
+            if (startButtonOn == 1 && gauges[0].getPosition() > 127 )
+            {
+                timer2.Stop();
+                MessageBox.Show("Due to an unhandled stuck start valve the starter and other engine components have incurred damage! " +
+                    " You should have disengaged the engine and isolated bleed flow to the engine " +
+                    "(i.e. close pneumatic cross feed valve.) In the simulation use 'x' to simulate this procedure. " +
+                    "This plane now needs immediate mechanical repair.", "ENGINE DAMAGED");
+                disengage();
+                errorOccured = true;
+                timer2.Start();
+            }
+        }
+
         // The method to handle a no error condition
         public void noError()
         {
@@ -1828,6 +1884,26 @@ namespace EngineStartSimulator
 
             steadyToIdle();
 
+        }
+
+        // A method to disengage a stuck starter
+        public void disengage()
+        {
+            if(startButtonOn == 1)
+            {
+                disengaged = true;
+                changeStartValve();
+                attemptOff = 0;
+
+                if (gauges[0].getPosition() > 65)
+                {
+                    errorHandled = 3;
+                }
+                if (fuelOn == 1)
+                {
+                    changeFuelButton();
+                }
+            }
         }
 
         public void initializeGauges()
