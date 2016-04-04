@@ -421,8 +421,7 @@ namespace EngineStartSimulator
             restartButton.BackColor = Color.Transparent;
             restartLabel.BackColor = Color.Transparent;
             restartHighlight.BackColor = description.BackColor;
-            initializeGauges();
-            timer2.Stop();
+            guageRestart();
         }
 
         // restart hover...
@@ -930,18 +929,7 @@ namespace EngineStartSimulator
             //changeFuelButton();
         }
 
-        // Some hopeful ideas to creat guage needle animations.
-        System.Drawing.Pen myPen;
-
-        private void lines()
-        {
-            myPen = new System.Drawing.Pen(System.Drawing.Color.Red);
-            System.Drawing.Graphics formGraphics = this.CreateGraphics();
-            formGraphics.DrawLine(myPen, 0, 0, 200, 200);
-            myPen.Dispose();
-            formGraphics.Dispose();
-        }
-
+        // Places the info butoon at the bottom of the screen
         private void relocateInfoButton()
         {
             int xLoc = 0;
@@ -1008,6 +996,7 @@ namespace EngineStartSimulator
                     }                    
                     break;
                 case Keys.R:
+                    guageRestart();
                     break;
                 case Keys.S:
                     guageStop();
@@ -1042,6 +1031,7 @@ namespace EngineStartSimulator
 
                     break;
                 case Keys.T:
+                    tutorHandler();
                     break;
                 case Keys.X:
                     disengage();
@@ -1160,11 +1150,14 @@ namespace EngineStartSimulator
             goTime = 1;
             timer2.Stop();
 
-            for (int i = 0; i < 7; i++)
+            if (gauges[0].getPosition() > 2)
             {
-                onState[i] = false;
-                gauges[i].setPosition(-1);
-                gauges[i].move();
+                for (int i = 0; i < 7; i++)
+                {
+                    onState[i] = false;
+                    gauges[i].setPosition(-1);
+                    gauges[i].move();
+                }
             }
 
             stopped();
@@ -1177,25 +1170,32 @@ namespace EngineStartSimulator
         // Method for stopping simulation and reseting to default mode
         public void guageStop()
         {
-            //fuelOn = -1;
-            //startButtonOn = -1;
+
             goTime = 1;
             mode = "No Error Conditions";
+            isRand = false;
+            dTitle.Text = "No Error Conditions";
+            description.Text = "This simulates an engine start with no issues.\n" +
+                " A normal start of the engine consists of the following steps:\n\n" +
+                " 1. Depress starter.\n\n 2. Once N2 is over 20%, toggle fuel valve.\n\n 3. Release starter between 33 – 48% N2.\n\n" +
+                " 4. Once engine reaches idle, toggle fuel valve again to power engine down.";
 
             timer2.Stop();
-                        
-            for (int i = 0; i < 7; i++)
+
+            if (gauges[0].getPosition() > 2)
             {
-                onState[i] = false;
-                gauges[i].setPosition(-1);
-                gauges[i].move();
+                for (int i = 0; i < 7; i++)
+                {
+                    onState[i] = false;
+                    gauges[i].setPosition(-1);
+                    gauges[i].move();
+                }
             }
 
             stopped();
             firstStopped = 0;
 
             timer2.Start();
-            //onState[0] = true;
 
         }
 
@@ -1957,7 +1957,9 @@ namespace EngineStartSimulator
                 {
                     changeStartValve();
                 }
+                firstStopped = 0;
                 timer2.Start();
+
             }
 
             lastPos = gauges[0].getPosition();
@@ -1972,10 +1974,11 @@ namespace EngineStartSimulator
                 errorHandled = 0;
                 MessageBox.Show("You successfully recovered from a no light off with fuel flow situation avoiding further damage to the engine. " +
                     "Have the plane examined by FAA certified mechanics to find whats preventing light off.", "WELL DONE!");
+                firstStopped = 0;
                 timer2.Start();
             }
 
-            if ((gauges[0].getPosition() > 110 || (gauges[0].getPosition() > 65 && direction == -1)) && tutorMode == 1)
+            if (fuelOnBlocked == 1 && tutorMode == 1)
             {
                 timer2.Stop();
                 MessageBox.Show("Notice that the engine did not light off when fuel was toggled on. Since there is fuel flow the problem " +
@@ -1990,6 +1993,7 @@ namespace EngineStartSimulator
                 {
                     changeStartValve();
                 }
+                firstStopped = 0;
                 timer2.Start();
             }
 
@@ -2029,6 +2033,7 @@ namespace EngineStartSimulator
                 {
                     changeStartValve();
                 }
+                firstStopped = 0;
                 timer2.Start();
             }
 
@@ -2044,10 +2049,11 @@ namespace EngineStartSimulator
                 errorHandled = 0;
                 MessageBox.Show("You successfully recovered from a no light off without fuel flow situation avoiding further damage to the engine. " +
                     "Have the plane examined by FAA certified mechanics to find whats stopping fuel flow.", "WELL DONE!");
+                firstStopped = 0;
                 timer2.Start();
             }
 
-            if ((gauges[0].getPosition() > 110 || (gauges[0].getPosition() > 65 && direction == -1)) && tutorMode == 1)
+            if ( fuelOnBlocked == 1 && tutorMode == 1)
             {
                 timer2.Stop();
                 MessageBox.Show("Notice that the engine did not light off when fuel was toggled on. Furthermore there was no fuel flow, thus it is likely a problem " +
@@ -2062,6 +2068,7 @@ namespace EngineStartSimulator
                 {
                     changeStartValve();
                 }
+                firstStopped = 0;
                 timer2.Start();
             }
         }
