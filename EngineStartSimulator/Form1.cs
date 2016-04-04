@@ -79,7 +79,8 @@ namespace EngineStartSimulator
         int firstStopped = 0; // counts the number of times the stopped function goes through
         float lastPos = 0; // This keeps track of the last position of the EGT
         bool disengaged = false; // Makes known the state of engine starter engegement or not
-        int attemptOff = 0;
+        int attemptOff = 0; // Track the number of attempts to turn off the starter valve when stuck open
+        int fuelOnBlocked = -1; // A fuel on tracker for blocked fuel
 
         // Set the various affects for mouse actions on in screen buttons
         // first the hamburger menu
@@ -708,7 +709,14 @@ namespace EngineStartSimulator
         // When the fuel slider button is clicked move it to the correct location.
         private void sliderButton_Click(object sender, EventArgs e)
         {
-            changeFuelButton();
+            if (mode.Equals("No Light Off- without Fuel Flow") || mode.Equals("No Light Off- with Fuel Flow"))
+            {
+                blockedFuel();
+            }
+            else
+            {
+                changeFuelButton();
+            }
         }
 
         // This method makes sure that the fuel toggle is centered even with changing screen sizes 
@@ -739,7 +747,7 @@ namespace EngineStartSimulator
             fuelOn = fuelOn * -1;
 
             // When fuel is toggled on some gauge changes take place
-            if(fuelOn == 1)
+            if(fuelOn == 1 )
             {
                 gauges[6].setSpeed(5);
                 onState[6] = true;
@@ -757,14 +765,14 @@ namespace EngineStartSimulator
                         }
                     }
                     
-
                     gauges[4].setSpeed(1.2f);
                     onState[4] = true;
 
                     gauges[2].setSpeed(0.75f);
 
                     gauges[1].setSpeed(2);
-                    onState[1] = true;
+                    onState[1] = true;     
+                    
                 }
 
                 if (startButtonOn == 1 && gauges[0].getPosition() > 2 )
@@ -964,10 +972,17 @@ namespace EngineStartSimulator
             {
                 case Keys.ControlKey:
                     changeStartValve();
+                    attemptOff++;
                     break;
                 case Keys.Space:
-                    changeFuelButton();
-                    attemptOff++;
+                    if (mode.Equals("No Light Off- without Fuel Flow") || mode.Equals("No Light Off- with Fuel Flow"))
+                    {
+                        blockedFuel();
+                    }
+                    else
+                    {
+                        changeFuelButton();
+                    }
                     break;
                 case Keys.P:
                     playPause = playPause * -1;
@@ -1071,6 +1086,12 @@ namespace EngineStartSimulator
                     break;
                 case "Starter Valve Sticks Open":
                     startValveStuck();
+                    break;
+                case "No Light Off- with Fuel Flow":
+                    noLight();
+                    break;
+                case "No Light Off- without Fuel Flow":
+                    noLightNoFuel();
                     break;
             }
             
@@ -1183,18 +1204,18 @@ namespace EngineStartSimulator
             }
         }
 
-        public void fueltoggledOff()
+        public void fuelToggledOnStop()
         {
-            if (fuelOn == 1 )
+            if (fuelOn == 1 || fuelOnBlocked == 1)
             {
                 // Control the stopping of the guages during fuel switch toggle
-                if (gauges[6].getPosition() > 20 && fuelOn == 1)
+                if (gauges[6].getPosition() > 20 && (fuelOn == 1 || fuelOnBlocked == 1))
                     onState[6] = false;
 
-                if (gauges[5].getPosition() > 42 && fuelOn == 1)
+                if (gauges[5].getPosition() > 42 && (fuelOn == 1 || fuelOnBlocked == 1))
                     onState[5] = false;
 
-                if (gauges[4].getPosition() > 21 && fuelOn == 1)
+                if (gauges[4].getPosition() > 21 && (fuelOn == 1 || fuelOnBlocked == 1))
                     onState[4] = false;
             }
         }
@@ -1395,9 +1416,13 @@ namespace EngineStartSimulator
                     gauges[1].setPosition(5);
 
 
-                    if (fuelOn == 1 && firstStopped == 1)
+                    if (fuelOn == 1  && firstStopped == 1)
                     {
                         changeFuelButton();
+                    }
+                    if(fuelOnBlocked == 1 && firstStopped == 1)
+                    {
+                        blockedFuel();
                     }
                     if (startButtonOn == 1 && firstStopped == 1)
                     {
@@ -1567,7 +1592,7 @@ namespace EngineStartSimulator
             // move the gauges
             tenPercentMove();
 
-            fueltoggledOff();
+            fuelToggledOnStop();
 
             earlyFuel();
             if (flood > 0)
@@ -1860,6 +1885,240 @@ namespace EngineStartSimulator
             }
         }
 
+        // A no light off with fuel flow method
+        public void noLight()
+        {
+            //check possible errors
+            starterPast();
+            starterRepress();
+
+            onState[1] = false;
+
+            // if the scenario has ended, reset things.
+            stopped();
+            avoidHS();
+
+            // move the gauges
+            tenPercentMove();
+
+            fuelToggledOnStop();
+
+            oilPressureMotion();
+
+            if (gauges[0].getPosition() > 127)
+            {
+                timer2.Stop();
+                MessageBox.Show("Due to an unhandled No Light Off error the starter and other engine components have incurred damage!" +
+                    " Abort the start procedure immediately. The new damages as well as the source of the problem must be repaired by a qualified technician  " +
+                    "before this plane can be used again.", "ENGINE DAMAGED");
+                errorOccured = true;
+                if (fuelOnBlocked == 1)
+                {
+                    blockedFuel();
+                }
+                if (startButtonOn == 1)
+                {
+                    changeStartValve();
+                }
+                timer2.Start();
+            }
+
+            lastPos = gauges[0].getPosition();
+            if (lastPos > 62 && errorOccured == false)
+            {
+                errorHandled = 1;
+            }
+
+            if (gauges[0].getPosition() < 2 && errorOccured == false && errorHandled == 1)
+            {
+                timer2.Stop();
+                errorHandled = 0;
+                MessageBox.Show("You successfully recovered from a no light off with fuel flow situation avoiding further damage to the engine. " +
+                    "Have the plane examined by FAA certified mechanics to find whats preventing light off.", "WELL DONE!");
+                timer2.Start();
+            }
+
+            if ((gauges[0].getPosition() > 110 || (gauges[0].getPosition() > 65 && direction == -1)) && tutorMode == 1)
+            {
+                timer2.Stop();
+                MessageBox.Show("Notice that the engine did not light off when fuel was toggled on. Since there is fuel flow the problem " +
+                    "is likely internal. Release the starter valve and abort the start procedure to avoid engine damage. " +
+                    "The problem needs to be adressed immediately by a qualified technician. " +
+                    "", "Tutorial Warning");
+                if (fuelOnBlocked == 1)
+                {
+                    blockedFuel();
+                }
+                if (startButtonOn == 1)
+                {
+                    changeStartValve();
+                }
+                timer2.Start();
+            }
+
+        }
+
+        // The method for the no Light off with no fuel flow
+        public void noLightNoFuel()
+        {
+            //check possible errors
+            starterPast();
+            starterRepress();
+            
+            onState[1] = false;
+
+            // if the scenario has ended, reset things.
+            stopped();
+            
+            // move the gauges
+            tenPercentMove();
+            
+            fuelToggledOnStop();
+
+            oilPressureMotion();
+
+            if (gauges[0].getPosition() > 127)
+            {
+                timer2.Stop();
+                MessageBox.Show("Due to an unhandled No Light Off error the starter and other engine components have incurred damage!" +
+                    " Abort the start procedure immediately. The new damages as well as the source of the problem must be repaired by a qualified technician  " +
+                    "before this plane can be used again.", "ENGINE DAMAGED");
+                errorOccured = true;
+                if (fuelOnBlocked == 1)
+                {
+                    blockedFuel();
+                }
+                if (startButtonOn == 1)
+                {
+                    changeStartValve();
+                }
+                timer2.Start();
+            }
+
+            lastPos = gauges[0].getPosition();
+            if (lastPos > 62 && errorOccured == false)
+            {
+                errorHandled = 1;
+            }
+
+            if (gauges[0].getPosition() < 2 && errorOccured == false && errorHandled == 1)
+            {
+                timer2.Stop();
+                errorHandled = 0;
+                MessageBox.Show("You successfully recovered from a no light off without fuel flow situation avoiding further damage to the engine. " +
+                    "Have the plane examined by FAA certified mechanics to find whats stopping fuel flow.", "WELL DONE!");
+                timer2.Start();
+            }
+
+            if ((gauges[0].getPosition() > 110 || (gauges[0].getPosition() > 65 && direction == -1)) && tutorMode == 1)
+            {
+                timer2.Stop();
+                MessageBox.Show("Notice that the engine did not light off when fuel was toggled on. Furthermore there was no fuel flow, thus it is likely a problem " +
+                    "in the fuel delivery system. Release the starter valve and abort the start procedure to avoid engine damage. " +
+                    "The problem needs to be adressed immediately by a qualified technician. " +
+                    "", "Tutorial Warning");
+                if (fuelOnBlocked == 1)
+                {
+                    blockedFuel();
+                }
+                if (startButtonOn == 1)
+                {
+                    changeStartValve();
+                }
+                timer2.Start();
+            }
+        }
+
+        public void blockedFuel()
+        {
+            if (fuelOnBlocked == -1)
+            {
+                centerToggle((panel1.Height / 4));
+            }
+            else
+            {
+                centerToggle(0);
+            }
+            fuelOnBlocked = fuelOnBlocked * -1;
+
+            // When fuel is toggled on some gauge changes take place
+            if (!mode.Equals("No Light Off- without Fuel Flow"))
+            {
+                if (fuelOnBlocked == 1)
+                {
+                    gauges[6].setSpeed(5);
+                    onState[6] = true;
+                    gauges[5].setSpeed(8);
+                    onState[5] = true;
+
+                    if (gauges[0].getPosition() <= 2)
+                    {
+                        while (gauges[5].getPosition() < 42)
+                        {
+                            gauges[5].move();
+                            if (gauges[6].getPosition() < 20)
+                            {
+                                gauges[6].move();
+                            }
+                        }
+                    }
+                }
+
+                //When toggled off make changes as well
+                else if (fuelOnBlocked == -1 && gauges[0].getPosition() > 2)
+                {
+                    System.GC.Collect();
+
+                    gauges[1].setSpeed(.7f);
+                    onState[1] = true;
+
+                    gauges[0].setSpeed(1.5f);
+                    onState[0] = true;
+                    gauges[2].setSpeed(.5f);
+                    onState[2] = true;
+                    gauges[3].setSpeed(1.3f);
+                    onState[3] = true;
+
+                    gauges[6].setSpeed(5);
+                    onState[6] = true;
+                    gauges[5].setSpeed(8);
+                    onState[5] = true;
+                    gauges[4].setSpeed(.6f);
+                    onState[4] = true;
+                }
+                else if (gauges[0].getPosition() <= 2)
+                {
+                    System.GC.Collect();
+
+                    while (gauges[5].getPosition() > 0)
+                    {
+                        gauges[5].moveBack();
+                        if (gauges[6].getPosition() > 0)
+                        {
+                            gauges[6].moveBack();
+                        }
+                    }
+
+                    if (gauges[5].getPosition() < 0)
+                    {
+                        onState[5] = false;
+                    }
+                    if (gauges[6].getPosition() < 0)
+                    {
+                        onState[6] = false;
+                    }
+
+                    gauges[1].setSpeed(1);
+                    onState[1] = false;
+
+
+                    onState[4] = false;
+
+                    gauges[2].setSpeed(0.5f);
+                }
+            }
+        }
+
         // The method to handle a no error condition
         public void noError()
         {
@@ -1876,7 +2135,7 @@ namespace EngineStartSimulator
             // move the gauges
             tenPercentMove();
 
-            fueltoggledOff();
+            fuelToggledOnStop();
 
             //egtMotion();
 
