@@ -123,6 +123,17 @@
   <metadata name="infoTextBox.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
+  <data name="infoTextBox.Text" xml:space="preserve">
+    <value>The LeTourneau Jet Engine Start Simulator (L-JESS) Version 1.0.0.0 (prototype)
+
+L-JESS provides a learning environment for jet engine starting procedures under different circumstances.    
+
+L-JESS developed by LeTourneau Software Engineering students Spring 2016.
+
+Special Thanks to:
+ &gt;Professor Matt Poleman
+ &gt;Jared Norgran</value>
+  </data>
   <metadata name="backButton.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -135,6 +146,30 @@
   <metadata name="HowToText.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
+  <data name="HowToText.Text" xml:space="preserve">
+    <value>To operate, there are a few basic keyboard controls to simulate switches, as well as a Control Bar, located on the left side of the screen, to change aspects of the program.
+
+Use the 'Control' key as the starter switch.
+Use the 'Spacebar' as the Fuel Valve Toggle.
+
+Alternately;
+Click the Starter Switch Icon to hold down temporarily.
+Click the fuel Valve to toggle it on or off.
+
+These two buttons will control the jet engine start and based on the scenario the gauges will act as if in a real life situation. By monitoring the gauges and reacting accordingly a successful engine start is possible in each start mode.
+The Control Bar can be expanded or shrunk by clicking the hamburger menu icon. Expanding may also be done by double clicking on the bar and shrinking by double clicking anywhere off of the bar. 
+
+The Control Bar contains the Settings icon, used for changing the simulation mode. The lower portion of the Menu Bar will display a quick description of the selected mode. 
+
+Below the Settings icon is the Tutorial Mode icon. Running in Tutorial Mode will offer useful insight on how to start the engine in the selected mode. Clicking the Tutorial Mode icon will toggle tutorial mode on or off. The icon will light Lime Green when tutorial mode is on. 
+
+The following buttons on the bar deal with running the program. A play/pause button allows the user to pause in the current situation for instructor input, and then continue at the same point. Stop will end the current simulation and resort to the default mode (No Error Conditions). Restart will end the current simulation and begin again in the current mode. 
+
+At the bottom of the Menu Bar there is the information button, which when clicked displays information about the program build and developers.
+
+The start simulator may be used fully without a mouse by using the keyboard. Each button has a corresponding key of the starting letter. For example, ‘P’ handles pause/play, ‘T’ Tutorial Mode, ‘M’ the Menu and so on.
+</value>
+  </data>
   <metadata name="infoButton.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -234,56 +269,6 @@
   <metadata name="qMarkTip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
-  <metadata name="infoTextBox.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <data name="infoTextBox.Text" xml:space="preserve">
-    <value>The LeTourneau Jet Engine Start Simulator (L-JESS) Version 1.0.0.0 (prototype)
-
-L-JESS provides a learning environment for jet engine starting procedures under different circumstances.    
-
-L-JESS developed by LeTourneau Software Engineering students Spring 2016.
-
-Special Thanks to:
- &gt;Professor Matt Poleman
- &gt;Jared Norgran</value>
-  </data>
-  <metadata name="backButton.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="backHighlight.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="helpTitle.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="HowToText.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <data name="HowToText.Text" xml:space="preserve">
-    <value>To operate, there are a few basic keyboard controls to simulate switches, as well as a Control Bar, located on the left side of the screen, to change aspects of the program.
-
-Use the 'Control' key as the starter switch.
-Use the 'Spacebar' as the Fuel Valve Toggle.
-
-Alternately;
-Click the Starter Switch Icon to hold down temporarily.
-Double click to hold it down until clicked again. 
-Click the fuel Valve to toggle it on or off.
-
-These two buttons will control the jet engine start and based on the scenario the gauges will act as if in a real life situaion. By monitoring the gauges and reacting accordingly a successful engine start is possible in each start mode.
-
-The Control Bar can be expanded or shrunk by clicking the hamburger menu icon. Expanding may also be done by double clicking on the bar and shrinking by double clicking anywhere off of the bar. 
-
-The Control Bar contains the Settings icon, used for changing the simulation mode. The lower portion of the Menu Bar will display a quick description of the selected mode. 
-
-Below the Settings icon is the Tutorial Mode icon. Running in Tutorial Mode will offer useful insight on how to start the engine in the selected mode. Clicking the Tutorial Mode icon will toggle tutorial mode on or off. The icon will light Lime Green when tutorial mode is on. 
-
-The following buttons on the bar deal with running the program. A puase/resume button will allow the user to stop in the current situation for instructor input, and then continue at the same point. Stop will end the current simulation and resort to the default mode (Random Error Conditions). Restart will end the current simulation and begin again in the current mode. 
-
-At the bottom of the Menu Bar there is the information button, which when clicked displays information about the program build and developers.
-</value>
-  </data>
   <metadata name="buttonsPanel.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -334,6 +319,9 @@ At the bottom of the Menu Bar there is the information button, which when clicke
   </metadata>
   <metadata name="timer2.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>261, 17</value>
+  </metadata>
+  <metadata name="timer3.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>389, 17</value>
   </metadata>
   <metadata name="$this.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>

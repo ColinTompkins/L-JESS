@@ -78,6 +78,8 @@
             this.splashMessage = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.timer2 = new System.Windows.Forms.Timer(this.components);
+            this.timer3 = new System.Windows.Forms.Timer(this.components);
+            this.theSplash = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -110,6 +112,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.N1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pressureRatio)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splashImage)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.theSplash)).BeginInit();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -927,6 +930,22 @@
             // 
             this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
             // 
+            // timer3
+            // 
+            this.timer3.Tick += new System.EventHandler(this.timer3_Tick);
+            // 
+            // theSplash
+            // 
+            this.theSplash.BackColor = System.Drawing.SystemColors.WindowFrame;
+            this.theSplash.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.theSplash.Image = global::EngineStartSimulator.Properties.Resources.Splash_Screen;
+            this.theSplash.Location = new System.Drawing.Point(0, 0);
+            this.theSplash.Name = "theSplash";
+            this.theSplash.Size = new System.Drawing.Size(1094, 590);
+            this.theSplash.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.theSplash.TabIndex = 3;
+            this.theSplash.TabStop = false;
+            // 
             // mainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(168F, 168F);
@@ -938,6 +957,7 @@
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.splashImage);
             this.Controls.Add(this.splashMessage);
+            this.Controls.Add(this.theSplash);
             this.DoubleBuffered = true;
             this.ForeColor = System.Drawing.Color.Black;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -990,6 +1010,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.N1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pressureRatio)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.splashImage)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.theSplash)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1044,6 +1065,8 @@
         private System.Windows.Forms.TextBox infoTextBox;
         private System.Windows.Forms.Timer timer2;
         protected internal System.Windows.Forms.ComboBox menuBox;
+        private System.Windows.Forms.Timer timer3;
+        private System.Windows.Forms.PictureBox theSplash;
     }
 }
 
