@@ -43,3 +43,12 @@ X:\New folder\OneDrive\School Work\Software Engineering\L-JESS\EngineStartSimula
 X:\New folder\OneDrive\School Work\Software Engineering\L-JESS\EngineStartSimulator\EngineStartSimulator\obj\Debug\EngineStartSimulator.csproj.GenerateResource.Cache
 X:\New folder\OneDrive\School Work\Software Engineering\L-JESS\EngineStartSimulator\EngineStartSimulator\bin\Debug\EngineStartSimulator.exe
 X:\New folder\OneDrive\School Work\Software Engineering\L-JESS\EngineStartSimulator\EngineStartSimulator\bin\Debug\EngineStartSimulator.pdb
+C:\Users\Colin\Desktop\L-JESS\EngineStartSimulator\bin\Debug\EngineStartSimulator.exe.config
+C:\Users\Colin\Desktop\L-JESS\EngineStartSimulator\obj\Debug\EngineStartSimulator.exe
+C:\Users\Colin\Desktop\L-JESS\EngineStartSimulator\obj\Debug\EngineStartSimulator.pdb
+C:\Users\Colin\Desktop\L-JESS\EngineStartSimulator\obj\Debug\EngineStartSimulator.csprojResolveAssemblyReference.cache
+C:\Users\Colin\Desktop\L-JESS\EngineStartSimulator\obj\Debug\EngineStartSimulator.mainWindow.resources
+C:\Users\Colin\Desktop\L-JESS\EngineStartSimulator\obj\Debug\EngineStartSimulator.Properties.Resources.resources
+C:\Users\Colin\Desktop\L-JESS\EngineStartSimulator\obj\Debug\EngineStartSimulator.csproj.GenerateResource.Cache
+C:\Users\Colin\Desktop\L-JESS\EngineStartSimulator\bin\Debug\EngineStartSimulator.exe
+C:\Users\Colin\Desktop\L-JESS\EngineStartSimulator\bin\Debug\EngineStartSimulator.pdb
