@@ -63,6 +63,76 @@ namespace EngineStartSimulator.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap _1280x1024 {
+            get {
+                object obj = ResourceManager.GetObject("1280x1024", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _1280x1024In {
+            get {
+                object obj = ResourceManager.GetObject("1280x1024In", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _1366x768__2_ {
+            get {
+                object obj = ResourceManager.GetObject("1366x768 (2)", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _1366x768__2_1 {
+            get {
+                object obj = ResourceManager.GetObject("1366x768 (2)1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _1920x1080_ {
+            get {
+                object obj = ResourceManager.GetObject("1920x1080.", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _640x1024 {
+            get {
+                object obj = ResourceManager.GetObject("640x1024", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _640x1024In {
+            get {
+                object obj = ResourceManager.GetObject("640x1024In", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Back_10 {
             get {
                 object obj = ResourceManager.GetObject("Back 10", resourceCulture);
@@ -156,6 +226,26 @@ namespace EngineStartSimulator.Properties {
         internal static System.Drawing.Bitmap blank1 {
             get {
                 object obj = ResourceManager.GetObject("blank1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap blank2 {
+            get {
+                object obj = ResourceManager.GetObject("blank2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap blank3 {
+            get {
+                object obj = ResourceManager.GetObject("blank3", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -263,6 +353,26 @@ namespace EngineStartSimulator.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap LessThan640x1024 {
+            get {
+                object obj = ResourceManager.GetObject("LessThan640x1024", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap LessThan640x1024In {
+            get {
+                object obj = ResourceManager.GetObject("LessThan640x1024In", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap LightOff {
             get {
                 object obj = ResourceManager.GetObject("LightOff", resourceCulture);
@@ -313,9 +423,39 @@ namespace EngineStartSimulator.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap LightOffD1 {
+            get {
+                object obj = ResourceManager.GetObject("LightOffD1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap LightOn {
             get {
                 object obj = ResourceManager.GetObject("LightOn", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap LightOnT {
+            get {
+                object obj = ResourceManager.GetObject("LightOnT", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap LightOnT1 {
+            get {
+                object obj = ResourceManager.GetObject("LightOnT1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -706,6 +846,16 @@ namespace EngineStartSimulator.Properties {
         internal static System.Drawing.Bitmap start_valveN {
             get {
                 object obj = ResourceManager.GetObject("start valveN", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap startButtonBack {
+            get {
+                object obj = ResourceManager.GetObject("startButtonBack", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

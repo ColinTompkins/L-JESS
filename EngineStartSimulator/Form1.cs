@@ -6,7 +6,7 @@
 + Purpose: simulate the start procedure of a JT8-D jet engine   +
 +          with various error modes and simulations for use in  +
 +          a learning environment.                              +
-+ Current Build: 1.2.9.3                                        +
++ Current Build: 1.2.9.6                                        +
 + last Edited: 04/04/2016 (By Jason)                            +
 + Project Started: 02/04/2016 (By Jason)                        +
 + Created by: Jason saler and other SE1 students on the L-JESS  +
@@ -26,7 +26,7 @@ namespace EngineStartSimulator
 
  II. mainWindow
     A. Declare state variables and indicators
-    B. Setup Methods (11 methods)
+    B. Setup Methods (12 methods)
     C. GUI Methods (11 sections; each with multiple methods)
     D. GUI Helper Methods (11 methods)
     E. Mode Methods (9 methods)
@@ -132,8 +132,11 @@ namespace EngineStartSimulator
         {
             int xLoc = 0;
             int yLoc = 0;
+            //infoButton.Show();
+            //infoButton.BringToFront();
 
             yLoc = (splitContainer1.Height * 2) - 9;
+            //yLoc = 800;
             xLoc = 2;
 
             infoButton.Location = new Point(xLoc, yLoc);
@@ -208,50 +211,62 @@ namespace EngineStartSimulator
         // 7. menuIn: A method to handle putting the menu bar in 
         private void menuIn()
         {
-            try
+            if (splitContainer1.SplitterDistance != 45)
             {
-                timer3.Start();
-                splashImage.Image = EngineStartSimulator.Properties.Resources.ScreenNew3;
-                splashImage.Show();
-                splitContainer1.SplitterDistance = 45;
-            }
-            catch (System.InvalidOperationException)
-            {
+                try
+                {
+                    timer3.Start();
+                    lagStopper();
+                    splashImage.Show();
+                    splitContainer1.SplitterDistance = 45;
+                }
+                catch (System.InvalidOperationException)
+                {
 
+                }
+                //line1.Width = 45;
+                splitterLoc = 45;
+                description.Hide();
+                dTitle.Hide();
+                menuBox.Hide();
+                helpPanel.Hide();
+                //centerToggle(0);
+                
             }
-            //line1.Width = 45;
-            splitterLoc = 45;
-            description.Hide();
-            dTitle.Hide();
-            menuBox.Hide();
-            helpPanel.Hide();
-            //centerToggle(0);
         }
 
         // 8. menuOut: A method to handle moving the menu bar out and resizing all the items
         private void menuOut()
         {
-            timer3.Start();
-            splashImage.Image = EngineStartSimulator.Properties.Resources.ScreenNew;
-            splashImage.Show();
-            splitContainer1.SplitterDistance = 385;
-            splitterLoc = 385;
-            line1.Width = 385;
-            line2.Width = 385;
-            line3.Width = 385;
-            description.Width = 330;
-            dTitle.Width = 385;
-            menuBox.Show();
-            menuBox.Width = 322;
-            settingHighlight.Width = 385;
-            tutorHighlight.Width = 385;
-            pauseHighlight.Width = 385;
-            stopHighlight.Width = 385;
-            restartHighlight.Width = 385;
-            if (splitContainer1.Height > 520)
+            if (splitContainer1.SplitterDistance != 385)
             {
-                description.Show();
-                dTitle.Show();
+                timer3.Start();
+                lagStopper();
+                splashImage.Show();
+                splitContainer1.SplitterDistance = 385;
+                splitterLoc = 385;
+                line1.Width = 385;
+                line2.Width = 385;
+                line3.Width = 385;
+                description.Width = 330;
+                dTitle.Width = 385;
+                menuBox.Show();
+                menuBox.Width = 322;
+                settingHighlight.Width = 385;
+                tutorHighlight.Width = 385;
+                pauseHighlight.Width = 385;
+                stopHighlight.Width = 385;
+                restartHighlight.Width = 385;
+                if (splitContainer1.Height > 520)
+                {
+                    description.Show();
+                    dTitle.Show();
+                }
+                else
+                {
+                    description.Hide();
+                    dTitle.Hide();
+                }
             }
         }
 
@@ -284,7 +299,7 @@ namespace EngineStartSimulator
             }
         }
 
-        // 11. timer3_Tick: Handle the splash screen time with a timer. 
+        // 10. timer3_Tick: Handle the splash screen time with a timer. 
         // After the timer finishes, hide the splash screen.
         private void timer1_Tick(object sender, EventArgs e)
         {
@@ -294,13 +309,69 @@ namespace EngineStartSimulator
             splashImage.BringToFront();
         }
 
-        // 10. timer1_Tick: Handle the screen transitions with this timer. 
+        // 11. timer1_Tick: Handle the screen transitions with this timer. 
         // pop up a static image of the screen while the grids render.
         // Hide once the timer is over. 
         private void timer3_Tick(object sender, EventArgs e)
         {
             timer3.Stop();
             splashImage.Hide();
+        }
+
+        // 12. lagStopper: changes the size of the static lag stopper image 
+        // based on screen size and ratio.
+        public void lagStopper()
+        {
+            // make the screen represented as a rectangle
+            Rectangle screen = Screen.PrimaryScreen.WorkingArea;
+            double height = 0;
+            double width = 0;
+            
+            // Cast the int screen size value to a string, then parse to a double
+            height = double.Parse(screen.Height.ToString());
+            width = double.Parse(screen.Width.ToString());
+ 
+            // If menu is in
+            if (splitContainer1.SplitterDistance != 385)
+            {
+                // Decide which image to use based on screen ratio
+                if (width / height < .6)
+                {
+                    splashImage.Image = EngineStartSimulator.Properties.Resources.LessThan640x1024;
+                }
+                else if (width / height < 1)
+                {
+                    splashImage.Image = EngineStartSimulator.Properties.Resources._640x1024;
+                }
+                else if (width / height < 1.5)
+                {
+                    splashImage.Image = EngineStartSimulator.Properties.Resources._1280x1024;
+                }
+                else
+                {
+                    splashImage.Image = EngineStartSimulator.Properties.Resources._1920x1080_;
+                }
+            }
+            // If menu is out
+            else
+            {
+                if (width / height < .6)
+                {
+                    splashImage.Image = EngineStartSimulator.Properties.Resources.LessThan640x1024In;
+                }
+                else if (width / height < 1)
+                {
+                    splashImage.Image = EngineStartSimulator.Properties.Resources._640x1024In;
+                }
+                else if (width / height < 1.5)
+                {
+                    splashImage.Image = EngineStartSimulator.Properties.Resources._1280x1024In;
+                }
+                else
+                {
+                    splashImage.Image = EngineStartSimulator.Properties.Resources._1366x768__2_1;
+                }
+            }
         }
 
 
@@ -1494,7 +1565,7 @@ namespace EngineStartSimulator
                         "Due to persisted attempts to start the engine and fuel flow introduced " +
                         "the engine has undergone serious damage! " +
                         "Abort the start procedure, this plane is now out of commission and needs " +
-                        "to be repaired by an FAA certified technician, preferably Jared Norgran.", "ENGINE DAMAGED!");
+                        "to be repaired by an FAA certified technician, preferably Jared Norgren.", "ENGINE DAMAGED!");
                     changeFuelButton();
                 }
                 if (startButtonOn == 1)

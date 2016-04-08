@@ -32,12 +32,12 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(mainWindow));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.helpPanel = new System.Windows.Forms.Panel();
+            this.infoButton = new System.Windows.Forms.PictureBox();
             this.infoTextBox = new System.Windows.Forms.TextBox();
             this.backButton = new System.Windows.Forms.PictureBox();
             this.backHighlight = new System.Windows.Forms.PictureBox();
             this.helpTitle = new System.Windows.Forms.Label();
             this.HowToText = new System.Windows.Forms.TextBox();
-            this.infoButton = new System.Windows.Forms.PictureBox();
             this.dTitle = new System.Windows.Forms.Label();
             this.description = new System.Windows.Forms.TextBox();
             this.line3 = new System.Windows.Forms.PictureBox();
@@ -85,9 +85,9 @@
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.helpPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.infoButton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.backButton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.backHighlight)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.infoButton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.line3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.restartButton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.stopButton)).BeginInit();
@@ -129,7 +129,6 @@
             this.splitContainer1.Panel1.BackgroundImage = global::EngineStartSimulator.Properties.Resources.bar2;
             this.splitContainer1.Panel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.splitContainer1.Panel1.Controls.Add(this.helpPanel);
-            this.splitContainer1.Panel1.Controls.Add(this.infoButton);
             this.splitContainer1.Panel1.Controls.Add(this.dTitle);
             this.splitContainer1.Panel1.Controls.Add(this.description);
             this.splitContainer1.Panel1.Controls.Add(this.line3);
@@ -182,6 +181,7 @@
             // 
             this.helpPanel.BackgroundImage = global::EngineStartSimulator.Properties.Resources.bar4;
             this.helpPanel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.helpPanel.Controls.Add(this.infoButton);
             this.helpPanel.Controls.Add(this.infoTextBox);
             this.helpPanel.Controls.Add(this.backButton);
             this.helpPanel.Controls.Add(this.backHighlight);
@@ -194,6 +194,24 @@
             this.helpPanel.Size = new System.Drawing.Size(304, 590);
             this.helpPanel.TabIndex = 23;
             // 
+            // infoButton
+            // 
+            this.infoButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.infoButton.BackColor = System.Drawing.Color.Transparent;
+            this.infoButton.Image = global::EngineStartSimulator.Properties.Resources.Info;
+            this.infoButton.Location = new System.Drawing.Point(4, 520);
+            this.infoButton.Margin = new System.Windows.Forms.Padding(4);
+            this.infoButton.Name = "infoButton";
+            this.infoButton.Size = new System.Drawing.Size(72, 66);
+            this.infoButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.infoButton.TabIndex = 22;
+            this.infoButton.TabStop = false;
+            this.infoButton.Click += new System.EventHandler(this.infoButton_Click);
+            this.infoButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.infoButton_MouseDown);
+            this.infoButton.MouseEnter += new System.EventHandler(this.infoButton_MouseEnter);
+            this.infoButton.MouseLeave += new System.EventHandler(this.infoButton_MouseLeave);
+            this.infoButton.MouseHover += new System.EventHandler(this.infoButton_MouseHover);
+            // 
             // infoTextBox
             // 
             this.infoTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -202,12 +220,12 @@
             this.infoTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.infoTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.infoTextBox.ForeColor = System.Drawing.Color.White;
-            this.infoTextBox.Location = new System.Drawing.Point(4, 184);
+            this.infoTextBox.Location = new System.Drawing.Point(5, 86);
             this.infoTextBox.Margin = new System.Windows.Forms.Padding(5);
             this.infoTextBox.Multiline = true;
             this.infoTextBox.Name = "infoTextBox";
             this.infoTextBox.ReadOnly = true;
-            this.infoTextBox.Size = new System.Drawing.Size(380, 392);
+            this.infoTextBox.Size = new System.Drawing.Size(385, 437);
             this.infoTextBox.TabIndex = 4;
             this.infoTextBox.Text = resources.GetString("infoTextBox.Text");
             // 
@@ -274,23 +292,6 @@
             this.HowToText.TabIndex = 0;
             this.HowToText.Text = resources.GetString("HowToText.Text");
             this.HowToText.MouseHover += new System.EventHandler(this.instructBox_MouseHover);
-            // 
-            // infoButton
-            // 
-            this.infoButton.BackColor = System.Drawing.Color.Transparent;
-            this.infoButton.Image = global::EngineStartSimulator.Properties.Resources.Info;
-            this.infoButton.Location = new System.Drawing.Point(4, 670);
-            this.infoButton.Margin = new System.Windows.Forms.Padding(4);
-            this.infoButton.Name = "infoButton";
-            this.infoButton.Size = new System.Drawing.Size(72, 66);
-            this.infoButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.infoButton.TabIndex = 22;
-            this.infoButton.TabStop = false;
-            this.infoButton.Click += new System.EventHandler(this.infoButton_Click);
-            this.infoButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.infoButton_MouseDown);
-            this.infoButton.MouseEnter += new System.EventHandler(this.infoButton_MouseEnter);
-            this.infoButton.MouseLeave += new System.EventHandler(this.infoButton_MouseLeave);
-            this.infoButton.MouseHover += new System.EventHandler(this.infoButton_MouseHover);
             // 
             // dTitle
             // 
@@ -384,10 +385,10 @@
             // 
             this.restartButton.BackColor = System.Drawing.Color.Transparent;
             this.restartButton.Image = global::EngineStartSimulator.Properties.Resources.Refresh;
-            this.restartButton.Location = new System.Drawing.Point(10, 532);
+            this.restartButton.Location = new System.Drawing.Point(4, 522);
             this.restartButton.Margin = new System.Windows.Forms.Padding(4);
             this.restartButton.Name = "restartButton";
-            this.restartButton.Size = new System.Drawing.Size(70, 52);
+            this.restartButton.Size = new System.Drawing.Size(74, 60);
             this.restartButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.restartButton.TabIndex = 10;
             this.restartButton.TabStop = false;
@@ -401,7 +402,7 @@
             // 
             this.stopButton.BackColor = System.Drawing.Color.Transparent;
             this.stopButton.Image = global::EngineStartSimulator.Properties.Resources.stop10;
-            this.stopButton.Location = new System.Drawing.Point(5, 444);
+            this.stopButton.Location = new System.Drawing.Point(4, 444);
             this.stopButton.Margin = new System.Windows.Forms.Padding(4);
             this.stopButton.Name = "stopButton";
             this.stopButton.Size = new System.Drawing.Size(74, 70);
@@ -429,10 +430,10 @@
             // 
             this.pauseButton.BackColor = System.Drawing.Color.Transparent;
             this.pauseButton.Image = global::EngineStartSimulator.Properties.Resources.pause10;
-            this.pauseButton.Location = new System.Drawing.Point(5, 374);
+            this.pauseButton.Location = new System.Drawing.Point(4, 366);
             this.pauseButton.Margin = new System.Windows.Forms.Padding(4);
             this.pauseButton.Name = "pauseButton";
-            this.pauseButton.Size = new System.Drawing.Size(74, 49);
+            this.pauseButton.Size = new System.Drawing.Size(75, 63);
             this.pauseButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pauseButton.TabIndex = 7;
             this.pauseButton.TabStop = false;
@@ -463,7 +464,7 @@
             // 
             this.tutorButton.BackColor = System.Drawing.Color.Transparent;
             this.tutorButton.Image = global::EngineStartSimulator.Properties.Resources.tutorOff1;
-            this.tutorButton.Location = new System.Drawing.Point(5, 257);
+            this.tutorButton.Location = new System.Drawing.Point(4, 254);
             this.tutorButton.Margin = new System.Windows.Forms.Padding(4);
             this.tutorButton.Name = "tutorButton";
             this.tutorButton.Size = new System.Drawing.Size(74, 70);
@@ -480,10 +481,10 @@
             // 
             this.settingButton.BackColor = System.Drawing.Color.Transparent;
             this.settingButton.Image = global::EngineStartSimulator.Properties.Resources.Settings;
-            this.settingButton.Location = new System.Drawing.Point(10, 178);
+            this.settingButton.Location = new System.Drawing.Point(4, 179);
             this.settingButton.Margin = new System.Windows.Forms.Padding(4);
             this.settingButton.Name = "settingButton";
-            this.settingButton.Size = new System.Drawing.Size(65, 70);
+            this.settingButton.Size = new System.Drawing.Size(74, 59);
             this.settingButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.settingButton.TabIndex = 4;
             this.settingButton.TabStop = false;
@@ -517,8 +518,7 @@
             this.menuBox.Margin = new System.Windows.Forms.Padding(4);
             this.menuBox.Name = "menuBox";
             this.menuBox.Size = new System.Drawing.Size(415, 40);
-            this.menuBox.TabIndex = 0;
-            this.menuBox.TabStop = false;
+            this.menuBox.TabIndex = 1;
             this.menuBox.SelectedIndexChanged += new System.EventHandler(this.menuBox_SelectedIndexChanged);
             this.menuBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.settingButton_MouseDown);
             this.menuBox.MouseEnter += new System.EventHandler(this.pictureBox1_MouseHover);
@@ -583,6 +583,8 @@
             this.restartHighlight.ReadOnly = true;
             this.restartHighlight.Size = new System.Drawing.Size(530, 70);
             this.restartHighlight.TabIndex = 17;
+            this.restartHighlight.TabStop = false;
+            this.restartHighlight.Text = "\r\n    ";
             this.restartHighlight.Click += new System.EventHandler(this.restartButton_Click);
             this.restartHighlight.MouseDown += new System.Windows.Forms.MouseEventHandler(this.restartButton_MouseDown);
             this.restartHighlight.MouseEnter += new System.EventHandler(this.restartButton_MouseHover);
@@ -594,6 +596,7 @@
             this.stopHighlight.BackColor = System.Drawing.SystemColors.WindowFrame;
             this.stopHighlight.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.stopHighlight.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.stopHighlight.ForeColor = System.Drawing.SystemColors.WindowFrame;
             this.stopHighlight.Location = new System.Drawing.Point(4, 444);
             this.stopHighlight.Margin = new System.Windows.Forms.Padding(4);
             this.stopHighlight.Multiline = true;
@@ -601,6 +604,8 @@
             this.stopHighlight.ReadOnly = true;
             this.stopHighlight.Size = new System.Drawing.Size(530, 70);
             this.stopHighlight.TabIndex = 18;
+            this.stopHighlight.TabStop = false;
+            this.stopHighlight.Text = "\r\n   ";
             this.stopHighlight.Click += new System.EventHandler(this.stopButton_Click);
             this.stopHighlight.MouseDown += new System.Windows.Forms.MouseEventHandler(this.stopButton_MouseDown);
             this.stopHighlight.MouseEnter += new System.EventHandler(this.stopButton_MouseHover);
@@ -612,6 +617,7 @@
             this.pauseHighlight.BackColor = System.Drawing.SystemColors.WindowFrame;
             this.pauseHighlight.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.pauseHighlight.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.pauseHighlight.ForeColor = System.Drawing.SystemColors.WindowFrame;
             this.pauseHighlight.Location = new System.Drawing.Point(4, 366);
             this.pauseHighlight.Margin = new System.Windows.Forms.Padding(4);
             this.pauseHighlight.Multiline = true;
@@ -619,6 +625,8 @@
             this.pauseHighlight.ReadOnly = true;
             this.pauseHighlight.Size = new System.Drawing.Size(530, 70);
             this.pauseHighlight.TabIndex = 19;
+            this.pauseHighlight.TabStop = false;
+            this.pauseHighlight.Text = "\r\n   ";
             this.pauseHighlight.Click += new System.EventHandler(this.pictureBox1_Click_4);
             this.pauseHighlight.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pauseButton_MouseDown);
             this.pauseHighlight.MouseEnter += new System.EventHandler(this.pauseButton_MouseHover);
@@ -631,6 +639,7 @@
             this.tutorHighlight.BackColor = System.Drawing.SystemColors.WindowFrame;
             this.tutorHighlight.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.tutorHighlight.Cursor = System.Windows.Forms.Cursors.Default;
+            this.tutorHighlight.ForeColor = System.Drawing.SystemColors.WindowFrame;
             this.tutorHighlight.Location = new System.Drawing.Point(4, 254);
             this.tutorHighlight.Margin = new System.Windows.Forms.Padding(4);
             this.tutorHighlight.Multiline = true;
@@ -638,6 +647,8 @@
             this.tutorHighlight.ReadOnly = true;
             this.tutorHighlight.Size = new System.Drawing.Size(530, 88);
             this.tutorHighlight.TabIndex = 20;
+            this.tutorHighlight.TabStop = false;
+            this.tutorHighlight.Text = "\r\n  ";
             this.tutorHighlight.MouseClick += new System.Windows.Forms.MouseEventHandler(this.tutorial);
             this.tutorHighlight.TextChanged += new System.EventHandler(this.tutorHighlight_TextChanged);
             this.tutorHighlight.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDown);
@@ -650,6 +661,7 @@
             this.settingHighlight.BackColor = System.Drawing.SystemColors.WindowFrame;
             this.settingHighlight.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.settingHighlight.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.settingHighlight.ForeColor = System.Drawing.SystemColors.WindowFrame;
             this.settingHighlight.Location = new System.Drawing.Point(4, 168);
             this.settingHighlight.Margin = new System.Windows.Forms.Padding(4);
             this.settingHighlight.Multiline = true;
@@ -657,6 +669,8 @@
             this.settingHighlight.ReadOnly = true;
             this.settingHighlight.Size = new System.Drawing.Size(530, 80);
             this.settingHighlight.TabIndex = 21;
+            this.settingHighlight.TabStop = false;
+            this.settingHighlight.Text = "\r\n  ";
             this.settingHighlight.Click += new System.EventHandler(this.settingButton_MouseLeave);
             this.settingHighlight.MouseDown += new System.Windows.Forms.MouseEventHandler(this.settingButton_MouseDown);
             this.settingHighlight.MouseEnter += new System.EventHandler(this.pictureBox1_MouseHover);
@@ -747,6 +761,8 @@
             // 
             // engineStart
             // 
+            this.engineStart.BackgroundImage = global::EngineStartSimulator.Properties.Resources.startButtonBack;
+            this.engineStart.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.engineStart.Dock = System.Windows.Forms.DockStyle.Fill;
             this.engineStart.Image = global::EngineStartSimulator.Properties.Resources.LightOff2;
             this.engineStart.Location = new System.Drawing.Point(4, 4);
@@ -892,9 +908,13 @@
             // 
             // splashImage
             // 
-            this.splashImage.BackColor = System.Drawing.SystemColors.WindowFrame;
-            this.splashImage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splashImage.Image = global::EngineStartSimulator.Properties.Resources.Splash_Screen;
+            this.splashImage.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.splashImage.BackColor = System.Drawing.Color.Transparent;
+            this.splashImage.BackgroundImage = global::EngineStartSimulator.Properties.Resources.blank3;
+            this.splashImage.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.splashImage.Image = global::EngineStartSimulator.Properties.Resources._1366x768__2_1;
             this.splashImage.Location = new System.Drawing.Point(0, 0);
             this.splashImage.Margin = new System.Windows.Forms.Padding(4);
             this.splashImage.Name = "splashImage";
@@ -932,6 +952,7 @@
             // 
             // timer3
             // 
+            this.timer3.Interval = 50;
             this.timer3.Tick += new System.EventHandler(this.timer3_Tick);
             // 
             // theSplash
@@ -951,7 +972,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(168F, 168F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.BackgroundImage = global::EngineStartSimulator.Properties.Resources.splashScreen2;
+            this.BackgroundImage = global::EngineStartSimulator.Properties.Resources.blank2;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.ClientSize = new System.Drawing.Size(1094, 590);
             this.Controls.Add(this.splitContainer1);
@@ -982,9 +1003,9 @@
             this.splitContainer1.ResumeLayout(false);
             this.helpPanel.ResumeLayout(false);
             this.helpPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.infoButton)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.backButton)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.backHighlight)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.infoButton)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.line3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.restartButton)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.stopButton)).EndInit();

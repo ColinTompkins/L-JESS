@@ -13,6 +13,23 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>C:\Users\jsaler\OneDrive\School Work\Software Engineering\L-JESS\Published\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <AutorunEnabled>true</AutorunEnabled>
+    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -32,6 +49,18 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>3E0F9BA2E29480AED5CEB7130FBAC62EE5AAEA11</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>EngineStartSimulator_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -68,6 +97,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="EngineStartSimulator_TemporaryKey.pfx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -299,6 +329,63 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\ScreenNew3.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.5">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.5 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\640x1024.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\640x1024In.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\1280x1024.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\1280x1024In.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\1366x768 %282%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\1920x1080..PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LessThan640x1024.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LessThan640x1024In.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\blank2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\blank3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\1366x768 %282%291.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LightOffD1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LightOnT.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LightOnT1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\startButtonBack.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

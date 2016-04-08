@@ -118,14 +118,20 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="close" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\close.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="LightOnT" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\LightOnT.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="start valve2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\start valve2.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="screenR" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\screenR.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="close3" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\close3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="blank2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\blank2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="N1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\N1.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -187,8 +193,11 @@
   <data name="Oil Pressure" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Oil Pressure.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="start valve3" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\start valve3.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="blank3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\blank3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="LightOnT1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\LightOnT1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="hamburger" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\hamburger.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -196,8 +205,8 @@
   <data name="LightOff" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\LightOff.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="question" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\question.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="LightOn" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\LightOn.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="start valve down1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\start valve down1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -214,8 +223,14 @@
   <data name="pause10" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\pause10.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Oil Temp" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Oil Temp.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="Settings" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Settings.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="1280x1024In" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\1280x1024In.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="LightOffD1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\LightOffD1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Splash Screen" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Splash Screen.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -226,8 +241,8 @@
   <data name="bar1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\bar1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="EGT" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\EGT.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="start valve3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\start valve3.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="bar2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\bar2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -253,17 +268,20 @@
   <data name="blank1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\blank1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="toggleC" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\toggleC.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="slider2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\slider2.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="start valve" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\start valve.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="tutorOn" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\tutorOn.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="toggle" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\toggle.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="start valve down3" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\start valve down3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="simIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\simIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="start valve5" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\start valve5.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -271,11 +289,26 @@
   <data name="Start itC" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Start itC.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="toggle" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\toggle.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="640x1024In" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\640x1024In.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="simIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\simIcon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="1920x1080." type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\1920x1080..PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="1280x1024" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\1280x1024.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="LessThan640x1024In" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\LessThan640x1024In.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Oil Temp" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Oil Temp.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="toggleC" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\toggleC.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="question" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\question.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="bar3" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\bar3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -283,8 +316,8 @@
   <data name="LightOff3" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\LightOff3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="screenR" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\screenR.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="close" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\close.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="LightOffD" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\LightOffD.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -301,14 +334,14 @@
   <data name="pressure ratio" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\pressure ratio.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="bar4" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\bar4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="640x1024" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\640x1024.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="EGT1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\EGT1.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="slider2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\slider2.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="1366x768 (2)1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\1366x768 (2)1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Info" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Info.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -316,11 +349,17 @@
   <data name="start valve down" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\start valve down.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Settings" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Settings.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="bar4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\bar4.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ScreenNew3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\ScreenNew3.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="ScreenNew" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ScreenNew.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="tutorOn" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\tutorOn.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="play101" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\play101.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -328,13 +367,19 @@
   <data name="ScreenNew2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\ScreenNew2.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="LessThan640x1024" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\LessThan640x1024.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="close2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\close2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="LightOn" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\LightOn.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="1366x768 (2)" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\1366x768 (2).png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ScreenNew3" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\ScreenNew3.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="EGT" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\EGT.PNG;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="startButtonBack" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\startButtonBack.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
