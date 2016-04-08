@@ -150,6 +150,7 @@
             this.splitContainer1.Panel1.Controls.Add(this.tutorHighlight);
             this.splitContainer1.Panel1.Controls.Add(this.settingHighlight);
             this.splitContainer1.Panel1.ForeColor = System.Drawing.Color.White;
+            this.splitContainer1.Panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.splitContainer1_Panel1_Paint);
             this.splitContainer1.Panel1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.splitContainer1_Panel1_MouseDoubleClick);
             this.splitContainer1.Panel1.Resize += new System.EventHandler(this.splitContainer1_Panel1_Resize);
             this.splitContainer1.Panel1MinSize = 45;
@@ -159,6 +160,7 @@
             this.splitContainer1.Panel2.BackgroundImage = global::EngineStartSimulator.Properties.Resources.blank;
             this.splitContainer1.Panel2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.splitContainer1.Panel2.Controls.Add(this.guagePanel);
+            this.splitContainer1.Panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.splitContainer1_Panel2_Paint);
             this.splitContainer1.Panel2.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.splitContainer1_Panel2_MouseDoubleClick);
             this.splitContainer1.Panel2.MouseEnter += new System.EventHandler(this.splitContainer1_Panel2_MouseEnter);
             this.splitContainer1.Panel2MinSize = 100;
@@ -170,6 +172,8 @@
             this.splitContainer1.TabStop = false;
             this.qMarkTip.SetToolTip(this.splitContainer1, "Drag right or left to expand or shrink the Menu Bar");
             this.splitContainer1.Visible = false;
+            this.splitContainer1.Click += new System.EventHandler(this.splitContainer1_Click);
+            this.splitContainer1.MouseHover += new System.EventHandler(this.splitContainer1_MouseHover);
             // 
             // helpPanel
             // 
@@ -632,6 +636,7 @@
             this.tutorHighlight.Size = new System.Drawing.Size(530, 88);
             this.tutorHighlight.TabIndex = 20;
             this.tutorHighlight.MouseClick += new System.Windows.Forms.MouseEventHandler(this.tutorial);
+            this.tutorHighlight.TextChanged += new System.EventHandler(this.tutorHighlight_TextChanged);
             this.tutorHighlight.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDown);
             this.tutorHighlight.MouseEnter += new System.EventHandler(this.pictureBox1_MouseHover_1);
             this.tutorHighlight.MouseLeave += new System.EventHandler(this.pictureBox1_MouseLeave);
@@ -681,6 +686,7 @@
             this.guagePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 19F));
             this.guagePanel.Size = new System.Drawing.Size(785, 590);
             this.guagePanel.TabIndex = 0;
+            this.guagePanel.Paint += new System.Windows.Forms.PaintEventHandler(this.guagePanel_Paint);
             // 
             // buttonsPanel
             // 
@@ -733,6 +739,8 @@
             this.sliderButton.TabStop = false;
             this.qMarkTip.SetToolTip(this.sliderButton, "Click on the slider to turn it on or off. Or press the spacebar.");
             this.sliderButton.Click += new System.EventHandler(this.sliderButton_Click);
+            this.sliderButton.DragDrop += new System.Windows.Forms.DragEventHandler(this.sliderButton_DragDrop);
+            this.sliderButton.DragLeave += new System.EventHandler(this.sliderButton_DragLeave);
             // 
             // engineStart
             // 
@@ -877,6 +885,7 @@
             this.qMarkTip.ForeColor = System.Drawing.Color.White;
             this.qMarkTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             this.qMarkTip.ToolTipTitle = "Instructions";
+            this.qMarkTip.Popup += new System.Windows.Forms.PopupEventHandler(this.qMarkTip_Popup);
             // 
             // splashImage
             // 
@@ -890,6 +899,7 @@
             this.splashImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.splashImage.TabIndex = 1;
             this.splashImage.TabStop = false;
+            this.splashImage.Click += new System.EventHandler(this.splitContainer1_Click);
             // 
             // splashMessage
             // 
@@ -906,6 +916,7 @@
             this.splashMessage.Text = "L-JESS v1.0.0.0";
             this.splashMessage.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.splashMessage.Visible = false;
+            this.splashMessage.Click += new System.EventHandler(this.splitContainer1_Click);
             // 
             // timer1
             // 
