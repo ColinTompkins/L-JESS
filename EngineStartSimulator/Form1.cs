@@ -28,7 +28,7 @@ namespace EngineStartSimulator
     A. Declare state variables and indicators
     B. Setup Methods (12 methods)
     C. GUI Methods (11 sections; each with multiple methods)
-    D. GUI Helper Methods (11 methods)
+    D. GUI Helper Methods (12 methods)
     E. Mode Methods (9 methods)
     F. Mode Helper Methods (13 methods)
     G. Gauge Control Timer (1 methods)
@@ -57,6 +57,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Media;
 
 
 
@@ -94,8 +95,8 @@ namespace EngineStartSimulator
         int attemptOff = 0;                     // Track the number of attempts to turn off the starter valve when stuck open
         int fuelOnBlocked = -1;                 // A fuel on tracker for blocked fuel
         bool isRand = false;                    // ensures the random mode will continue even after changing mode type
-
-
+        bool isIdle = false;                    // Verifies if the engine is idling
+        bool soundOn = false;                   // Tracks the state of the sound button
 
         // B. Setup Methods
         //    Any method that is used in setp is in this section
@@ -186,7 +187,7 @@ namespace EngineStartSimulator
             menuOut();
             helpPanel.Hide();
             centerToggle(0);
-            relocateInfoButton();
+            //relocateInfoButton();
 
             // sets all gauges ready to action in starting position
             for (int i = 0; i < gauges.Length; i++)
@@ -257,6 +258,7 @@ namespace EngineStartSimulator
                 pauseHighlight.Width = 385;
                 stopHighlight.Width = 385;
                 restartHighlight.Width = 385;
+                soundHighlight.Width = 385;
                 if (splitContainer1.Height > 520)
                 {
                     description.Show();
@@ -373,6 +375,13 @@ namespace EngineStartSimulator
                 }
             }
         }
+
+        //13. timer for the sound playback
+        private void timer4_Tick(object sender, EventArgs e)
+        {
+            //startTone(); 
+        }
+
 
 
 
@@ -730,7 +739,7 @@ namespace EngineStartSimulator
         // don't forget to update the icon appearance
         private void infoButton_Click(object sender, EventArgs e)
         {
-            infoButton.BackColor = Color.Transparent;
+            newInfoButton.BackColor = Color.Transparent;
 
             HowToText.Hide();
             infoTextBox.Show();
@@ -744,25 +753,25 @@ namespace EngineStartSimulator
         // b. infoButton_MouseDown: When mouse goes down, highlight in black
         private void infoButton_MouseDown(object sender, MouseEventArgs e)
         {
-            infoButton.BackColor = Color.Black;
+            newInfoButton.BackColor = Color.Black;
         }
 
         // c. infoButton_MouseHover: When the mouse hovers over, highlight in grey
         private void infoButton_MouseHover(object sender, EventArgs e)
         {
-            infoButton.BackColor = Color.DarkGray;
+            newInfoButton.BackColor = Color.DarkGray;
         }
 
         // d. infoButton_MouseLeave: if the mouse leaves the info button, no longer highlight it
         private void infoButton_MouseLeave(object sender, EventArgs e)
         {
-            infoButton.BackColor = Color.Transparent;
+            newInfoButton.BackColor = Color.Transparent;
         }
 
         // e. infoButton_MouseEnter: as soon as the mouse comes over the info button highlight it in grey.
         private void infoButton_MouseEnter(object sender, EventArgs e)
         {
-            infoButton.BackColor = Color.DarkGray;
+            newInfoButton.BackColor = Color.DarkGray;
         }
 
 
@@ -883,6 +892,54 @@ namespace EngineStartSimulator
             changeStartValve();
         }
 
+        ///// 12. Sound Button: This section contains 
+        //        all the methods pertaining to the sound button and its actions.
+        // a. soundHighlight_Click: When the button is clicked, remove highlight, update sound, change icon
+        private void soundHighlight_Click(object sender, EventArgs e)
+        {
+            soundHighlight.BackColor = Color.Transparent;
+            soundLabel.BackColor = Color.Transparent;
+            soundImage.BackColor = Color.Transparent;
+
+            soundToggle();
+
+        }
+
+        // b. soundHighlight_MouseEnter: When mouse enters, highlight in light grey
+        private void soundHighlight_MouseEnter(object sender, EventArgs e)
+        {
+            soundHighlight.BackColor = Color.DarkGray;
+            soundLabel.BackColor = Color.DarkGray;
+            soundImage.BackColor = Color.DarkGray;
+        }
+
+        // c. soundHighlight_MouseHover: Keep highlight while mouse hovers
+        private void soundHighlight_MouseHover(object sender, EventArgs e)
+        {
+            soundHighlight.BackColor = Color.DarkGray;
+            soundLabel.BackColor = Color.DarkGray;
+            soundImage.BackColor = Color.DarkGray;
+        }
+
+        // d. soundHighlight_MouseDown: Highlight black when the mouse clicks down
+        private void soundHighlight_MouseDown(object sender, MouseEventArgs e)
+        {
+            soundHighlight.BackColor = Color.Black;
+            soundLabel.BackColor = Color.Black;
+            soundImage.BackColor = Color.Black;
+        }
+
+        // e. soundHighlight_MouseLeave: Remove highlights when the mouse moves away
+        private void soundHighlight_MouseLeave(object sender, EventArgs e)
+        {
+            soundHighlight.BackColor = Color.Transparent;
+            soundLabel.BackColor = Color.Transparent;
+            soundImage.BackColor = Color.Transparent;
+        }
+
+       
+
+
 
 
         // D. GUI Helper Methods
@@ -948,6 +1005,7 @@ namespace EngineStartSimulator
                 centerToggle(0);
             }
             fuelOn = fuelOn * -1;
+            startTone();
 
             // When fuel is toggled on some gauge changes take place
             if (fuelOn == 1)
@@ -993,7 +1051,10 @@ namespace EngineStartSimulator
             //When toggled off make changes as well
             else if (fuelOn == -1 && gauges[0].getPosition() > 2)
             {
-                System.GC.Collect();
+                if (!soundOn)
+                {
+                    System.GC.Collect();
+                }
 
                 gauges[1].setSpeed(.7f);
                 onState[1] = true;
@@ -1056,6 +1117,7 @@ namespace EngineStartSimulator
             {
                 startButtonOn = startButtonOn * -1;
                 guageReverser();
+                startTone();
 
                 if (startButtonOn == -1)
                 {
@@ -1066,6 +1128,7 @@ namespace EngineStartSimulator
                 {
                     startValve.Image = EngineStartSimulator.Properties.Resources.start_valve_down2;
                     engineStart.Image = EngineStartSimulator.Properties.Resources.LightOn;
+
                     if (goTime == 0)
                     {
                         timer2.Start();
@@ -1242,6 +1305,9 @@ namespace EngineStartSimulator
                 case Keys.X:
                     disengage();
                     break;
+                case Keys.A:
+                    soundToggle();
+                    break;
             }
         }
 
@@ -1322,6 +1388,117 @@ namespace EngineStartSimulator
             firstStopped = 0;
 
             timer2.Start();
+        }
+
+        // 12. startTone: plays the jet engine starting
+        protected void startTone()
+        {
+
+            SoundPlayer sndplayr = new SoundPlayer(EngineStartSimulator.Properties.Resources.startTone);
+            SoundPlayer sndplayr2 = new SoundPlayer(EngineStartSimulator.Properties.Resources.spoolDown);
+            SoundPlayer sndplayr3 = new SoundPlayer(EngineStartSimulator.Properties.Resources.idling);
+            SoundPlayer sndplayr4 = new SoundPlayer(EngineStartSimulator.Properties.Resources.hung);
+
+            if (!soundOn)
+            {
+                sndplayr.Stop();
+                sndplayr3.Stop();
+                sndplayr2.Stop();
+                sndplayr4.Stop();
+            }
+            else
+            {
+                if (gauges[0].getPosition() <= 1)
+                {
+                    sndplayr2.Stop();
+                    if (memDump > 40)
+                    {
+                        System.GC.Collect();
+                        memDump = 0;
+                    }
+                }
+
+                if (startButtonOn == 1 && fuelOn == -1 && gauges[0].getPosition() < 20)
+                {
+                    sndplayr2.Stop();
+                    if (memDump > 40)
+                    {
+                        System.GC.Collect();
+                        memDump = 0;
+                    }
+                    sndplayr.Play();
+                }
+                else if (startButtonOn == -1 && fuelOn == -1 && gauges[0].getPosition() > 3)
+                {
+                    sndplayr.Stop();
+                    if (memDump > 40)
+                    {
+                        System.GC.Collect();
+                        memDump = 0;
+                    }
+                    sndplayr2.Play();
+                }
+
+                if (gauges[0].getPosition() > 165 && fuelOn == 1 && !isIdle)
+                {
+                    sndplayr.Stop();
+                    System.GC.Collect();
+                    sndplayr3.PlayLooping();
+                    isIdle = true;
+                }
+                else if (gauges[0].getPosition() > 165 && fuelOn == -1 && isIdle)
+                {
+                    sndplayr3.Stop();
+                    System.GC.Collect();
+                    sndplayr2.Play();
+                    isIdle = false;
+                }
+
+                if (errorOccured && errorHandled < 0)
+                {
+                    sndplayr.Stop();
+                    sndplayr3.Stop();
+                    sndplayr2.Stop();
+                    sndplayr4.Stop();
+                    System.GC.Collect();
+                    sndplayr3.PlayLooping();
+                    isIdle = true;
+                }
+
+                if (mode == "Hung Start" && gauges[0].getPosition() > 100 && !isIdle && fuelOn == 1)
+                {
+                    sndplayr.Stop();
+                    //System.GC.Collect();
+                    sndplayr3.PlayLooping();
+                    isIdle = true;
+                }
+                else if (mode == "Hung Start" && isIdle && fuelOn == -1)
+                {
+                    sndplayr3.Stop();
+                    System.GC.Collect();
+                    sndplayr2.Play();
+                    isIdle = false;
+                }
+            }
+        }
+
+        // 13. soundToggle: A helper method to handle the toggling operation of the sound button
+        public void soundToggle()
+        {
+            if (!soundOn)
+            {
+                soundImage.Image = EngineStartSimulator.Properties.Resources.soundOn;
+                soundLabel.Text = "Audio: ON";
+                soundOn = true;
+                startTone();
+            }
+            else
+            {
+                soundImage.Image = EngineStartSimulator.Properties.Resources.soundOff;
+                soundLabel.Text = "Audio: OFF";
+                soundOn = false;
+                startTone();
+            }
         }
 
 
@@ -1453,6 +1630,7 @@ namespace EngineStartSimulator
                 gauges[3].setSpeed(.2f);
                 gauges[2].setSpeed(.1f);
                 gauges[1].setSpeed(.3f);
+                startTone();
 
             }
             else if (gauges[0].getPosition() > 91 && errorHandled == 0)
@@ -1988,6 +2166,7 @@ namespace EngineStartSimulator
             // Slow to steady running condition
             if (gauges[0].getPosition() > 165 && fuelOn == 1 && startButtonOn == -1)
             {
+                startTone();
                 for (int i = 0; i < 7; i++)
                 {
                     onState[i] = false;
@@ -2155,6 +2334,7 @@ namespace EngineStartSimulator
 
                 gauges[1].setPosition(5);
 
+                startTone();
 
                 if (fuelOn == 1 && firstStopped == 1)
                 {
@@ -2369,7 +2549,7 @@ namespace EngineStartSimulator
             //Timer controled Guage movement
             // this is one thing that needs to appear in timerTick
             memDump++;
-            if (memDump > 40)
+            if(memDump > 40 && !soundOn)
             {
                 System.GC.Collect();
                 memDump = 0;
@@ -2517,6 +2697,16 @@ namespace EngineStartSimulator
         {
             //changeFuelButton();
         }
+
+        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        {
+            
+        }
+
+
+
+
+
 
 
         // end of mainWindow

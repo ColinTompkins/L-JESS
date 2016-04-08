@@ -341,6 +341,24 @@ namespace EngineStartSimulator.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream hung {
+            get {
+                return ResourceManager.GetStream("hung", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream idling {
+            get {
+                return ResourceManager.GetStream("idling", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap Info {
@@ -683,6 +701,26 @@ namespace EngineStartSimulator.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap soundOff {
+            get {
+                object obj = ResourceManager.GetObject("soundOff", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap soundOn {
+            get {
+                object obj = ResourceManager.GetObject("soundOn", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Splash_Screen {
             get {
                 object obj = ResourceManager.GetObject("Splash Screen", resourceCulture);
@@ -717,6 +755,15 @@ namespace EngineStartSimulator.Properties {
             get {
                 object obj = ResourceManager.GetObject("splashScreen2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream spoolDown {
+            get {
+                return ResourceManager.GetStream("spoolDown", resourceCulture);
             }
         }
         
@@ -857,6 +904,15 @@ namespace EngineStartSimulator.Properties {
             get {
                 object obj = ResourceManager.GetObject("startButtonBack", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        internal static System.IO.UnmanagedMemoryStream startTone {
+            get {
+                return ResourceManager.GetStream("startTone", resourceCulture);
             }
         }
         

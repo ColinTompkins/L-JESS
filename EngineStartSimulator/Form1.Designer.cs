@@ -31,8 +31,11 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(mainWindow));
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.newInfoButton = new System.Windows.Forms.PictureBox();
+            this.soundImage = new System.Windows.Forms.PictureBox();
+            this.soundLabel = new System.Windows.Forms.Label();
+            this.soundHighlight = new System.Windows.Forms.PictureBox();
             this.helpPanel = new System.Windows.Forms.Panel();
-            this.infoButton = new System.Windows.Forms.PictureBox();
             this.infoTextBox = new System.Windows.Forms.TextBox();
             this.backButton = new System.Windows.Forms.PictureBox();
             this.backHighlight = new System.Windows.Forms.PictureBox();
@@ -60,6 +63,7 @@
             this.pauseHighlight = new System.Windows.Forms.TextBox();
             this.tutorHighlight = new System.Windows.Forms.TextBox();
             this.settingHighlight = new System.Windows.Forms.TextBox();
+            this.infoButton = new System.Windows.Forms.PictureBox();
             this.guagePanel = new System.Windows.Forms.TableLayoutPanel();
             this.buttonsPanel = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -80,12 +84,16 @@
             this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.timer3 = new System.Windows.Forms.Timer(this.components);
             this.theSplash = new System.Windows.Forms.PictureBox();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.timer4 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.newInfoButton)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.soundImage)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.soundHighlight)).BeginInit();
             this.helpPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.infoButton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.backButton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.backHighlight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.line3)).BeginInit();
@@ -98,6 +106,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.line1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.questionButton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.hamburgerBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.infoButton)).BeginInit();
             this.guagePanel.SuspendLayout();
             this.buttonsPanel.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -128,6 +137,10 @@
             this.splitContainer1.Panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.splitContainer1.Panel1.BackgroundImage = global::EngineStartSimulator.Properties.Resources.bar2;
             this.splitContainer1.Panel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.splitContainer1.Panel1.Controls.Add(this.newInfoButton);
+            this.splitContainer1.Panel1.Controls.Add(this.soundImage);
+            this.splitContainer1.Panel1.Controls.Add(this.soundLabel);
+            this.splitContainer1.Panel1.Controls.Add(this.soundHighlight);
             this.splitContainer1.Panel1.Controls.Add(this.helpPanel);
             this.splitContainer1.Panel1.Controls.Add(this.dTitle);
             this.splitContainer1.Panel1.Controls.Add(this.description);
@@ -151,6 +164,7 @@
             this.splitContainer1.Panel1.Controls.Add(this.pauseHighlight);
             this.splitContainer1.Panel1.Controls.Add(this.tutorHighlight);
             this.splitContainer1.Panel1.Controls.Add(this.settingHighlight);
+            this.splitContainer1.Panel1.Controls.Add(this.infoButton);
             this.splitContainer1.Panel1.ForeColor = System.Drawing.Color.White;
             this.splitContainer1.Panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.splitContainer1_Panel1_Paint);
             this.splitContainer1.Panel1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.splitContainer1_Panel1_MouseDoubleClick);
@@ -166,8 +180,8 @@
             this.splitContainer1.Panel2.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.splitContainer1_Panel2_MouseDoubleClick);
             this.splitContainer1.Panel2.MouseEnter += new System.EventHandler(this.splitContainer1_Panel2_MouseEnter);
             this.splitContainer1.Panel2MinSize = 100;
-            this.splitContainer1.Size = new System.Drawing.Size(1094, 590);
-            this.splitContainer1.SplitterDistance = 304;
+            this.splitContainer1.Size = new System.Drawing.Size(1395, 870);
+            this.splitContainer1.SplitterDistance = 387;
             this.splitContainer1.SplitterIncrement = 5;
             this.splitContainer1.SplitterWidth = 5;
             this.splitContainer1.TabIndex = 0;
@@ -177,11 +191,74 @@
             this.splitContainer1.Click += new System.EventHandler(this.splitContainer1_Click);
             this.splitContainer1.MouseHover += new System.EventHandler(this.splitContainer1_MouseHover);
             // 
+            // newInfoButton
+            // 
+            this.newInfoButton.BackColor = System.Drawing.SystemColors.WindowFrame;
+            this.newInfoButton.Image = global::EngineStartSimulator.Properties.Resources.Info;
+            this.newInfoButton.Location = new System.Drawing.Point(4, 703);
+            this.newInfoButton.Name = "newInfoButton";
+            this.newInfoButton.Size = new System.Drawing.Size(72, 68);
+            this.newInfoButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.newInfoButton.TabIndex = 27;
+            this.newInfoButton.TabStop = false;
+            this.newInfoButton.Click += new System.EventHandler(this.infoButton_Click);
+            this.newInfoButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.infoButton_MouseDown);
+            this.newInfoButton.MouseEnter += new System.EventHandler(this.infoButton_MouseEnter);
+            this.newInfoButton.MouseLeave += new System.EventHandler(this.infoButton_MouseLeave);
+            this.newInfoButton.MouseHover += new System.EventHandler(this.infoButton_MouseHover);
+            // 
+            // soundImage
+            // 
+            this.soundImage.BackColor = System.Drawing.Color.Transparent;
+            this.soundImage.Image = global::EngineStartSimulator.Properties.Resources.soundOff;
+            this.soundImage.Location = new System.Drawing.Point(7, 599);
+            this.soundImage.Margin = new System.Windows.Forms.Padding(4);
+            this.soundImage.Name = "soundImage";
+            this.soundImage.Size = new System.Drawing.Size(74, 70);
+            this.soundImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.soundImage.TabIndex = 26;
+            this.soundImage.TabStop = false;
+            this.soundImage.Click += new System.EventHandler(this.soundHighlight_Click);
+            this.soundImage.MouseDown += new System.Windows.Forms.MouseEventHandler(this.soundHighlight_MouseDown);
+            this.soundImage.MouseEnter += new System.EventHandler(this.soundHighlight_MouseEnter);
+            this.soundImage.MouseLeave += new System.EventHandler(this.soundHighlight_MouseLeave);
+            this.soundImage.MouseHover += new System.EventHandler(this.soundHighlight_MouseHover);
+            // 
+            // soundLabel
+            // 
+            this.soundLabel.AutoSize = true;
+            this.soundLabel.BackColor = System.Drawing.Color.Transparent;
+            this.soundLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.soundLabel.Location = new System.Drawing.Point(88, 614);
+            this.soundLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.soundLabel.Name = "soundLabel";
+            this.soundLabel.Size = new System.Drawing.Size(160, 32);
+            this.soundLabel.TabIndex = 25;
+            this.soundLabel.Text = "Audio: OFF";
+            this.soundLabel.Click += new System.EventHandler(this.soundHighlight_Click);
+            this.soundLabel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.soundHighlight_MouseDown);
+            this.soundLabel.MouseEnter += new System.EventHandler(this.soundHighlight_MouseEnter);
+            this.soundLabel.MouseLeave += new System.EventHandler(this.soundHighlight_MouseLeave);
+            this.soundLabel.MouseHover += new System.EventHandler(this.soundHighlight_MouseHover);
+            // 
+            // soundHighlight
+            // 
+            this.soundHighlight.BackColor = System.Drawing.SystemColors.WindowFrame;
+            this.soundHighlight.Location = new System.Drawing.Point(3, 599);
+            this.soundHighlight.Name = "soundHighlight";
+            this.soundHighlight.Size = new System.Drawing.Size(530, 70);
+            this.soundHighlight.TabIndex = 24;
+            this.soundHighlight.TabStop = false;
+            this.soundHighlight.Click += new System.EventHandler(this.soundHighlight_Click);
+            this.soundHighlight.MouseDown += new System.Windows.Forms.MouseEventHandler(this.soundHighlight_MouseDown);
+            this.soundHighlight.MouseEnter += new System.EventHandler(this.soundHighlight_MouseEnter);
+            this.soundHighlight.MouseLeave += new System.EventHandler(this.soundHighlight_MouseLeave);
+            this.soundHighlight.MouseHover += new System.EventHandler(this.soundHighlight_MouseHover);
+            // 
             // helpPanel
             // 
             this.helpPanel.BackgroundImage = global::EngineStartSimulator.Properties.Resources.bar4;
             this.helpPanel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.helpPanel.Controls.Add(this.infoButton);
             this.helpPanel.Controls.Add(this.infoTextBox);
             this.helpPanel.Controls.Add(this.backButton);
             this.helpPanel.Controls.Add(this.backHighlight);
@@ -191,26 +268,8 @@
             this.helpPanel.Location = new System.Drawing.Point(0, 0);
             this.helpPanel.Margin = new System.Windows.Forms.Padding(4);
             this.helpPanel.Name = "helpPanel";
-            this.helpPanel.Size = new System.Drawing.Size(304, 590);
+            this.helpPanel.Size = new System.Drawing.Size(387, 870);
             this.helpPanel.TabIndex = 23;
-            // 
-            // infoButton
-            // 
-            this.infoButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.infoButton.BackColor = System.Drawing.Color.Transparent;
-            this.infoButton.Image = global::EngineStartSimulator.Properties.Resources.Info;
-            this.infoButton.Location = new System.Drawing.Point(4, 520);
-            this.infoButton.Margin = new System.Windows.Forms.Padding(4);
-            this.infoButton.Name = "infoButton";
-            this.infoButton.Size = new System.Drawing.Size(72, 66);
-            this.infoButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.infoButton.TabIndex = 22;
-            this.infoButton.TabStop = false;
-            this.infoButton.Click += new System.EventHandler(this.infoButton_Click);
-            this.infoButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.infoButton_MouseDown);
-            this.infoButton.MouseEnter += new System.EventHandler(this.infoButton_MouseEnter);
-            this.infoButton.MouseLeave += new System.EventHandler(this.infoButton_MouseLeave);
-            this.infoButton.MouseHover += new System.EventHandler(this.infoButton_MouseHover);
             // 
             // infoTextBox
             // 
@@ -225,7 +284,7 @@
             this.infoTextBox.Multiline = true;
             this.infoTextBox.Name = "infoTextBox";
             this.infoTextBox.ReadOnly = true;
-            this.infoTextBox.Size = new System.Drawing.Size(385, 437);
+            this.infoTextBox.Size = new System.Drawing.Size(385, 717);
             this.infoTextBox.TabIndex = 4;
             this.infoTextBox.Text = resources.GetString("infoTextBox.Text");
             // 
@@ -288,7 +347,7 @@
             this.HowToText.Name = "HowToText";
             this.HowToText.ReadOnly = true;
             this.HowToText.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.HowToText.Size = new System.Drawing.Size(380, 392);
+            this.HowToText.Size = new System.Drawing.Size(380, 672);
             this.HowToText.TabIndex = 0;
             this.HowToText.Text = resources.GetString("HowToText.Text");
             this.HowToText.MouseHover += new System.EventHandler(this.instructBox_MouseHover);
@@ -297,7 +356,7 @@
             // 
             this.dTitle.BackColor = System.Drawing.Color.Transparent;
             this.dTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dTitle.Location = new System.Drawing.Point(5, 628);
+            this.dTitle.Location = new System.Drawing.Point(-2, 731);
             this.dTitle.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.dTitle.Name = "dTitle";
             this.dTitle.Size = new System.Drawing.Size(508, 56);
@@ -310,7 +369,7 @@
             this.description.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.description.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.description.ForeColor = System.Drawing.Color.White;
-            this.description.Location = new System.Drawing.Point(52, 730);
+            this.description.Location = new System.Drawing.Point(51, 791);
             this.description.Margin = new System.Windows.Forms.Padding(4);
             this.description.Multiline = true;
             this.description.Name = "description";
@@ -322,7 +381,7 @@
             // line3
             // 
             this.line3.Image = global::EngineStartSimulator.Properties.Resources.line;
-            this.line3.Location = new System.Drawing.Point(0, 600);
+            this.line3.Location = new System.Drawing.Point(0, 672);
             this.line3.Margin = new System.Windows.Forms.Padding(4);
             this.line3.Name = "line3";
             this.line3.Size = new System.Drawing.Size(536, 24);
@@ -677,6 +736,23 @@
             this.settingHighlight.MouseLeave += new System.EventHandler(this.settingButton_MouseLeave);
             this.settingHighlight.MouseHover += new System.EventHandler(this.pictureBox1_MouseHover);
             // 
+            // infoButton
+            // 
+            this.infoButton.BackColor = System.Drawing.Color.Transparent;
+            this.infoButton.Image = global::EngineStartSimulator.Properties.Resources.Info;
+            this.infoButton.Location = new System.Drawing.Point(293, 791);
+            this.infoButton.Margin = new System.Windows.Forms.Padding(4);
+            this.infoButton.Name = "infoButton";
+            this.infoButton.Size = new System.Drawing.Size(72, 66);
+            this.infoButton.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.infoButton.TabIndex = 22;
+            this.infoButton.TabStop = false;
+            this.infoButton.Click += new System.EventHandler(this.infoButton_Click);
+            this.infoButton.MouseDown += new System.Windows.Forms.MouseEventHandler(this.infoButton_MouseDown);
+            this.infoButton.MouseEnter += new System.EventHandler(this.infoButton_MouseEnter);
+            this.infoButton.MouseLeave += new System.EventHandler(this.infoButton_MouseLeave);
+            this.infoButton.MouseHover += new System.EventHandler(this.infoButton_MouseHover);
+            // 
             // guagePanel
             // 
             this.guagePanel.BackColor = System.Drawing.Color.Transparent;
@@ -701,7 +777,7 @@
             this.guagePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.guagePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
             this.guagePanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 19F));
-            this.guagePanel.Size = new System.Drawing.Size(785, 590);
+            this.guagePanel.Size = new System.Drawing.Size(1003, 870);
             this.guagePanel.TabIndex = 0;
             this.guagePanel.Paint += new System.Windows.Forms.PaintEventHandler(this.guagePanel_Paint);
             // 
@@ -714,14 +790,14 @@
             this.buttonsPanel.Controls.Add(this.engineStart, 0, 0);
             this.buttonsPanel.Controls.Add(this.startValve, 0, 1);
             this.buttonsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.buttonsPanel.Location = new System.Drawing.Point(265, 200);
+            this.buttonsPanel.Location = new System.Drawing.Point(338, 294);
             this.buttonsPanel.Margin = new System.Windows.Forms.Padding(4);
             this.buttonsPanel.Name = "buttonsPanel";
             this.buttonsPanel.RowCount = 2;
             this.guagePanel.SetRowSpan(this.buttonsPanel, 2);
             this.buttonsPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 60F));
             this.buttonsPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40F));
-            this.buttonsPanel.Size = new System.Drawing.Size(253, 386);
+            this.buttonsPanel.Size = new System.Drawing.Size(326, 572);
             this.buttonsPanel.TabIndex = 8;
             // 
             // panel1
@@ -733,11 +809,11 @@
             this.panel1.BackgroundImage = global::EngineStartSimulator.Properties.Resources.slider2;
             this.panel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.panel1.Controls.Add(this.sliderButton);
-            this.panel1.Location = new System.Drawing.Point(117, 4);
+            this.panel1.Location = new System.Drawing.Point(150, 4);
             this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.Name = "panel1";
             this.buttonsPanel.SetRowSpan(this.panel1, 2);
-            this.panel1.Size = new System.Drawing.Size(132, 378);
+            this.panel1.Size = new System.Drawing.Size(172, 564);
             this.panel1.TabIndex = 0;
             this.panel1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.n2_MouseDoubleClick);
             // 
@@ -747,7 +823,7 @@
             this.sliderButton.BackColor = System.Drawing.Color.Transparent;
             this.sliderButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.sliderButton.Image = global::EngineStartSimulator.Properties.Resources.toggleC;
-            this.sliderButton.Location = new System.Drawing.Point(2, 213);
+            this.sliderButton.Location = new System.Drawing.Point(22, 306);
             this.sliderButton.Margin = new System.Windows.Forms.Padding(4);
             this.sliderButton.Name = "sliderButton";
             this.sliderButton.Size = new System.Drawing.Size(128, 51);
@@ -768,7 +844,7 @@
             this.engineStart.Location = new System.Drawing.Point(4, 4);
             this.engineStart.Margin = new System.Windows.Forms.Padding(4);
             this.engineStart.Name = "engineStart";
-            this.engineStart.Size = new System.Drawing.Size(105, 223);
+            this.engineStart.Size = new System.Drawing.Size(138, 335);
             this.engineStart.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.engineStart.TabIndex = 1;
             this.engineStart.TabStop = false;
@@ -780,10 +856,10 @@
             this.startValve.Cursor = System.Windows.Forms.Cursors.Hand;
             this.startValve.Dock = System.Windows.Forms.DockStyle.Fill;
             this.startValve.Image = global::EngineStartSimulator.Properties.Resources.start_valveN;
-            this.startValve.Location = new System.Drawing.Point(4, 235);
+            this.startValve.Location = new System.Drawing.Point(4, 347);
             this.startValve.Margin = new System.Windows.Forms.Padding(4);
             this.startValve.Name = "startValve";
-            this.startValve.Size = new System.Drawing.Size(105, 147);
+            this.startValve.Size = new System.Drawing.Size(138, 221);
             this.startValve.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.startValve.TabIndex = 2;
             this.startValve.TabStop = false;
@@ -799,10 +875,10 @@
             this.fuelFlow.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.fuelFlow.Dock = System.Windows.Forms.DockStyle.Fill;
             this.fuelFlow.Image = global::EngineStartSimulator.Properties.Resources.Sneedle;
-            this.fuelFlow.Location = new System.Drawing.Point(4, 396);
+            this.fuelFlow.Location = new System.Drawing.Point(4, 584);
             this.fuelFlow.Margin = new System.Windows.Forms.Padding(4);
             this.fuelFlow.Name = "fuelFlow";
-            this.fuelFlow.Size = new System.Drawing.Size(253, 190);
+            this.fuelFlow.Size = new System.Drawing.Size(326, 282);
             this.fuelFlow.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.fuelFlow.TabIndex = 5;
             this.fuelFlow.TabStop = false;
@@ -817,7 +893,7 @@
             this.n2.Location = new System.Drawing.Point(4, 4);
             this.n2.Margin = new System.Windows.Forms.Padding(4);
             this.n2.Name = "n2";
-            this.n2.Size = new System.Drawing.Size(253, 188);
+            this.n2.Size = new System.Drawing.Size(326, 282);
             this.n2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.n2.TabIndex = 0;
             this.n2.TabStop = false;
@@ -829,10 +905,10 @@
             this.egt.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.egt.Dock = System.Windows.Forms.DockStyle.Fill;
             this.egt.Image = global::EngineStartSimulator.Properties.Resources.Gneedle;
-            this.egt.Location = new System.Drawing.Point(265, 4);
+            this.egt.Location = new System.Drawing.Point(338, 4);
             this.egt.Margin = new System.Windows.Forms.Padding(4);
             this.egt.Name = "egt";
-            this.egt.Size = new System.Drawing.Size(253, 188);
+            this.egt.Size = new System.Drawing.Size(326, 282);
             this.egt.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.egt.TabIndex = 1;
             this.egt.TabStop = false;
@@ -844,10 +920,10 @@
             this.oilPressure.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.oilPressure.Dock = System.Windows.Forms.DockStyle.Fill;
             this.oilPressure.Image = global::EngineStartSimulator.Properties.Resources.Gneedle;
-            this.oilPressure.Location = new System.Drawing.Point(526, 4);
+            this.oilPressure.Location = new System.Drawing.Point(672, 4);
             this.oilPressure.Margin = new System.Windows.Forms.Padding(4);
             this.oilPressure.Name = "oilPressure";
-            this.oilPressure.Size = new System.Drawing.Size(255, 188);
+            this.oilPressure.Size = new System.Drawing.Size(327, 282);
             this.oilPressure.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.oilPressure.TabIndex = 4;
             this.oilPressure.TabStop = false;
@@ -859,10 +935,10 @@
             this.oilTemp.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.oilTemp.Dock = System.Windows.Forms.DockStyle.Fill;
             this.oilTemp.Image = global::EngineStartSimulator.Properties.Resources.Sneedle;
-            this.oilTemp.Location = new System.Drawing.Point(526, 200);
+            this.oilTemp.Location = new System.Drawing.Point(672, 294);
             this.oilTemp.Margin = new System.Windows.Forms.Padding(4);
             this.oilTemp.Name = "oilTemp";
-            this.oilTemp.Size = new System.Drawing.Size(255, 188);
+            this.oilTemp.Size = new System.Drawing.Size(327, 282);
             this.oilTemp.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.oilTemp.TabIndex = 2;
             this.oilTemp.TabStop = false;
@@ -874,10 +950,10 @@
             this.N1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.N1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.N1.Image = global::EngineStartSimulator.Properties.Resources.Sneedle;
-            this.N1.Location = new System.Drawing.Point(4, 200);
+            this.N1.Location = new System.Drawing.Point(4, 294);
             this.N1.Margin = new System.Windows.Forms.Padding(4);
             this.N1.Name = "N1";
-            this.N1.Size = new System.Drawing.Size(253, 188);
+            this.N1.Size = new System.Drawing.Size(326, 282);
             this.N1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.N1.TabIndex = 3;
             this.N1.TabStop = false;
@@ -889,10 +965,10 @@
             this.pressureRatio.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pressureRatio.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pressureRatio.Image = global::EngineStartSimulator.Properties.Resources.Sneedle;
-            this.pressureRatio.Location = new System.Drawing.Point(526, 396);
+            this.pressureRatio.Location = new System.Drawing.Point(672, 584);
             this.pressureRatio.Margin = new System.Windows.Forms.Padding(4);
             this.pressureRatio.Name = "pressureRatio";
-            this.pressureRatio.Size = new System.Drawing.Size(255, 190);
+            this.pressureRatio.Size = new System.Drawing.Size(327, 282);
             this.pressureRatio.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pressureRatio.TabIndex = 6;
             this.pressureRatio.TabStop = false;
@@ -918,7 +994,7 @@
             this.splashImage.Location = new System.Drawing.Point(0, 0);
             this.splashImage.Margin = new System.Windows.Forms.Padding(4);
             this.splashImage.Name = "splashImage";
-            this.splashImage.Size = new System.Drawing.Size(1094, 590);
+            this.splashImage.Size = new System.Drawing.Size(1395, 870);
             this.splashImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.splashImage.TabIndex = 1;
             this.splashImage.TabStop = false;
@@ -931,10 +1007,10 @@
             this.splashMessage.BackColor = System.Drawing.Color.Transparent;
             this.splashMessage.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.857143F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.splashMessage.ForeColor = System.Drawing.Color.White;
-            this.splashMessage.Location = new System.Drawing.Point(450, 360);
+            this.splashMessage.Location = new System.Drawing.Point(450, 640);
             this.splashMessage.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.splashMessage.Name = "splashMessage";
-            this.splashMessage.Size = new System.Drawing.Size(354, 112);
+            this.splashMessage.Size = new System.Drawing.Size(655, 112);
             this.splashMessage.TabIndex = 2;
             this.splashMessage.Text = "L-JESS v1.0.0.0";
             this.splashMessage.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -962,10 +1038,20 @@
             this.theSplash.Image = global::EngineStartSimulator.Properties.Resources.Splash_Screen;
             this.theSplash.Location = new System.Drawing.Point(0, 0);
             this.theSplash.Name = "theSplash";
-            this.theSplash.Size = new System.Drawing.Size(1094, 590);
+            this.theSplash.Size = new System.Drawing.Size(1395, 870);
             this.theSplash.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.theSplash.TabIndex = 3;
             this.theSplash.TabStop = false;
+            // 
+            // backgroundWorker1
+            // 
+            this.backgroundWorker1.WorkerSupportsCancellation = true;
+            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            // 
+            // timer4
+            // 
+            this.timer4.Interval = 1000;
+            this.timer4.Tick += new System.EventHandler(this.timer4_Tick);
             // 
             // mainWindow
             // 
@@ -974,7 +1060,7 @@
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.BackgroundImage = global::EngineStartSimulator.Properties.Resources.blank2;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.ClientSize = new System.Drawing.Size(1094, 590);
+            this.ClientSize = new System.Drawing.Size(1395, 870);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.splashImage);
             this.Controls.Add(this.splashMessage);
@@ -1001,9 +1087,11 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.newInfoButton)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.soundImage)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.soundHighlight)).EndInit();
             this.helpPanel.ResumeLayout(false);
             this.helpPanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.infoButton)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.backButton)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.backHighlight)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.line3)).EndInit();
@@ -1016,6 +1104,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.line1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.questionButton)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.hamburgerBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.infoButton)).EndInit();
             this.guagePanel.ResumeLayout(false);
             this.buttonsPanel.ResumeLayout(false);
             this.buttonsPanel.PerformLayout();
@@ -1088,6 +1177,12 @@
         protected internal System.Windows.Forms.ComboBox menuBox;
         private System.Windows.Forms.Timer timer3;
         private System.Windows.Forms.PictureBox theSplash;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.Windows.Forms.Timer timer4;
+        private System.Windows.Forms.PictureBox soundImage;
+        private System.Windows.Forms.Label soundLabel;
+        private System.Windows.Forms.PictureBox soundHighlight;
+        private System.Windows.Forms.PictureBox newInfoButton;
     }
 }
 

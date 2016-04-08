@@ -387,6 +387,24 @@
   <ItemGroup>
     <None Include="Resources\startButtonBack.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\spoolDown.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\idling.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\hung.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\startUp.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\soundOn.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\soundOff.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
